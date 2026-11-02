@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SPLASHVILLE Admin</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f2f7fc;color:#183451;font-family:Arial,sans-serif}
+header{background:#086fc1;color:white;padding:23px}
+main{max-width:1100px;margin:25px auto;padding:15px}
+.panel{background:white;padding:23px;border-radius:17px;margin-bottom:18px;box-shadow:0 5px 22px #12578415}
+input,select{padding:12px;border:1px solid #c7d5e1;border-radius:9px;width:100%}
+label{display:block;font-weight:bold;margin:10px 0 6px}
+button{border:0;border-radius:9px;padding:11px 14px;background:#0879cb;color:white;font-weight:bold;cursor:pointer}
+button.danger{background:#c93e48}
+button.secondary{background:#627a91}
+.grid,.bookings{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.booking{border:1px solid #d9e6f1;border-radius:14px;padding:17px;line-height:1.8;overflow-wrap:anywhere}
+.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.notice{padding:13px;background:#e9f6ff;border-radius:10px;margin:12px 0}
+.hide{display:none}
+.muted{color:#60758b;font-size:13px}
+@media(max-width:700px){.grid,.bookings{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>💦 SPLASHVILLE Admin</h1>
+<a href="index.html" style="color:white">← Website Pelanggan</a>
+</header>
+
+<main>
+<section class="panel" id="login">
+<h2>Log Masuk Admin</h2>
+<div class="grid">
+<div>
+<label>E-mel Admin</label>
+<input id="email" type="email">
+</div>
+<div>
+<label>Password</label>
+<input id="password" type="password">
+</div>
+</div>
+<div class="actions">
+<button id="signIn">Log Masuk</button>
+</div>
+</section>
+
+<section class="panel hide" id="dashboard">
+<h2>Dashboard Tempahan</h2>
+<div class="actions">
+<button id="refresh">Refresh</button>
+<button id="logout" class="secondary">Log Keluar</button>
+</div>
+
+<div class="grid">
+<div>
+<label>Status Tempahan</label>
+<select id="filter">
+<option value="ALL">Semua</option>
+<option value="PENDING">Pending</option>
+<option value="CONFIRMED">Confirmed</option>
+<option value="CANCELLED">Cancelled</option>
+</select>
+</div>
+<div>
+<label>Cari Nama / Telefon</label>
+<input id="search" placeholder="Cari tempahan">
+</div>
+</div>
+
+<p id="count"></p>
+<div class="bookings" id="bookings"></div>
+</section>
+
+<div class="notice" id="message">
+Log masuk menggunakan akaun admin Supabase.
+</div>
+</main>
+
+<script type="module">
+import {createClient} from
+"https://esm.sh/@supabase/supabase-js@2";
+
+const db=createClient(
+ "https://voegwnwppizteaoqeckk.supabase.co",
+ "sb_publishable_G_olNSg_naTLQ7fGEOtwng_dTYDyFfh"
+);
+
+const $=id=>document.getElementById(id);
+let records=[];
+
+const names={
+ crocodilo:"Crocodilo",
+ dolphinita:"Dolphinita",
+ shinetrip:"ShineTrip Shelter"
+};
+
+const rm=n=>"RM"+Number(n).toFixed(2);
+
+const date=v=>new Intl.DateTimeFormat("ms-MY",{
+ dateStyle:"medium",
+ timeStyle:"short",
+ timeZone:"Asia/Kuala_Lumpur"
+}).format(new Date(v));
+
+function escapeHTML(s){
+ return String(s??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
+ })[c]);
+}
+
+function msg(s){
+ $("message").textContent=s;
+}
+
+async function checkLogin(){
+ const {data:{session}}=await db.auth.getSession();
+
+ if(!session){
+  $("login").classList.remove("hide");
+  $("dashboard").classList.add("hide");
+  return;
+ }
+
+ const {data,error}=await db.from("admins")
+ .select("user_id")
+ .eq("user_id",session.user.id)
+ .maybeSingle();
+
+ if(error||!data){
+  await db.auth.signOut();
+  msg("Akaun ini tiada akses admin.");
+  return;
+ }
+
+ $("login").classList.add("hide");
+ $("dashboard").classList.remove("hide");
+ await load();
+}
+
+$("signIn").onclick=async()=>{
+ msg("Sedang log masuk...");
+
+ const {error}=await db.auth.signInWithPassword({
+  email:$("email").value.trim(),
+  password:$("password").value
+ });
+
+ if(error){
+  msg(error.message);
+  return;
+ }
+
+ await checkLogin();
+};
+
+$("logout").onclick=async()=>{
+ await db.auth.signOut();
+ await checkLogin();
+};
+
+$("refresh").onclick=load;
+
+async function load(){
+ msg("Memuatkan tempahan...");
+
+ const {data,error}=await db.from("bookings")
+ .select("*")
+ .order("created_at",{ascending:false})
+ .limit(500);
+
+ if(error){
+  msg("Gagal membaca tempahan: "+error.message);
+  return;
+ }
+
+ records=data||[];
+ render();
+ msg("Data berjaya dikemas kini.");
+}
+
+function render(){
+ const status=$("filter").value;
+ const q=$("search").value.toLowerCase();
+
+ const list=records.filter(b=>
+  (status==="ALL"||b.booking_status===status) &&
+  [b.customer_name,b.phone,b.id].some(v=>
+   String(v||"").toLowerCase().includes(q)
+  )
+ );
+
+ $("count").textContent=list.length+" tempahan";
+
+ const container=$("bookings");
+ container.replaceChildren();
+
+ if(!list.length){
+  container.textContent="Tiada tempahan.";
+  return;
+ }
+
+ for(const b of list){
+  const card=document.createElement("div");
+  card.className="booking";
+
+  card.innerHTML=`
+   <b>${escapeHTML(b.customer_name)}</b>
+   <p><b>Status:</b> ${escapeHTML(b.booking_status)}</p>
+   <div>${escapeHTML(names[b.product_id]||b.product_id)}</div>
+   <div>📅 ${date(b.start_at)} → ${date(b.end_at)}</div>
+   <div>📞 ${escapeHTML(b.phone)}</div>
+   <div>📍 ${escapeHTML(b.delivery_address)}</div>
+   <div>Harga: ${rm(b.rental_price)}</div>
+   <div>Deposit: ${rm(b.booking_deposit)} + RM100</div>
+   <div>Bayaran: ${escapeHTML(b.payment_status)}</div>
+   <div class="muted">ID: ${escapeHTML(b.id)}</div>
+  `;
+
+  const actions=document.createElement("div");
+  actions.className="actions";
+
+  function add(title,fn,style=""){
+   const btn=document.createElement("button");
+   btn.textContent=title;
+   btn.className=style;
+   btn.onclick=fn;
+   actions.append(btn);
+  }
+
+  add("Sahkan",()=>update(b.id,{
+   booking_status:"CONFIRMED",
+   payment_status:"VERIFIED"
+  }));
+
+  add("Bayaran Ditolak",()=>update(b.id,{
+   payment_status:"REJECTED"
+  }),"secondary");
+
+  add("Edit",()=>edit(b),"secondary");
+
+  add("Batal",async()=>{
+   if(confirm("Batalkan tempahan ini? Slot akan dibuka semula.")){
+    await update(b.id,{booking_status:"CANCELLED"});
+   }
+  },"danger");
+
+  if(b.receipt_path){
+   add("Lihat Resit",()=>receipt(b.receipt_path),"secondary");
+  }
+
+  card.append(actions);
+  container.append(card);
+ }
+}
+
+async function update(id,changes){
+ const {error}=await db.from("bookings")
+ .update(changes)
+ .eq("id",id);
+
+ if(error){
+  msg("Gagal update: "+error.message);
+  return;
+ }
+
+ await load();
+}
+
+async function receipt(path){
+ const {data,error}=await db.storage
+ .from("payment-receipts")
+ .createSignedUrl(path,60);
+
+ if(error||!data){
+  msg("Gagal buka resit.");
+  return;
+ }
+
+ window.open(data.signedUrl,"_blank","noopener");
+}
+
+async function edit(b){
+ const name=prompt("Nama pelanggan:",b.customer_name);
+ if(name===null)return;
+
+ const phone=prompt("Telefon:",b.phone);
+ if(phone===null)return;
+
+ const address=prompt("Alamat:",b.delivery_address);
+ if(address===null)return;
+
+ const start=prompt(
+  "Tarikh mula (YYYY-MM-DD HH:mm, waktu Malaysia):",
+  new Intl.DateTimeFormat("sv-SE",{
+   timeZone:"Asia/Kuala_Lumpur",
+   year:"numeric",
+   month:"2-digit",
+   day:"2-digit",
+   hour:"2-digit",
+   minute:"2-digit",
+   hour12:false
+  }).format(new Date(b.start_at))
+ );
+ if(start===null)return;
+
+ const duration=prompt(
+  "Tempoh sewaan (jam):",
+  String((new Date(b.end_at)-new Date(b.start_at))/3600000)
+ );
+ if(duration===null)return;
+
+ const startDate=new Date(start.replace(" ","T")+":00+08:00");
+ const hours=Number(duration);
+
+ if(!name.trim()||!phone.trim()||!address.trim()||
+ !Number.isFinite(startDate.getTime())||hours<=0){
+  msg("Maklumat edit tidak sah.");
+  return;
+ }
+
+ await update(b.id,{
+  customer_name:name.trim(),
+  phone:phone.trim(),
+  delivery_address:address.trim(),
+  start_at:startDate.toISOString(),
+  end_at:new Date(startDate.getTime()+hours*3600000).toISOString()
+ });
+}
+
+$("filter").onchange=render;
+$("search").oninput=render;
+
+checkLogin();
+</script>
+</body>
+</html>
