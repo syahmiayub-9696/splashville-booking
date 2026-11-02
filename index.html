@@ -1137,21 +1137,22 @@ $("submit").onclick=async()=>{
     const receipt_base64=
       await fileToBase64(receipt);
 
-    const payload={
-      product:product.id,
-      customer_name:name,
-      phone:phone,
-      email:email,
-      address:address,
-      notes:notes,
-      start_at:slot.start.toISOString(),
-      end_at:slot.end.toISOString(),
-      duration_hours:slot.hours,
-      receipt_base64:receipt_base64,
-      receipt_filename:receipt.name,
-      receipt_mime:receipt.type,
-      turnstile_token:token
-    };
+   
+const payload={
+  product_id:product.id,
+  customer_name:name,
+  phone:phone,
+  email:email,
+  delivery_address:address,
+  notes:notes,
+  start_at:slot.start.toISOString(),
+  duration_hours:slot.hours,
+  receipt:{
+    base64:receipt_base64,
+    type:receipt.type
+  },
+  turnstile_token:token
+};
 
     const response=await fetch(
       SUPABASE_URL+"/functions/v1/create-booking",
