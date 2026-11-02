@@ -4,321 +4,835 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SPLASHVILLE | Booking</title>
+<title>SPLASHVILLE | Slide • Splash • Smile!</title>
 <style>
+:root{
+ --blue:#087fd1;
+ --deep:#083d72;
+ --aqua:#16c5e5;
+ --yellow:#ffcf3f;
+ --pink:#ff6ba8;
+ --bg:#eefaff;
+ --text:#183650;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#eff9ff;color:#173650}
-header{background:linear-gradient(120deg,#0075cc,#06bfe5);color:white;text-align:center;padding:38px 15px}
-header h1{font-size:42px;margin:0}
-header p{margin:8px}
-main{max-width:900px;margin:25px auto;padding:0 15px}
-section{background:white;border-radius:18px;padding:22px;margin-bottom:20px;box-shadow:0 5px 20px #0075cc15}
-h2{margin-top:0}
-.products{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.product{padding:18px;border:2px solid #dce9f2;border-radius:13px;background:#f8fcff;cursor:pointer;font-size:16px}
-.product.active{border-color:#008fe0;background:#e3f7ff}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-label{display:block;font-weight:bold;margin:12px 0 6px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #cbd9e5;border-radius:10px;font:inherit}
-textarea{min-height:80px}
-.summary{background:#eaf8ff;border-radius:13px;padding:17px;line-height:2}
-.summary b{float:right}
-.notice{padding:13px;border-radius:10px;background:#eaf6ff;margin:14px 0}
-.green{background:#d9f7e2;color:#11622d}
-.red{background:#ffe3e3;color:#a51c1c}
-button.primary{width:100%;padding:16px;background:#007dcc;color:white;border:0;border-radius:12px;font-size:17px;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.5;cursor:not-allowed}
-small{color:#637589}
-footer{text-align:center;padding:25px}
-@media(max-width:650px){.products,.grid{grid-template-columns:1fr}header h1{font-size:32px}}
+html{scroll-behavior:smooth}
+body{
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hero{
+ background:linear-gradient(135deg,#0064bc,#00bce5);
+ color:white;
+ text-align:center;
+ padding:50px 18px 65px;
+ position:relative;
+ overflow:hidden;
+}
+.hero:before{
+ content:"";
+ position:absolute;
+ width:240px;height:240px;
+ border:35px solid #ffffff17;
+ border-radius:50%;
+ top:-100px;right:-80px;
+}
+.hero h1{
+ font-size:clamp(40px,8vw,76px);
+ margin:0;
+ letter-spacing:2px;
+ text-shadow:0 5px 0 #00538b;
+}
+.hero .tagline{
+ font-size:22px;
+ font-weight:bold;
+ color:#fff4a3;
+ margin:12px 0;
+}
+.hero p{margin:8px}
+.hero .pill{
+ display:inline-block;
+ background:white;
+ color:var(--deep);
+ padding:10px 18px;
+ border-radius:50px;
+ font-weight:bold;
+ margin-top:14px;
+}
+.container{
+ max-width:1100px;
+ margin:-28px auto 35px;
+ padding:0 16px;
+ position:relative;
+}
+.panel{
+ background:white;
+ border-radius:23px;
+ padding:26px;
+ margin-bottom:22px;
+ box-shadow:0 12px 35px #0067b51a;
+}
+.section-title{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ margin-bottom:22px;
+}
+.number{
+ width:40px;height:40px;
+ display:grid;place-items:center;
+ background:var(--yellow);
+ border-radius:13px;
+ font-weight:900;
+ color:var(--deep);
+}
+h2{font-size:23px;margin:0}
+.muted{color:#71859a;font-size:14px}
+.products{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:17px;
+}
+.product{
+ border:3px solid #e3edf5;
+ border-radius:19px;
+ overflow:hidden;
+ background:white;
+ text-align:left;
+ padding:0;
+ transition:.2s;
+}
+.product:hover{transform:translateY(-4px)}
+.product.active{
+ border-color:var(--blue);
+ box-shadow:0 7px 24px #0087d62b;
+}
+.photo{
+ height:185px;
+ background:linear-gradient(135deg,#b4edff,#fbe3f0);
+ position:relative;
+ display:grid;
+ place-items:center;
+ overflow:hidden;
+}
+.photo img{
+ width:100%;height:100%;
+ object-fit:cover;
+}
+.placeholder{
+ font-size:72px;
+ position:absolute;
+}
+.product-info{padding:16px}
+.product-info h3{margin:0 0 8px}
+.price{color:var(--blue);font-weight:900}
+.selected{
+ display:inline-block;
+ margin-top:10px;
+ font-size:12px;
+ color:white;
+ background:var(--blue);
+ padding:6px 11px;
+ border-radius:30px;
+}
+.booking-grid{
+ display:grid;
+ grid-template-columns:1.1fr .9fr;
+ gap:26px;
+}
+.calendar{
+ border:1px solid #d9e8f3;
+ border-radius:18px;
+ padding:16px;
+}
+.calendar-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:15px;
+}
+.calendar-head button{
+ border:0;
+ background:#e9f7ff;
+ color:var(--deep);
+ border-radius:10px;
+ width:40px;height:40px;
+ font-size:22px;
+}
+.weekdays,.days{
+ display:grid;
+ grid-template-columns:repeat(7,1fr);
+ gap:6px;
+}
+.weekdays div{
+ text-align:center;
+ font-weight:bold;
+ font-size:12px;
+ color:#72899c;
+ padding:9px 0;
+}
+.day{
+ min-height:43px;
+ border:1px solid transparent;
+ border-radius:10px;
+ background:#e0f8e9;
+ color:#17613a;
+ font-weight:bold;
+ position:relative;
+}
+.day.busy{
+ background:#ffe3e6;
+ color:#a6273b;
+}
+.day.selected{
+ border:2px solid var(--blue);
+ box-shadow:0 0 0 2px #b8eaff;
+}
+.day:disabled{
+ background:#f0f2f4;
+ color:#aeb9c3;
+ cursor:not-allowed;
+}
+.day .dot{
+ position:absolute;
+ width:5px;height:5px;
+ border-radius:50%;
+ background:currentColor;
+ bottom:4px;left:50%;
+ transform:translateX(-50%);
+}
+.legend{
+ display:flex;
+ gap:14px;
+ flex-wrap:wrap;
+ margin-top:15px;
+ font-size:12px;
+}
+.legend span{display:flex;align-items:center;gap:6px}
+.swatch{width:13px;height:13px;border-radius:4px}
+.swatch.green{background:#c9f2d8}
+.swatch.red{background:#ffd4da}
+label{
+ display:block;
+ font-size:14px;
+ font-weight:bold;
+ margin:15px 0 7px;
+}
+input:not([type=checkbox]),select,textarea{
+ width:100%;
+ border:1px solid #cbdde9;
+ border-radius:12px;
+ padding:13px;
+ background:white;
+ color:var(--text);
+}
+textarea{min-height:95px;resize:vertical}
+.field-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:15px;
+}
+.status{
+ border-radius:13px;
+ padding:15px;
+ background:#eaf6ff;
+ margin-top:17px;
+ line-height:1.5;
+}
+.status.good{background:#dff9e9;color:#14623a}
+.status.bad{background:#ffe6e8;color:#a6273b}
+.summary{
+ background:linear-gradient(135deg,#e8f8ff,#f5fcff);
+ border:1px solid #cfeafa;
+ border-radius:18px;
+ padding:21px;
+}
+.line{
+ display:flex;
+ justify-content:space-between;
+ gap:12px;
+ padding:10px 0;
+ border-bottom:1px dashed #c7dce9;
+}
+.line.total{
+ font-size:21px;
+ font-weight:900;
+ color:var(--blue);
+ border-bottom:0;
+}
+.payment{
+ border:2px dashed #9edff0;
+ background:#f3fcff;
+ border-radius:17px;
+ padding:20px;
+ margin-top:20px;
+ text-align:center;
+}
+.payment h3{margin:0 0 12px}
+.payment strong{color:var(--deep)}
+.agreement{
+ display:flex;
+ gap:10px;
+ align-items:flex-start;
+ margin:18px 0;
+ font-size:14px;
+ line-height:1.6;
+}
+.agreement input{margin-top:4px}
+.submit{
+ border:0;
+ width:100%;
+ background:linear-gradient(90deg,#0073cb,#00b7db);
+ color:white;
+ padding:18px;
+ border-radius:15px;
+ font-size:18px;
+ font-weight:900;
+}
+.submit:disabled{opacity:.5;cursor:not-allowed}
+.whatsapp{
+ display:inline-block;
+ background:#19ad67;
+ color:white;
+ padding:13px 22px;
+ text-decoration:none;
+ border-radius:40px;
+ font-weight:bold;
+}
+footer{
+ text-align:center;
+ color:#7890a5;
+ padding:25px 15px 40px;
+}
+footer a{color:var(--blue)}
+@media(max-width:760px){
+ .products{grid-template-columns:1fr}
+ .product{display:grid;grid-template-columns:42% 58%}
+ .photo{height:160px}
+ .booking-grid{grid-template-columns:1fr}
+ .field-grid{grid-template-columns:1fr}
+ .panel{padding:19px}
+ .day{min-height:39px}
+}
 </style>
 </head>
 <body>
 
-<header>
-<h1>💦 SPLASHVILLE</h1>
-<p>Slide • Splash • Smile!</p>
-<p>Inflatable & Waterplay Rental</p>
+<header class="hero">
+ <h1>💦 SPLASHVILLE</h1>
+ <div class="tagline">Slide • Splash • Smile!</div>
+ <p>Inflatable & Waterplay Rental</p>
+ <div class="pill">🌈 Make Every Splash Memorable!</div>
 </header>
 
-<main>
-<section>
-<h2>1. Pilih Produk</h2>
-<div class="products" id="products"></div>
+<main class="container">
+
+<section class="panel">
+ <div class="section-title">
+  <span class="number">1</span>
+  <h2>Pilih Keseronokan Anda!</h2>
+ </div>
+ <p class="muted">Pilih inflatable atau shelter untuk majlis anda.</p>
+ <div class="products" id="products"></div>
 </section>
 
-<section>
-<h2>2. Tarikh & Masa Sewaan</h2>
-<div class="grid">
-<div>
-<label>Tarikh Mula</label>
-<input id="date" type="date">
-</div>
-<div>
-<label>Masa Mula</label>
-<input id="time" type="time" value="09:00" step="1800">
-</div>
-<div>
-<label>Tempoh Sewaan</label>
-<select id="duration"></select>
-</div>
-</div>
-<div class="notice" id="availability">Menyemak slot...</div>
-<small>🟢 Hijau = Tersedia | 🔴 Merah = Sudah ditempah</small>
+<section class="panel">
+ <div class="section-title">
+  <span class="number">2</span>
+  <h2>Pilih Tarikh & Masa</h2>
+ </div>
+
+ <div class="booking-grid">
+  <div>
+   <div class="calendar">
+    <div class="calendar-head">
+     <button id="prevMonth" aria-label="Bulan sebelumnya">‹</button>
+     <strong id="monthTitle"></strong>
+     <button id="nextMonth" aria-label="Bulan seterusnya">›</button>
+    </div>
+    <div class="weekdays">
+     <div>Ahd</div><div>Isn</div><div>Sel</div>
+     <div>Rab</div><div>Kha</div><div>Jum</div><div>Sab</div>
+    </div>
+    <div class="days" id="calendarDays"></div>
+    <div class="legend">
+     <span><i class="swatch green"></i> Tiada tempahan</span>
+     <span><i class="swatch red"></i> Ada tempahan / sekatan</span>
+    </div>
+   </div>
+   <p class="muted">
+    Tarikh merah mungkin masih mempunyai masa kosong.
+    Semakan akhir dibuat berdasarkan jam sewaan.
+   </p>
+  </div>
+
+  <div>
+   <label>Tarikh Dipilih</label>
+   <input id="selectedDate" readonly>
+
+   <label>Masa Mula</label>
+   <input type="time" id="startTime" value="09:00" step="1800">
+
+   <label>Tempoh Sewaan</label>
+   <select id="duration"></select>
+
+   <div class="status" id="slotStatus">
+    Pilih tarikh untuk semak slot.
+   </div>
+
+   <div class="status">
+    ⏰ Waktu tamat akan dikira automatik berdasarkan
+    masa mula dan tempoh sewaan.
+   </div>
+  </div>
+ </div>
 </section>
 
-<section>
-<h2>3. Maklumat Pelanggan</h2>
-<div class="grid">
-<div><label>Nama Penuh *</label><input id="name"></div>
-<div><label>Nombor Telefon *</label><input id="phone" type="tel"></div>
-<div><label>E-mel (Pilihan)</label><input id="email" type="email"></div>
-<div><label>Alamat Penghantaran *</label><textarea id="address"></textarea></div>
-</div>
-<label>Catatan (Pilihan)</label>
-<textarea id="notes"></textarea>
+<section class="panel">
+ <div class="section-title">
+  <span class="number">3</span>
+  <h2>Maklumat Pelanggan</h2>
+ </div>
+ <div class="field-grid">
+  <div>
+   <label>Nama Penuh *</label>
+   <input id="customerName" autocomplete="name">
+  </div>
+  <div>
+   <label>Nombor Telefon *</label>
+   <input id="phone" type="tel" autocomplete="tel">
+  </div>
+  <div>
+   <label>E-mel (Pilihan)</label>
+   <input id="email" type="email" autocomplete="email">
+  </div>
+  <div>
+   <label>Alamat Penghantaran *</label>
+   <textarea id="address"></textarea>
+  </div>
+ </div>
+ <label>Catatan Tambahan</label>
+ <textarea id="notes" placeholder="Contoh: Masa majlis, lokasi pemasangan..."></textarea>
 </section>
 
-<section>
-<h2>4. Ringkasan Bayaran</h2>
-<div class="summary" id="summary"></div>
+<section class="panel">
+ <div class="section-title">
+  <span class="number">4</span>
+  <h2>Bayaran Tempahan</h2>
+ </div>
 
-<div class="notice">
-<b>Bayaran DuitNow / TNG</b>
-<p>Nama: <b>MUHAMMAD SYAHMI BIN AYUB</b></p>
-<p>Nombor: <b>100363559609</b></p>
-<small>QR rasmi boleh dimasukkan selepas gambar QR disediakan.</small>
-</div>
+ <div class="summary" id="summary"></div>
 
-<p><small>Deposit tempahan 50% tidak dipulangkan. Deposit keselamatan RM100 boleh dipulangkan tertakluk kepada syarat. Baki sewaan perlu dibayar sehari sebelum sewaan. Caj penghantaran berasingan.</small></p>
+ <div class="payment">
+  <h3>💳 DuitNow / Touch 'n Go</h3>
+  <p>Penerima</p>
+  <strong>MUHAMMAD SYAHMI BIN AYUB</strong>
+  <p>Nombor DuitNow</p>
+  <strong>100363559609</strong>
+  <p class="muted">
+   Gambar QR bayaran rasmi boleh ditambah di sini.
+  </p>
+ </div>
 
-<label>Upload Bukti Bayaran *</label>
-<input id="receipt" type="file" accept="image/jpeg,image/png,application/pdf">
+ <p class="muted">
+  Deposit tempahan 50% tidak dipulangkan.
+  Deposit keselamatan RM100 boleh dipulangkan
+  tertakluk kepada syarat. Baki sewaan perlu
+  dijelaskan sehari sebelum sewaan.
+  Caj penghantaran dikira berasingan.
+ </p>
 
-<label>
-<input id="agree" type="checkbox" style="width:auto">
- Saya bersetuju dengan syarat tempahan.
-</label>
+ <label>Muat Naik Bukti Bayaran *</label>
+ <input type="file" id="receipt"
+  accept="image/jpeg,image/png,application/pdf">
+ <p class="muted">JPG, PNG atau PDF. Maksimum 5 MB.</p>
 
-<div class="notice" id="result" role="status"></div>
-<button class="primary" id="submit" disabled>Hantar Tempahan</button>
+ <label class="agreement">
+  <input type="checkbox" id="agree">
+  <span>
+   Saya bersetuju dengan syarat tempahan,
+   pembayaran, pembatalan dan tanggungjawab
+   terhadap kerosakan peralatan.
+  </span>
+ </label>
 
-<p><small>Pertanyaan:
-<a href="https://wa.me/60183860442">WhatsApp SPLASHVILLE</a>
-</small></p>
+ <div class="status" id="result">
+  Website dalam mod ujian. Tempahan sebenar
+  belum diaktifkan.
+ </div>
+
+ <button class="submit" id="submit" disabled>
+  💦 Hantar Tempahan
+ </button>
 </section>
+
+<section class="panel" style="text-align:center">
+ <h2>Ada Pertanyaan?</h2>
+ <p>Hubungi SPLASHVILLE untuk bantuan tempahan.</p>
+ <a class="whatsapp" href="https://wa.me/60183860442"
+ target="_blank" rel="noopener">
+  WhatsApp SPLASHVILLE
+ </a>
+</section>
+
 </main>
 
-<footer>SPLASHVILLE © 2026 · <a href="admin.html">Admin</a></footer>
+<footer>
+ SPLASHVILLE © 2026 ·
+ <a href="admin.html">Admin Dashboard</a>
+</footer>
 
 <script type="module">
 import {createClient} from
-"https://esm.sh/@supabase/supabase-js@2";
+ "https://esm.sh/@supabase/supabase-js@2";
 
-const URL="https://voegwnwppizteaoqeckk.supabase.co";
-const KEY="sb_publishable_G_olNSg_naTLQ7fGEOtwng_dTYDyFfh";
+const SUPABASE_URL=
+ "https://voegwnwppizteaoqeckk.supabase.co";
+const SUPABASE_KEY=
+ "sb_publishable_G_olNSg_naTLQ7fGEOtwng_dTYDyFfh";
 
-// Masih perlu konfigurasi pengesahan fungsi.
-// JANGAN masukkan secret/service_role key.
-const LEGACY_ANON_JWT="";
-
-const db=createClient(URL,KEY);
+const db=createClient(SUPABASE_URL,SUPABASE_KEY);
 const $=id=>document.getElementById(id);
 
 const catalog=[
-{id:"crocodilo",name:"🐊 Crocodilo",prices:{12:180,24:250,48:350}},
-{id:"dolphinita",name:"🐬 Dolphinita",prices:{12:150,24:200,48:300}},
-{id:"shinetrip",name:"⛺ ShineTrip Shelter",prices:{12:80,24:120,48:200,72:280}}
+ {
+  id:"crocodilo",
+  name:"Crocodilo",
+  emoji:"🐊",
+  image:"crocodilo.jpg",
+  prices:{12:180,24:250,48:350}
+ },
+ {
+  id:"dolphinita",
+  name:"Dolphinita",
+  emoji:"🐬",
+  image:"dolphinita.jpg",
+  prices:{12:150,24:200,48:300}
+ },
+ {
+  id:"shinetrip",
+  name:"ShineTrip Auto Dome Shelter",
+  emoji:"⛺",
+  image:"shinetrip.jpg",
+  prices:{12:80,24:120,48:200,72:280}
+ }
 ];
 
 let product=catalog[0];
+let selectedDate=null;
+let viewMonth;
+let busySlots=[];
 let available=false;
-let checkVersion=0;
+let requestVersion=0;
 
-const money=n=>"RM"+Number(n).toFixed(2);
+const money=n=>"RM "+Number(n).toFixed(2);
+const pad=n=>String(n).padStart(2,"0");
+const localISO=d=>
+ `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 
-function dateTime(){
- const d=$("date").value;
- const t=$("time").value;
- if(!d||!t)return null;
- const start=new Date(`${d}T${t}:00+08:00`);
- const hours=Number($("duration").value);
- return {start,end:new Date(start.getTime()+hours*3600000),hours};
-}
-
-function products(){
- $("products").innerHTML=catalog.map(p=>`
- <button class="product ${p.id===product.id?"active":""}"
- data-id="${p.id}">
- <b>${p.name}</b>
- </button>`).join("");
-
- document.querySelectorAll("[data-id]").forEach(btn=>{
-  btn.onclick=()=>{
-   product=catalog.find(p=>p.id===btn.dataset.id);
-   products();
-   durations();
-   check();
-  };
- });
-}
-
-function durations(){
- $("duration").innerHTML=Object.entries(product.prices)
- .map(([h,p])=>`<option value="${h}">${h} jam — ${money(p)}</option>`)
- .join("");
- summary();
-}
-
-function summary(){
- const price=product.prices[Number($("duration").value)];
- $("summary").innerHTML=`
- <div>Harga Sewaan <b>${money(price)}</b></div>
- <div>Deposit 50% <b>${money(price/2)}</b></div>
- <div>Deposit Keselamatan <b>RM100.00</b></div>
- <hr>
- <div>Bayaran Sekarang <b>${money(price/2+100)}</b></div>
- <div>Baki Sewaan <b>${money(price/2)}</b></div>
- <div>Caj Penghantaran <b>Belum termasuk</b></div>`;
-}
-
-async function check(){
- const version=++checkVersion;
- available=false;
- $("submit").disabled=true;
- summary();
-
- const slot=dateTime();
- if(!slot||!Number.isFinite(slot.start.getTime())||
- slot.start.getTime()<Date.now()){
-  $("availability").textContent="Pilih tarikh dan masa akan datang.";
-  return;
- }
-
- $("availability").textContent="Menyemak kekosongan...";
-
- const from=new Date(slot.start.getTime()-72*3600000);
- const to=new Date(slot.end.getTime()+72*3600000);
-
- const {data,error}=await db.rpc("splashville_availability",{
-  p_product:product.id,
-  p_from:from.toISOString(),
-  p_to:to.toISOString()
- });
-
- if(version!==checkVersion)return;
-
- if(error){
-  $("availability").textContent="Gagal semak slot: "+error.message;
-  return;
- }
-
- const clash=(data||[]).some(s=>
-  new Date(s.start_at)<slot.end &&
-  new Date(s.end_at)>slot.start
- );
-
- available=!clash;
- $("availability").className="notice "+(clash?"red":"green");
- $("availability").textContent=clash
-  ?"🔴 Slot sudah ditempah. Pilih masa lain."
-  :"🟢 Slot tersedia buat masa ini.";
-
- $("submit").disabled=!available;
-}
-
-function base64(file){
- return new Promise((resolve,reject)=>{
-  const reader=new FileReader();
-  reader.onload=()=>resolve(String(reader.result).split(",")[1]);
-  reader.onerror=reject;
-  reader.readAsDataURL(file);
- });
-}
-
-function message(text){
- $("result").textContent=text;
-}
-
-$("submit").onclick=async()=>{
- if(!available)return;
-
- if(!LEGACY_ANON_JWT){
-  message("Website masih dalam mod ujian. Sambungan tempahan belum diaktifkan.");
-  return;
- }
-
- const file=$("receipt").files[0];
- const name=$("name").value.trim();
- const phone=$("phone").value.trim();
- const address=$("address").value.trim();
-
- if(!name||!phone||!address||!file||!$("agree").checked){
-  message("Lengkapkan maklumat, resit dan persetujuan dahulu.");
-  return;
- }
-
- if(file.size>5*1024*1024||
- !["image/jpeg","image/png","application/pdf"].includes(file.type)){
-  message("Resit mesti JPG, PNG atau PDF, maksimum 5 MB.");
-  return;
- }
-
- const slot=dateTime();
- $("submit").disabled=true;
- message("Menghantar tempahan...");
-
- try{
-  const response=await fetch(URL+"/functions/v1/create-booking",{
-   method:"POST",
-   headers:{
-    "Content-Type":"application/json",
-    "apikey":KEY,
-    "Authorization":"Bearer "+LEGACY_ANON_JWT
-   },
-   body:JSON.stringify({
-    product_id:product.id,
-    duration_hours:slot.hours,
-    start_at:slot.start.toISOString(),
-    customer_name:name,
-    phone,
-    email:$("email").value.trim(),
-    delivery_address:address,
-    notes:$("notes").value.trim(),
-    receipt:{
-     type:file.type,
-     base64:await base64(file)
-    }
-   })
-  });
-
-  const result=await response.json();
-  if(!response.ok||!result.success)
-   throw Error(result.error||"Tempahan gagal");
-
-  message("✅ Tempahan diterima! ID: "+result.booking_id+
-   ". Menunggu semakan admin.");
-  $("receipt").value="";
-  await check();
-
- }catch(err){
-  message("❌ "+err.message);
- }finally{
-  $("submit").disabled=!available;
- }
+const nowMalaysia=()=>{
+ const parts=new Intl.DateTimeFormat("en-GB",{
+  timeZone:"Asia/Kuala_Lumpur",
+  year:"numeric",month:"2-digit",day:"2-digit"
+ }).formatToParts(new Date());
+ const get=k=>parts.find(p=>p.type===k).value;
+ return `${get("year")}-${get("month")}-${get("day")}`;
 };
 
-$("date").min=new Date(Date.now()+8*3600000)
- .toISOString().slice(0,10);
-$("date").value=$("date").min;
+const today=nowMalaysia();
+selectedDate=today;
+const [year,month]=today.split("-").map(Number);
+viewMonth=new Date(year,month-1,1);
 
-["date","time","duration"].forEach(id=>
- $(id).addEventListener("change",check)
-);
+function renderProducts(){
+ $("products").replaceChildren();
 
-products();
-durations();
-check();
+ for(const p of catalog){
+  const button=document.createElement("button");
+  button.className="product"+(
+   p.id===product.id?" active":""
+  );
+
+  const photo=document.createElement("div");
+  photo.className="photo";
+
+  const placeholder=document.createElement("span");
+  placeholder.className="placeholder";
+  placeholder.textContent=p.emoji;
+
+  const img=document.createElement("img");
+  img.src=p.image;
+  img.alt=p.name;
+  img.onerror=()=>img.style.display="none";
+
+  photo.append(placeholder,img);
+
+  const info=document.createElement("div");
+  info.className="product-info";
+
+  const title=document.createElement("h3");
+  title.textContent=p.name;
+
+  const price=document.createElement("div");
+  price.className="price";
+  price.textContent="Dari "+money(
+   Math.min(...Object.values(p.prices))
+  );
+
+  const chosen=document.createElement("span");
+  chosen.className="selected";
+  chosen.textContent=p.id===product.id
+   ?"✓ Dipilih":"Pilih Produk";
+
+  info.append(title,price,chosen);
+  button.append(photo,info);
+
+  button.onclick=async()=>{
+   product=p;
+   renderProducts();
+   renderDurations();
+   await loadMonth();
+  };
+
+  $("products").append(button);
+ }
+}
+
+function renderDurations(){
+ $("duration").replaceChildren();
+
+ for(const [hours,price] of Object.entries(product.prices)){
+  const opt=document.createElement("option");
+  opt.value=hours;
+  opt.textContent=`${hours} jam — ${money(price)}`;
+  $("duration").append(opt);
+ }
+ updateSummary();
+}
+
+function getSlot(){
+ if(!selectedDate)return null;
+
+ const time=$("startTime").value;
+ if(!time)return null;
+
+ const start=new Date(
+  `${selectedDate}T${time}:00+08:00`
+ );
+
+ const hours=Number($("duration").value);
+ const end=new Date(start.getTime()+hours*3600000);
+
+ if(!Number.isFinite(start.getTime())||
+ !Number.isFinite(end.getTime()))return null;
+
+ return {start,end,hours};
+}
+
+function updateSummary(){
+ const hours=Number($("duration").value);
+ const price=product.prices[hours]||0;
+ const deposit=price/2;
+
+ $("summary").innerHTML=`
+  <div class="line">
+   <span>Produk</span><b>${product.name}</b>
+  </div>
+  <div class="line">
+   <span>Tempoh</span><b>${hours} jam</b>
+  </div>
+  <div class="line">
+   <span>Harga Sewaan</span><b>${money(price)}</b>
+  </div>
+  <div class="line">
+   <span>Deposit Tempahan 50%</span>
+   <b>${money(deposit)}</b>
+  </div>
+  <div class="line">
+   <span>Deposit Keselamatan</span>
+   <b>${money(100)}</b>
+  </div>
+  <div class="line total">
+   <span>Bayaran Sekarang</span>
+   <span>${money(deposit+100)}</span>
+  </div>
+  <div class="line">
+   <span>Baki Sewaan</span>
+   <b>${money(deposit)}</b>
+  </div>
+  <div class="line">
+   <span>Caj Penghantaran</span>
+   <b>Belum termasuk</b>
+  </div>`;
+}
+
+function overlaps(aStart,aEnd,bStart,bEnd){
+ return new Date(aStart)<new Date(bEnd) &&
+        new Date(aEnd)>new Date(bStart);
+}
+
+async function loadMonth(){
+ const version=++requestVersion;
+ available=false;
+ $("submit").disabled=true;
+ $("slotStatus").className="status";
+ $("slotStatus").textContent="Memuatkan kalendar...";
+
+ const first=new Date(
+  Date.UTC(viewMonth.getFullYear(),viewMonth.getMonth(),1)
+ );
+ const last=new Date(
+  Date.UTC(viewMonth.getFullYear(),viewMonth.getMonth()+1,1)
+ );
+
+ // Tambah margin supaya slot merentas bulan turut dikesan.
+ const from=new Date(first.getTime()-4*86400000);
+ const to=new Date(last.getTime()+4*86400000);
+
+ const {data,error}=await db.rpc(
+  "splashville_availability",{
+   p_product:product.id,
+   p_from:from.toISOString(),
+   p_to:to.toISOString()
+  }
+ );
+
+ if(version!==requestVersion)return;
+
+ if(error){
+  busySlots=[];
+  $("slotStatus").textContent=
+   "Kalendar gagal dimuatkan: "+error.message;
+  renderCalendar();
+  return;
+ }
+
+ busySlots=data||[];
+ renderCalendar();
+ checkSlot();
+}
+
+function renderCalendar(){
+ const year=viewMonth.getFullYear();
+ const month=viewMonth.getMonth();
+
+ $("monthTitle").textContent=
+  new Intl.DateTimeFormat("ms-MY",{
+   month:"long",year:"numeric"
+  }).format(viewMonth);
+
+ const days=$("calendarDays");
+ days.replaceChildren();
+
+ const firstDay=new Date(year,month,1).getDay();
+ const totalDays=new Date(year,month+1,0).getDate();
+
+ for(let i=0;i<firstDay;i++){
+  days.append(document.createElement("div"));
+ }
+
+ for(let day=1;day<=totalDays;day++){
+  const date=localISO(new Date(year,month,day));
+  const start=new Date(`${date}T00:00:00+08:00`);
+  const end=new Date(start.getTime()+86400000);
+
+  const busy=busySlots.some(s=>
+   overlaps(start,end,s.start_at,s.end_at)
+  );
+
+  const btn=document.createElement("button");
+  btn.className="day"+
+   (busy?" busy":"")+
+   (date===selectedDate?" selected":"");
+
+  btn.textContent=day;
+  btn.disabled=date<today;
+
+  if(busy){
+   const dot=document.createElement("i");
+   dot.className="dot";
+   btn.append(dot);
+  }
+
+  btn.onclick=()=>{
+   selectedDate=date;
+   $("selectedDate").value=date;
+   renderCalendar();
+   checkSlot();
+  };
+
+  days.append(btn);
+ }
+}
+
+function checkSlot(){
+ available=false;
+ $("submit").disabled=true;
+
+ const slot=getSlot();
+
+ if(!slot||slot.start.getTime()<Date.now()){
+  $("slotStatus").className="status bad";
+  $("slotStatus").textContent=
+   "Pilih tarikh dan masa akan datang.";
+  return;
+ }
+
+ const busy=busySlots.some(s=>
+  overlaps(slot.start,slot.end,s.start_at,s.end_at)
+ );
+
+ if(busy){
+  $("slotStatus").className="status bad";
+  $("slotStatus").textContent=
+   "🔴 Slot bertindih dengan tempahan atau sekatan. Pilih masa lain.";
+ }else{
+  $("slotStatus").className="status good";
+  $("slotStatus").textContent=
+   "🟢 Slot kelihatan tersedia. Pengesahan akhir dibuat semasa menghantar tempahan.";
+ }
+
+ available=!busy;
+}
+
+$("prevMonth").onclick=()=>{
+ const previous=new Date(
+  viewMonth.getFullYear(),
+  viewMonth.getMonth()-1,1
+ );
+ const current=new Date(year,month-1,1);
+ if(previous<current)return;
+ viewMonth=previous;
+ loadMonth();
+};
+
+$("nextMonth").onclick=()=>{
+ viewMonth=new Date(
+  viewMonth.getFullYear(),
+  viewMonth.getMonth()+1,1
+ );
+ loadMonth();
+};
+
+$("startTime").onchange=checkSlot;
+$("duration").onchange=()=>{
+ updateSummary();
+ checkSlot();
+};
+
+$("submit").onclick=()=>{
+ $("result").textContent=
+  "Website masih dalam mod ujian. Sambungan penghantaran tempahan belum diaktifkan.";
+};
+
+$("selectedDate").value=selectedDate;
+renderProducts();
+renderDurations();
+loadMonth();
 </script>
 </body>
 </html>
