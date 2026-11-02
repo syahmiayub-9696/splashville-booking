@@ -345,6 +345,25 @@ footer a{color:var(--blue)}
   }
 }
 
+.duitnow-qr{
+  display:block;
+  width:100%;
+  max-width:280px;
+  height:auto;
+  margin:20px auto;
+  padding:12px;
+  background:white;
+  border:2px solid #d6ebf6;
+  border-radius:18px;
+  box-shadow:0 8px 25px rgba(0,100,180,.12);
+}
+
+@media(max-width:600px){
+  .duitnow-qr{
+    max-width:250px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -457,16 +476,32 @@ footer a{color:var(--blue)}
 
  <div class="summary" id="summary"></div>
 
- <div class="payment">
-  <h3>💳 DuitNow / Touch 'n Go</h3>
-  <p>Penerima</p>
-  <strong>MUHAMMAD SYAHMI BIN AYUB</strong>
-  <p>Nombor DuitNow</p>
-  <strong>100363559609</strong>
+ 
+<div class="payment">
+  <h3>💳 Bayaran DuitNow / Touch 'n Go</h3>
+
+  <p>Scan QR di bawah untuk membuat bayaran</p>
+
+  <img
+    src="./duitnow.png"
+    alt="QR DuitNow SPLASHVILLE"
+    class="duitnow-qr"
+  >
+
+  <p><strong>MUHAMMAD SYAHMI BIN AYUB</strong></p>
+  <p>Nombor DuitNow: <strong>100363559609</strong></p>
+
   <p class="muted">
-   Gambar QR bayaran rasmi boleh ditambah di sini.
+    Sila bayar jumlah deposit yang dipaparkan
+    dalam ringkasan bayaran.
   </p>
- </div>
+
+  <p class="muted">
+    Selepas membuat bayaran, upload bukti
+    pembayaran di ruangan bawah.
+  </p>
+</div>
+
 
  <p class="muted">
   Deposit tempahan 50% tidak dipulangkan.
