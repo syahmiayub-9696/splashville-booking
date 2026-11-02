@@ -318,16 +318,46 @@ footer a{color:var(--blue)}
  .panel{padding:19px}
  .day{min-height:39px}
 }
+ 
+.hero{
+  background:linear-gradient(135deg,#0064bc,#00bce5);
+  padding:35px 20px 65px;
+  text-align:center;
+}
+
+.hero-logo{
+  display:block;
+  width:100%;
+  max-width:520px;
+  height:auto;
+  margin:0 auto;
+  object-fit:contain;
+  filter:drop-shadow(0 10px 16px rgba(0,35,100,.18));
+}
+
+@media(max-width:600px){
+  .hero{
+    padding:25px 15px 55px;
+  }
+
+  .hero-logo{
+    max-width:340px;
+  }
+}
+
 </style>
 </head>
 <body>
 
+
 <header class="hero">
- <h1>💦 SPLASHVILLE</h1>
- <div class="tagline">Slide • Splash • Smile!</div>
- <p>Inflatable & Waterplay Rental</p>
- <div class="pill">🌈 Make Every Splash Memorable!</div>
+  <img
+    src="./logo.png"
+    alt="SPLASHVILLE Inflatable & Waterplay Rental"
+    class="hero-logo"
+  >
 </header>
+
 
 <main class="container">
 
