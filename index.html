@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087fd1">
 <title>SPLASHVILLE | Slide • Splash • Smile!</title>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -14,7 +15,6 @@
   --deep:#083d72;
   --aqua:#16c5e5;
   --yellow:#ffcf3f;
-  --pink:#ff6ba8;
   --bg:#eefaff;
   --text:#183650;
 }
@@ -28,12 +28,19 @@ body{
 }
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-
+button:disabled{cursor:not-allowed}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible{
+  outline:3px solid var(--yellow);
+  outline-offset:3px;
+}
 .hero{
   background:linear-gradient(135deg,#0064bc,#00bce5);
-  color:white;
-  text-align:center;
   padding:35px 20px 65px;
+  text-align:center;
   position:relative;
   overflow:hidden;
 }
@@ -46,7 +53,6 @@ button{cursor:pointer}
   border-radius:50%;
   top:-100px;
   right:-80px;
-  pointer-events:none;
 }
 .hero-logo{
   display:block;
@@ -54,11 +60,9 @@ button{cursor:pointer}
   width:100%;
   max-width:520px;
   height:auto;
-  margin:0 auto;
-  object-fit:contain;
+  margin:auto;
   filter:drop-shadow(0 10px 16px rgba(0,35,100,.18));
 }
-
 .container{
   max-width:1100px;
   margin:-28px auto 35px;
@@ -87,10 +91,14 @@ button{cursor:pointer}
   border-radius:13px;
   font-weight:900;
   color:var(--deep);
+  flex-shrink:0;
 }
 h2{font-size:23px;margin:0}
-.muted{color:#71859a;font-size:14px;line-height:1.6}
-
+.muted{
+  color:#71859a;
+  font-size:14px;
+  line-height:1.6;
+}
 .products{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -122,6 +130,7 @@ h2{font-size:23px;margin:0}
   width:100%;
   height:100%;
   object-fit:cover;
+  position:relative;
 }
 .placeholder{
   font-size:72px;
@@ -130,7 +139,7 @@ h2{font-size:23px;margin:0}
 .product-info{padding:16px}
 .product-info h3{margin:0 0 8px}
 .price{color:var(--blue);font-weight:900}
-.selected{
+.selected-label{
   display:inline-block;
   margin-top:10px;
   font-size:12px;
@@ -139,7 +148,6 @@ h2{font-size:23px;margin:0}
   padding:6px 11px;
   border-radius:30px;
 }
-
 .booking-grid{
   display:grid;
   grid-template-columns:1.1fr .9fr;
@@ -190,14 +198,13 @@ h2{font-size:23px;margin:0}
   background:#ffe3e6;
   color:#a6273b;
 }
-.day.selected{
+.day.selected-day{
   border:2px solid var(--blue);
   box-shadow:0 0 0 2px #b8eaff;
 }
 .day:disabled{
   background:#f0f2f4;
   color:#aeb9c3;
-  cursor:not-allowed;
 }
 .day .dot{
   position:absolute;
@@ -228,14 +235,14 @@ h2{font-size:23px;margin:0}
 }
 .swatch.green{background:#c9f2d8}
 .swatch.red{background:#ffd4da}
-
 label{
   display:block;
   font-size:14px;
   font-weight:bold;
   margin:15px 0 7px;
 }
-input:not([type=checkbox]),select,textarea{
+input:not([type=checkbox]),
+select,textarea{
   width:100%;
   border:1px solid #cbdde9;
   border-radius:12px;
@@ -277,6 +284,10 @@ textarea{min-height:95px;resize:vertical}
   gap:12px;
   padding:10px 0;
   border-bottom:1px dashed #c7dce9;
+}
+.line b,.line span:last-child{
+  text-align:right;
+  overflow-wrap:anywhere;
 }
 .line.total{
   font-size:21px;
@@ -325,10 +336,7 @@ textarea{min-height:95px;resize:vertical}
   font-size:18px;
   font-weight:900;
 }
-.submit:disabled{
-  opacity:.5;
-  cursor:not-allowed;
-}
+.submit:disabled{opacity:.5}
 .whatsapp{
   display:inline-block;
   background:#19ad67;
@@ -338,13 +346,46 @@ textarea{min-height:95px;resize:vertical}
   border-radius:40px;
   font-weight:bold;
 }
+.confirmation{
+  display:none;
+  margin-top:20px;
+  padding:24px;
+  border:2px solid #bcebd1;
+  border-radius:20px;
+  background:linear-gradient(160deg,#f1fff7,#effaff);
+  text-align:center;
+}
+.confirmation.show{display:block}
+.confirmation-icon{font-size:52px}
+.confirmation h3{
+  font-size:24px;
+  color:#12643b;
+  margin:12px 0;
+}
+.confirm-details{
+  text-align:left;
+  background:white;
+  border-radius:14px;
+  padding:14px;
+  margin:18px 0;
+}
+.confirm-details .line:last-child{border-bottom:0}
+.confirmation .whatsapp{
+  display:block;
+  max-width:390px;
+  margin:15px auto 0;
+}
+.confirmation-note{
+  font-size:13px;
+  line-height:1.6;
+  color:#536e81;
+}
 footer{
   text-align:center;
   color:#7890a5;
   padding:25px 15px 40px;
 }
 footer a{color:var(--blue)}
-
 @media(max-width:760px){
   .products{grid-template-columns:1fr}
   .product{
@@ -356,6 +397,14 @@ footer a{color:var(--blue)}
   .field-grid{grid-template-columns:1fr}
   .panel{padding:19px}
   .day{min-height:39px}
+  .section-title{gap:9px}
+  h2{font-size:20px}
+  .summary{padding:15px}
+  .line{font-size:14px;align-items:start}
+  .calendar{padding:10px}
+  .weekdays,.days{gap:4px}
+  .confirmation{padding:17px}
+  .confirmation h3{font-size:21px}
 }
 @media(max-width:600px){
   .hero{padding:25px 15px 55px}
@@ -398,9 +447,11 @@ footer a{color:var(--blue)}
     <div>
       <div class="calendar">
         <div class="calendar-head">
-          <button id="prevMonth" aria-label="Bulan sebelumnya">‹</button>
+          <button id="prevMonth" type="button"
+            aria-label="Bulan sebelumnya">‹</button>
           <strong id="monthTitle"></strong>
-          <button id="nextMonth" aria-label="Bulan seterusnya">›</button>
+          <button id="nextMonth" type="button"
+            aria-label="Bulan seterusnya">›</button>
         </div>
 
         <div class="weekdays">
@@ -416,8 +467,14 @@ footer a{color:var(--blue)}
         <div class="days" id="calendarDays"></div>
 
         <div class="legend">
-          <span><i class="swatch green"></i> Tiada tempahan</span>
-          <span><i class="swatch red"></i> Ada tempahan / sekatan</span>
+          <span>
+            <i class="swatch green"></i>
+            Tiada tempahan
+          </span>
+          <span>
+            <i class="swatch red"></i>
+            Ada tempahan / sekatan
+          </span>
         </div>
       </div>
 
@@ -432,7 +489,12 @@ footer a{color:var(--blue)}
       <input id="selectedDate" readonly>
 
       <label for="startTime">Masa Mula</label>
-      <input type="time" id="startTime" value="09:00" step="1800">
+      <input
+        type="time"
+        id="startTime"
+        value="09:00"
+        step="1800"
+      >
 
       <label for="duration">Tempoh Sewaan</label>
       <select id="duration"></select>
@@ -463,12 +525,21 @@ footer a{color:var(--blue)}
 
     <div>
       <label for="phone">Nombor Telefon *</label>
-      <input id="phone" type="tel" autocomplete="tel">
+      <input
+        id="phone"
+        type="tel"
+        autocomplete="tel"
+        inputmode="tel"
+      >
     </div>
 
     <div>
       <label for="email">E-mel (Pilihan)</label>
-      <input id="email" type="email" autocomplete="email">
+      <input
+        id="email"
+        type="email"
+        autocomplete="email"
+      >
     </div>
 
     <div>
@@ -502,7 +573,9 @@ footer a{color:var(--blue)}
       class="duitnow-qr"
     >
 
-    <p><strong>MUHAMMAD SYAHMI BIN AYUB</strong></p>
+    <p>
+      <strong>MUHAMMAD SYAHMI BIN AYUB</strong>
+    </p>
     <p>
       Nombor DuitNow:
       <strong>100363559609</strong>
@@ -514,7 +587,7 @@ footer a{color:var(--blue)}
     </p>
 
     <p class="muted">
-      Selepas membuat bayaran, upload bukti
+      Selepas membuat bayaran, muat naik bukti
       pembayaran di ruangan bawah.
     </p>
   </div>
@@ -533,7 +606,9 @@ footer a{color:var(--blue)}
     id="receipt"
     accept="image/jpeg,image/png,application/pdf"
   >
-  <p class="muted">JPG, PNG atau PDF. Maksimum 5 MB.</p>
+  <p class="muted">
+    JPG, PNG atau PDF. Maksimum 5 MB.
+  </p>
 
   <label class="agreement">
     <input type="checkbox" id="agree">
@@ -555,7 +630,11 @@ footer a{color:var(--blue)}
     sebelum menghantar tempahan.
   </div>
 
-  <div style="display:flex;justify-content:center;margin:20px 0">
+  <div style="
+    display:flex;
+    justify-content:center;
+    margin:20px 0;
+  ">
     <div
       class="cf-turnstile"
       data-sitekey="0x4AAAAAAFwqnwXT9GW7QzaU"
@@ -563,14 +642,64 @@ footer a{color:var(--blue)}
     ></div>
   </div>
 
-  <button class="submit" id="submit" disabled>
+  <button
+    class="submit"
+    id="submit"
+    type="button"
+    disabled
+  >
     💦 Hantar Tempahan
   </button>
+
+  <div
+    class="confirmation"
+    id="confirmation"
+    role="status"
+    aria-live="polite"
+    tabindex="-1"
+  >
+    <div class="confirmation-icon">🎉</div>
+
+    <h3>Tempahan Berjaya Dihantar!</h3>
+
+    <p>
+      Terima kasih kerana memilih
+      <strong>SPLASHVILLE!</strong>
+    </p>
+
+    <p>
+      🟡 <strong>MENUNGGU PENGESAHAN ADMIN</strong>
+    </p>
+
+    <div
+      class="confirm-details"
+      id="confirmDetails"
+    ></div>
+
+    <p class="confirmation-note">
+      Bukti pembayaran diterima untuk semakan.
+      Tempahan belum disahkan sehingga admin
+      membuat pengesahan.
+    </p>
+
+    <a
+      id="confirmWhatsapp"
+      class="whatsapp"
+      href="https://wa.me/60183860442"
+      target="_blank"
+      rel="noopener"
+    >
+      💬 Hantar Rujukan ke WhatsApp
+    </a>
+  </div>
 </section>
 
 <section class="panel" style="text-align:center">
   <h2>Ada Pertanyaan?</h2>
-  <p>Hubungi SPLASHVILLE untuk bantuan tempahan.</p>
+  <p>
+    Hubungi SPLASHVILLE untuk bantuan tempahan.
+  </p>
+
   <a
     class="whatsapp"
     href="https://wa.me/60183860442"
@@ -589,13 +718,14 @@ footer a{color:var(--blue)}
 </footer>
 
 <script type="module">
+
 import {createClient} from
   "https://esm.sh/@supabase/supabase-js@2";
 
-const SUPABASE_URL=
+const SUPABASE_URL =
   "https://voegwnwppizteaoqeckk.supabase.co";
 
-const SUPABASE_KEY=
+const SUPABASE_KEY =
   "sb_publishable_G_olNSg_naTLQ7fGEOtwng_dTYDyFfh";
 
 const db=createClient(SUPABASE_URL,SUPABASE_KEY);
@@ -632,6 +762,7 @@ let busySlots=[];
 let available=false;
 let calendarLoaded=false;
 let submitting=false;
+let bookingComplete=false;
 let requestVersion=0;
 
 const money=n=>"RM "+Number(n).toFixed(2);
@@ -659,15 +790,107 @@ selectedDate=today;
 const [year,month]=today.split("-").map(Number);
 viewMonth=new Date(year,month-1,1);
 
+function formatMalaysia(date){
+  return new Intl.DateTimeFormat("ms-MY",{
+    timeZone:"Asia/Kuala_Lumpur",
+    day:"numeric",
+    month:"long",
+    year:"numeric",
+    hour:"2-digit",
+    minute:"2-digit",
+    hour12:true
+  }).format(date);
+}
+
+function resetConfirmation(){
+  bookingComplete=false;
+  $("confirmation").classList.remove("show");
+}
+
+function showConfirmation(data,slot,chosenProduct){
+  const id=String(
+    data.booking_id||
+    data.id||
+    data.booking?.id||
+    "Tidak tersedia"
+  );
+
+  const price=Number(
+    data.rental_price ??
+    chosenProduct.prices[slot.hours]
+  );
+
+  const deposit=Number(
+    data.booking_deposit ?? price/2
+  );
+
+  const security=Number(
+    data.security_deposit ?? 100
+  );
+
+  const payment=Number(
+    data.payment_now ?? deposit+security
+  );
+
+  const details=$("confirmDetails");
+  details.replaceChildren();
+
+  function addLine(label,value){
+    const line=document.createElement("div");
+    line.className="line";
+
+    const left=document.createElement("span");
+    left.textContent=label;
+
+    const right=document.createElement("b");
+    right.textContent=value;
+
+    line.append(left,right);
+    details.append(line);
+  }
+
+  addLine("No. Rujukan",id);
+  addLine("Produk",chosenProduct.name);
+  addLine("Masa mula",formatMalaysia(slot.start));
+  addLine("Masa tamat",formatMalaysia(slot.end));
+  addLine("Tempoh",slot.hours+" jam");
+  addLine("Bayaran dihantar",money(payment));
+  addLine("Status","PENDING – semakan admin");
+
+  const message=[
+    "Hai SPLASHVILLE!",
+    "Saya telah menghantar tempahan untuk semakan.",
+    "",
+    "No. Rujukan: "+id,
+    "Produk: "+chosenProduct.name,
+    "Mula: "+formatMalaysia(slot.start),
+    "Tempoh: "+slot.hours+" jam",
+    "Bayaran untuk semakan: "+money(payment),
+    "",
+    "Mohon semak tempahan saya. Terima kasih!"
+  ].join("\n");
+
+  $("confirmWhatsapp").href=
+    "https://wa.me/60183860442?text="+
+    encodeURIComponent(message);
+
+  $("confirmation").classList.add("show");
+
+  $("confirmation").scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+}
+
 function renderProducts(){
   $("products").replaceChildren();
 
   for(const p of catalog){
     const button=document.createElement("button");
     button.type="button";
-    button.className="product"+(
-      p.id===product.id?" active":""
-    );
+
+    button.className="product"+
+      (p.id===product.id?" active":"");
 
     const photo=document.createElement("div");
     photo.className="photo";
@@ -679,6 +902,7 @@ function renderProducts(){
     const img=document.createElement("img");
     img.src=p.image;
     img.alt=p.name;
+    img.loading="lazy";
     img.onerror=()=>img.style.display="none";
 
     photo.append(placeholder,img);
@@ -696,18 +920,22 @@ function renderProducts(){
     );
 
     const chosen=document.createElement("span");
-    chosen.className="selected";
-    chosen.textContent=p.id===product.id
-      ?"✓ Dipilih":"Pilih Produk";
+    chosen.className="selected-label";
+    chosen.textContent=
+      p.id===product.id?"✓ Dipilih":"Pilih Produk";
 
     info.append(title,price,chosen);
     button.append(photo,info);
 
     button.onclick=async()=>{
       if(submitting)return;
+
+      resetConfirmation();
       product=p;
+
       renderProducts();
       renderDurations();
+
       await loadMonth();
     };
 
@@ -739,6 +967,7 @@ function getSlot(){
   );
 
   const hours=Number($("duration").value);
+
   const end=new Date(
     start.getTime()+hours*3600000
   );
@@ -764,30 +993,37 @@ function updateSummary(){
       <span>Produk</span>
       <b>${product.name}</b>
     </div>
+
     <div class="line">
       <span>Tempoh</span>
       <b>${hours} jam</b>
     </div>
+
     <div class="line">
       <span>Harga Sewaan</span>
       <b>${money(price)}</b>
     </div>
+
     <div class="line">
       <span>Deposit Tempahan 50%</span>
       <b>${money(deposit)}</b>
     </div>
+
     <div class="line">
       <span>Deposit Keselamatan</span>
       <b>${money(100)}</b>
     </div>
+
     <div class="line total">
       <span>Bayaran tempahan</span>
       <span>${money(deposit+100)}</span>
     </div>
+
     <div class="line">
       <span>Baki Bayaran</span>
       <b>${money(deposit)}</b>
     </div>
+
     <div class="line">
       <span>Caj Penghantaran</span>
       <b>Belum termasuk</b>
@@ -810,19 +1046,17 @@ async function loadMonth(){
   $("slotStatus").className="status";
   $("slotStatus").textContent="Memuatkan kalendar...";
 
-  const first=new Date(
-    Date.UTC(
-      viewMonth.getFullYear(),
-      viewMonth.getMonth(),1
-    )
-  );
+  const first=new Date(Date.UTC(
+    viewMonth.getFullYear(),
+    viewMonth.getMonth(),
+    1
+  ));
 
-  const last=new Date(
-    Date.UTC(
-      viewMonth.getFullYear(),
-      viewMonth.getMonth()+1,1
-    )
-  );
+  const last=new Date(Date.UTC(
+    viewMonth.getFullYear(),
+    viewMonth.getMonth()+1,
+    1
+  ));
 
   const from=new Date(
     first.getTime()-4*86400000
@@ -842,7 +1076,6 @@ async function loadMonth(){
     );
 
     if(version!==requestVersion)return;
-
     if(error)throw error;
 
     busySlots=data||[];
@@ -901,7 +1134,10 @@ function renderCalendar(){
     );
 
     const busy=busySlots.some(s=>
-      overlaps(start,end,s.start_at,s.end_at)
+      overlaps(
+        start,end,
+        s.start_at,s.end_at
+      )
     );
 
     const btn=document.createElement("button");
@@ -909,10 +1145,14 @@ function renderCalendar(){
 
     btn.className="day"+
       (busy?" busy":"")+
-      (date===selectedDate?" selected":"");
+      (date===selectedDate?" selected-day":"");
 
     btn.textContent=day;
-    btn.disabled=date<today||!calendarLoaded;
+
+    btn.disabled=
+      date<nowMalaysia()||
+      !calendarLoaded||
+      submitting;
 
     if(busy){
       const dot=document.createElement("i");
@@ -922,6 +1162,8 @@ function renderCalendar(){
 
     btn.onclick=()=>{
       if(submitting)return;
+
+      resetConfirmation();
 
       selectedDate=date;
       $("selectedDate").value=date;
@@ -974,7 +1216,9 @@ function checkSlot(){
   }
 
   available=!busy;
-  $("submit").disabled=!available||submitting;
+
+  $("submit").disabled=
+    !available||submitting||bookingComplete;
 }
 
 $("prevMonth").onclick=()=>{
@@ -982,13 +1226,14 @@ $("prevMonth").onclick=()=>{
 
   const previous=new Date(
     viewMonth.getFullYear(),
-    viewMonth.getMonth()-1,1
+    viewMonth.getMonth()-1,
+    1
   );
 
   const current=new Date(year,month-1,1);
-
   if(previous<current)return;
 
+  resetConfirmation();
   viewMonth=previous;
   loadMonth();
 };
@@ -996,17 +1241,24 @@ $("prevMonth").onclick=()=>{
 $("nextMonth").onclick=()=>{
   if(submitting)return;
 
+  resetConfirmation();
+
   viewMonth=new Date(
     viewMonth.getFullYear(),
-    viewMonth.getMonth()+1,1
+    viewMonth.getMonth()+1,
+    1
   );
 
   loadMonth();
 };
 
-$("startTime").onchange=checkSlot;
+$("startTime").onchange=()=>{
+  resetConfirmation();
+  checkSlot();
+};
 
 $("duration").onchange=()=>{
+  resetConfirmation();
   updateSummary();
   checkSlot();
 };
@@ -1028,7 +1280,9 @@ function fileToBase64(file){
     };
 
     reader.onerror=()=>{
-      reject(new Error("Gagal membaca resit bayaran."));
+      reject(new Error(
+        "Gagal membaca resit bayaran."
+      ));
     };
 
     reader.readAsDataURL(file);
@@ -1036,7 +1290,7 @@ function fileToBase64(file){
 }
 
 $("submit").onclick=async()=>{
-  if(submitting)return;
+  if(submitting||bookingComplete)return;
 
   const slot=getSlot();
 
@@ -1047,7 +1301,6 @@ $("submit").onclick=async()=>{
   const notes=$("notes").value.trim();
 
   const receipt=$("receipt").files[0];
-
   const token=window.turnstile?.getResponse()||"";
 
   if(
@@ -1124,8 +1377,10 @@ $("submit").onclick=async()=>{
   }
 
   submitting=true;
+
   $("submit").disabled=true;
-  $("submit").textContent="⏳ Menghantar Tempahan...";
+  $("submit").textContent=
+    "⏳ Menghantar Tempahan...";
 
   setResult(
     "Sedang menghantar tempahan. Sila tunggu."
@@ -1134,25 +1389,24 @@ $("submit").onclick=async()=>{
   let submitted=false;
 
   try{
-    const receipt_base64=
+    const receiptBase64=
       await fileToBase64(receipt);
 
-   
-const payload={
-  product_id:product.id,
-  customer_name:name,
-  phone:phone,
-  email:email,
-  delivery_address:address,
-  notes:notes,
-  start_at:slot.start.toISOString(),
-  duration_hours:slot.hours,
-  receipt:{
-    base64:receipt_base64,
-    type:receipt.type
-  },
-  turnstile_token:token
-};
+    const payload={
+      product_id:product.id,
+      customer_name:name,
+      phone:phone,
+      email:email,
+      delivery_address:address,
+      notes:notes,
+      start_at:slot.start.toISOString(),
+      duration_hours:slot.hours,
+      receipt:{
+        base64:receiptBase64,
+        type:receipt.type
+      },
+      turnstile_token:token
+    };
 
     const response=await fetch(
       SUPABASE_URL+"/functions/v1/create-booking",
@@ -1176,7 +1430,8 @@ const payload={
       throw new Error(
         data.error||
         data.message||
-        "Tempahan gagal dihantar. HTTP "+response.status
+        "Tempahan gagal dihantar. HTTP "+
+        response.status
       );
     }
 
@@ -1186,6 +1441,9 @@ const payload={
       data.booking?.id;
 
     submitted=true;
+    bookingComplete=true;
+
+    showConfirmation(data,slot,product);
 
     setResult(
       "✅ Tempahan berjaya dihantar!"+
@@ -1209,22 +1467,26 @@ const payload={
 
   }finally{
     submitting=false;
-    $("submit").textContent="💦 Hantar Tempahan";
+
+    $("submit").textContent=
+      "💦 Hantar Tempahan";
 
     window.turnstile?.reset();
 
     if(submitted){
-      // Elak penghantaran berganda selepas berjaya.
       available=false;
       calendarLoaded=false;
       $("submit").disabled=true;
 
-      // Kemas kini kalendar tanpa memadam mesej kejayaan.
       await loadMonth();
+
+      // Kekalkan butang disabled selepas berjaya.
       $("submit").disabled=true;
     }else{
       $("submit").disabled=
-        !available||!calendarLoaded;
+        !available||
+        !calendarLoaded||
+        bookingComplete;
     }
   }
 };
