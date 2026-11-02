@@ -5,192 +5,137 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SPLASHVILLE Admin</title>
-
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- background:#f2f7fc;
- color:#183451;
- font-family:Arial,sans-serif;
-}
-header{
- background:linear-gradient(135deg,#086fc1,#00b6df);
- color:white;
- padding:23px;
-}
+body{margin:0;background:#f2f7fc;color:#183451;font-family:Arial,sans-serif}
+header{background:linear-gradient(135deg,#086fc1,#00b6df);color:white;padding:23px}
 header h1{margin:0 0 10px}
-main{
- max-width:1100px;
- margin:25px auto;
- padding:15px;
-}
-.panel{
- background:white;
- padding:23px;
- border-radius:17px;
- margin-bottom:18px;
- box-shadow:0 5px 22px #12578415;
-}
-input,select{
- padding:12px;
- border:1px solid #c7d5e1;
- border-radius:9px;
- width:100%;
-}
-label{
- display:block;
- font-weight:bold;
- margin:10px 0 6px;
-}
-button{
- border:0;
- border-radius:9px;
- padding:11px 14px;
- background:#0879cb;
- color:white;
- font-weight:bold;
- cursor:pointer;
-}
-button:disabled{
- opacity:.45;
- cursor:not-allowed;
-}
+main{max-width:1150px;margin:25px auto;padding:15px}
+.panel{background:#fff;padding:23px;border-radius:17px;margin-bottom:18px;box-shadow:0 5px 22px #12578415}
+input,select,textarea{padding:12px;border:1px solid #c7d5e1;border-radius:9px;width:100%;font:inherit}
+textarea{min-height:85px;resize:vertical}
+label{display:block;font-weight:bold;margin:10px 0 6px}
+button{border:0;border-radius:9px;padding:11px 14px;background:#0879cb;color:#fff;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
 button.danger{background:#c93e48}
 button.secondary{background:#627a91}
 button.success{background:#168653}
-button.receipt-btn{background:#6645bd}
-.grid,.bookings{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:14px;
-}
-.booking{
- border:1px solid #d9e6f1;
- border-radius:14px;
- padding:17px;
- line-height:1.8;
- overflow-wrap:anywhere;
-}
-.actions{
- display:flex;
- flex-wrap:wrap;
- gap:7px;
- margin-top:12px;
-}
-.notice{
- padding:13px;
- background:#e9f6ff;
- border-radius:10px;
- margin:12px 0;
-}
-.hide{display:none}
-.muted{
- color:#60758b;
- font-size:13px;
-}
-.badge{
- display:inline-block;
- padding:4px 10px;
- border-radius:20px;
- font-size:12px;
- font-weight:bold;
-}
-.badge.green{
- background:#def8e9;
- color:#147345;
-}
-.badge.yellow{
- background:#fff2cc;
- color:#946400;
-}
-.badge.red{
- background:#ffe3e6;
- color:#b12d40;
-}
-.payment-box{
- margin-top:12px;
- padding:13px;
- background:#f1f9ff;
- border-radius:10px;
-}
-@media(max-width:700px){
- .grid,.bookings{grid-template-columns:1fr}
- .panel{padding:17px}
-}
+button.purple{background:#6645bd}
+button.orange{background:#d67b16}
+.grid,.bookings{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.booking{border:1px solid #d9e6f1;border-radius:14px;padding:17px;line-height:1.8;overflow-wrap:anywhere}
+.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.notice{padding:13px;background:#e9f6ff;border-radius:10px;margin:12px 0;overflow-wrap:anywhere}
+.hide{display:none!important}
+.muted{color:#60758b;font-size:13px}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.badge.green{background:#def8e9;color:#147345}
+.badge.yellow{background:#fff2cc;color:#946400}
+.badge.red{background:#ffe3e6;color:#b12d40}
+.payment-box{margin-top:12px;padding:13px;background:#f1f9ff;border-radius:10px}
+.deposit-box{margin-top:12px;padding:13px;background:#f7f3ff;border:1px solid #e5d9ff;border-radius:10px}
+.deposit-box h4{margin:0 0 8px;color:#6645bd}
+.refund-total{font-size:22px;font-weight:900;color:#168653}
+.modal-backdrop{position:fixed;inset:0;background:#092b4bbd;display:flex;align-items:center;justify-content:center;padding:16px;z-index:100}
+.modal{background:#fff;border-radius:18px;padding:23px;width:100%;max-width:530px;max-height:90vh;overflow:auto}
+.modal h2{margin-top:0}
+.modal .actions{justify-content:flex-end}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #ffcf3f;outline-offset:2px}
+@media(max-width:700px){.grid,.bookings{grid-template-columns:1fr}.panel{padding:17px}}
 </style>
 </head>
-
 <body>
 
 <header>
 <h1>💦 SPLASHVILLE Admin</h1>
-<a href="index.html" style="color:white">
- ← Website Pelanggan
-</a>
+<a href="index.html" style="color:white">← Website Pelanggan</a>
 </header>
 
 <main>
-
 <section class="panel" id="login">
 <h2>Log Masuk Admin</h2>
-
 <div class="grid">
- <div>
-  <label>E-mel Admin</label>
-  <input id="email" type="email">
- </div>
-
- <div>
-  <label>Password</label>
-  <input id="password" type="password">
- </div>
+<div>
+<label for="email">E-mel Admin</label>
+<input id="email" type="email">
 </div>
-
+<div>
+<label for="password">Password</label>
+<input id="password" type="password">
+</div>
+</div>
 <div class="actions">
- <button id="signIn">Log Masuk</button>
+<button id="signIn">Log Masuk</button>
 </div>
 </section>
 
 <section class="panel hide" id="dashboard">
 <h2>Dashboard Tempahan</h2>
-
 <div class="actions">
- <button id="refresh">Refresh</button>
- <button id="logout" class="secondary">
-  Log Keluar
- </button>
+<button id="refresh">Refresh</button>
+<button id="logout" class="secondary">Log Keluar</button>
 </div>
 
 <div class="grid">
- <div>
-  <label>Status Tempahan</label>
-  <select id="filter">
-   <option value="ALL">Semua</option>
-   <option value="PENDING">Pending</option>
-   <option value="CONFIRMED">Confirmed</option>
-   <option value="CANCELLED">Cancelled</option>
-  </select>
- </div>
-
- <div>
-  <label>Cari Nama / Telefon</label>
-  <input id="search" placeholder="Cari tempahan">
- </div>
+<div>
+<label for="filter">Status Tempahan</label>
+<select id="filter">
+<option value="ALL">Semua</option>
+<option value="PENDING">Pending</option>
+<option value="CONFIRMED">Confirmed</option>
+<option value="CANCELLED">Cancelled</option>
+</select>
+</div>
+<div>
+<label for="search">Cari Nama / Telefon / ID</label>
+<input id="search" placeholder="Cari tempahan">
+</div>
 </div>
 
 <p id="count"></p>
 <div class="bookings" id="bookings"></div>
 </section>
 
-<div class="notice" id="message">
+<div class="notice" id="message" role="status">
 Log masuk menggunakan akaun admin Supabase.
 </div>
-
 </main>
 
-<script type="module">
+<!-- MODAL DEPOSIT KESELAMATAN -->
+<div class="modal-backdrop hide" id="depositModal">
+<div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<h2 id="modalTitle">💰 Urus Deposit Keselamatan</h2>
+<p id="modalCustomer"></p>
 
+<div class="payment-box">
+Deposit keselamatan diterima: <b>RM100.00</b>
+</div>
+
+<label for="deduction">Jumlah Tidak Dipulangkan (RM)</label>
+<input id="deduction" type="number" min="0" max="100" step="0.01" placeholder="Contoh: 30.00">
+
+<label for="deductionReason">Sebab Potongan</label>
+<textarea id="deductionReason" placeholder="Contoh: Kerosakan pada peralatan"></textarea>
+
+<div class="deposit-box">
+<div>Jumlah ditahan: <b id="deductPreview">RM0.00</b></div>
+<div>Jumlah perlu dipulangkan:</div>
+<div class="refund-total" id="refundPreview">RM100.00</div>
+</div>
+
+<p class="muted">
+Simpan rekod dahulu. Selepas wang benar-benar dipulangkan,
+tekan "Sahkan Sudah Dipulangkan" pada tempahan.
+</p>
+
+<div class="actions">
+<button id="closeDeposit" class="secondary">Tutup</button>
+<button id="saveDeposit" class="success">Simpan Rekod</button>
+</div>
+</div>
+</div>
+
+<script type="module">
 import {createClient} from
 "https://esm.sh/@supabase/supabase-js@2";
 
@@ -200,8 +145,10 @@ const db=createClient(
 );
 
 const $=id=>document.getElementById(id);
+const SECURITY=100;
 
 let records=[];
+let editingDepositId=null;
 let busy=false;
 
 const names={
@@ -232,19 +179,54 @@ function msg(s){
  $("message").textContent=s;
 }
 
-async function checkLogin(){
- const {data:{session}}=await db.auth.getSession();
+function moneyInfo(b){
+ const rental=Number(b.rental_price||0);
+ const deposit=Number(b.booking_deposit??rental/2);
+ const delivery=Number(b.delivery_fee||0);
 
- if(!session){
+ return {
+  rental,
+  deposit,
+  balance:rental-deposit,
+  delivery,
+  security:SECURITY,
+  total:rental+delivery+SECURITY,
+  remaining:rental-deposit+delivery,
+  initial:deposit+SECURITY
+ };
+}
+
+function depositInfo(b){
+ const recorded=
+  b.security_deduction!==null &&
+  b.security_deduction!==undefined;
+
+ const deduction=recorded
+  ?Number(b.security_deduction)
+  :0;
+
+ return {
+  recorded,
+  deduction,
+  refund:SECURITY-deduction,
+  status:b.security_refund_status||"NOT_PROCESSED"
+ };
+}
+
+async function checkLogin(){
+ const {data:{session},error:sessionError}=
+  await db.auth.getSession();
+
+ if(sessionError||!session){
   $("login").classList.remove("hide");
   $("dashboard").classList.add("hide");
   return;
  }
 
  const {data,error}=await db.from("admins")
- .select("user_id")
- .eq("user_id",session.user.id)
- .maybeSingle();
+  .select("user_id")
+  .eq("user_id",session.user.id)
+  .maybeSingle();
 
  if(error||!data){
   await db.auth.signOut();
@@ -278,6 +260,8 @@ $("signIn").onclick=async()=>{
 
 $("logout").onclick=async()=>{
  await db.auth.signOut();
+ closeDeposit();
+ records=[];
  await checkLogin();
 };
 
@@ -287,9 +271,9 @@ async function load(){
  msg("Memuatkan tempahan...");
 
  const {data,error}=await db.from("bookings")
- .select("*")
- .order("created_at",{ascending:false})
- .limit(500);
+  .select("*")
+  .order("created_at",{ascending:false})
+  .limit(500);
 
  if(error){
   msg("Gagal membaca tempahan: "+error.message);
@@ -298,7 +282,6 @@ async function load(){
 
  records=data||[];
  render();
-
  msg("Data berjaya dikemas kini.");
 }
 
@@ -329,18 +312,16 @@ function render(){
 
   const paid=b.full_payment_confirmed===true;
   const cancelled=b.booking_status==="CANCELLED";
+  const m=moneyInfo(b);
+  const d=depositInfo(b);
 
-  const paymentBadge=cancelled
-   ?'<span class="badge red">DIBATALKAN</span>'
-   :paid
-    ?'<span class="badge green">BAYARAN PENUH</span>'
-    :'<span class="badge yellow">BAKI BELUM DISAHKAN</span>';
-
-  const rental=Number(b.rental_price||0);
-  const deposit=Number(b.booking_deposit||rental/2);
-  const balance=rental-deposit;
-  const security=100;
-  const total=rental+security;
+  let depositStatus="BELUM DIREKOD";
+  if(d.status==="PENDING_REFUND"){
+   depositStatus="MENUNGGU PEMULANGAN";
+  }
+  if(d.status==="REFUNDED"){
+   depositStatus="SELESAI DIPROSES";
+  }
 
   card.innerHTML=`
    <b>${escapeHTML(b.customer_name)}</b>
@@ -350,40 +331,52 @@ function render(){
     ${escapeHTML(b.booking_status)}
    </p>
 
-   ${paymentBadge}
+   <span class="badge ${cancelled?"red":paid?"green":"yellow"}">
+    ${cancelled?"DIBATALKAN":paid?"BAYARAN PENUH":"BAKI BELUM DISAHKAN"}
+   </span>
 
-   <div>
-    ${escapeHTML(names[b.product_id]||b.product_id)}
-   </div>
-
-   <div>
-    📅 ${date(b.start_at)} → ${date(b.end_at)}
-   </div>
-
-   <div>
-    📞 ${escapeHTML(b.phone)}
-   </div>
-
-   <div>
-    📍 ${escapeHTML(b.delivery_address)}
-   </div>
+   <div>${escapeHTML(names[b.product_id]||b.product_id)}</div>
+   <div>📅 ${date(b.start_at)} → ${date(b.end_at)}</div>
+   <div>📞 ${escapeHTML(b.phone)}</div>
+   <div>📍 ${escapeHTML(b.delivery_address)}</div>
 
    <div class="payment-box">
     <b>Ringkasan Bayaran</b>
-    <div>Harga Sewaan: ${rm(rental)}</div>
-    <div>Deposit Tempahan: ${rm(deposit)}</div>
-    <div>Baki Sewaan: ${rm(balance)}</div>
-    <div>Deposit Keselamatan: ${rm(security)}</div>
-    <div><b>Jumlah: ${rm(total)}</b></div>
-    <div>
-     Status Bayaran Awal:
+    <div>Harga Sewaan: ${rm(m.rental)}</div>
+    <div>Deposit Tempahan 50%: ${rm(m.deposit)}</div>
+    <div>Baki Sewaan: ${rm(m.balance)}</div>
+    <div>🚚 Caj Penghantaran: <b>${rm(m.delivery)}</b></div>
+    <div>Deposit Keselamatan: ${rm(SECURITY)}</div>
+    <div><b>Jumlah Keseluruhan: ${rm(m.total)}</b></div>
+    <div>Bayaran Awal: ${rm(m.initial)}</div>
+    <div><b>Baki Termasuk Penghantaran: ${rm(m.remaining)}</b></div>
+    <div>Status Bayaran Awal:
      ${escapeHTML(b.payment_status)}
     </div>
    </div>
 
-   <div class="muted">
-    ID: ${escapeHTML(b.id)}
+   <div class="deposit-box">
+    <h4>Deposit Keselamatan</h4>
+    <div>Status: <b>${depositStatus}</b></div>
+    <div>Jumlah Tidak Dipulangkan:
+     <b>${d.recorded?rm(d.deduction):"Belum ditetapkan"}</b>
+    </div>
+    <div>Jumlah Perlu Dipulangkan:
+     <b>${d.recorded?rm(d.refund):"Belum ditetapkan"}</b>
+    </div>
+    ${d.recorded?`
+     <div>Sebab:
+      ${escapeHTML(b.security_deduction_reason||"Tiada potongan")}
+     </div>
+    `:""}
+    ${d.status==="REFUNDED"&&b.security_refunded_at?`
+     <div>Tarikh selesai:
+      ${date(b.security_refunded_at)}
+     </div>
+    `:""}
    </div>
+
+   <div class="muted">ID: ${escapeHTML(b.id)}</div>
   `;
 
   const actions=document.createElement("div");
@@ -418,6 +411,13 @@ function render(){
    cancelled||paid
   );
 
+  add(
+   "🚚 Tetapkan Caj Penghantaran",
+   ()=>setDeliveryFee(b),
+   "orange",
+   cancelled||paid
+  );
+
   if(!paid){
    add(
     "💰 Rekod Bayaran Penuh",
@@ -429,31 +429,55 @@ function render(){
    );
   }else{
    add(
-    "↩ Batalkan Status Bayaran Penuh",
+    "↩ Batal Pengesahan Bayaran Penuh",
     ()=>undoFullPayment(b),
     "secondary",
+    cancelled||d.recorded
+   );
+  }
+
+  add(
+   "🧾 Jana Resit Bayaran Penuh",
+   ()=>generateReceipt(b),
+   "purple",
+   !paid||cancelled
+  );
+
+  add(
+   "💵 Urus Deposit Keselamatan",
+   ()=>openDeposit(b),
+   "purple",
+   !paid||cancelled||d.status==="REFUNDED"
+  );
+
+  if(d.recorded&&d.status==="PENDING_REFUND"){
+   add(
+    "✓ Sahkan Sudah Dipulangkan",
+    ()=>confirmRefund(b),
+    "success",
     cancelled
    );
   }
 
   add(
-   "🧾 Jana Resit PDF",
-   ()=>generateReceipt(b),
-   "receipt-btn",
-   !paid||cancelled
+   "📄 Slip Pemulangan Deposit",
+   ()=>generateRefundSlip(b),
+   "purple",
+   !d.recorded||d.status!=="REFUNDED"
   );
 
   add("Edit",()=>edit(b),"secondary");
 
-  add("Batal",async()=>{
-   if(confirm(
-    "Batalkan tempahan ini? Slot akan dibuka semula."
-   )){
-    await update(b.id,{
-     booking_status:"CANCELLED"
-    });
-   }
-  },"danger",cancelled);
+  add(
+   "Batal",
+   async()=>{
+    if(confirm("Batalkan tempahan ini? Slot akan dibuka semula.")){
+     await update(b.id,{booking_status:"CANCELLED"});
+    }
+   },
+   "danger",
+   cancelled
+  );
 
   if(b.receipt_path){
    add(
@@ -469,26 +493,82 @@ function render(){
 }
 
 async function update(id,changes){
- if(busy)return;
-
+ if(busy)return false;
  busy=true;
 
  try{
-  const {error}=await db.from("bookings")
+  const {data,error}=await db.from("bookings")
    .update(changes)
-   .eq("id",id);
+   .eq("id",id)
+   .select("id")
+   .single();
 
-  if(error){
-   msg("Gagal update: "+error.message);
-   return;
+  if(error||!data){
+   msg("Gagal update: "+(error?.message||"Rekod tidak dijumpai."));
+   return false;
   }
 
   await load();
+  return true;
 
  }finally{
   busy=false;
  }
 }
+
+/* CAJ PENGHANTARAN */
+
+async function setDeliveryFee(b){
+ if(b.full_payment_confirmed){
+  msg("Batalkan pengesahan bayaran penuh dahulu jika caj perlu dibetulkan.");
+  return;
+ }
+
+ const current=Number(b.delivery_fee||0);
+
+ const input=prompt(
+  "🚚 CAJ PENGHANTARAN SPLASHVILLE\n\n"+
+  "Pelanggan: "+b.customer_name+"\n"+
+  "Produk: "+(names[b.product_id]||b.product_id)+"\n\n"+
+  "Masukkan caj penghantaran (RM):",
+  current.toFixed(2)
+ );
+
+ if(input===null)return;
+
+ const raw=input.trim();
+ const amount=Number(raw);
+
+ if(
+  !/^\d+(\.\d{1,2})?$/.test(raw)||
+  !Number.isFinite(amount)||
+  amount<0||
+  amount>10000
+ ){
+  msg("Caj penghantaran tidak sah. Masukkan RM0 hingga RM10000.");
+  return;
+ }
+
+ const rental=Number(b.rental_price||0);
+ const deposit=Number(b.booking_deposit??rental/2);
+ const total=rental+SECURITY+amount;
+ const remaining=rental-deposit+amount;
+
+ if(!confirm(
+  "SAHKAN CAJ PENGHANTARAN\n\n"+
+  "Pelanggan: "+b.customer_name+"\n"+
+  "Harga sewaan: "+rm(rental)+"\n"+
+  "Caj penghantaran: "+rm(amount)+"\n"+
+  "Deposit keselamatan: "+rm(SECURITY)+"\n\n"+
+  "JUMLAH KESELURUHAN: "+rm(total)+"\n"+
+  "Baki perlu diterima: "+rm(remaining)+"\n\n"+
+  "Simpan caj ini?"
+ ))return;
+
+ await update(b.id,{delivery_fee:amount});
+}
+
+/* BAYARAN PENUH */
 
 async function confirmFullPayment(b){
  if(
@@ -499,20 +579,20 @@ async function confirmFullPayment(b){
   return;
  }
 
- const rental=Number(b.rental_price||0);
- const deposit=Number(b.booking_deposit||rental/2);
- const balance=rental-deposit;
+ const m=moneyInfo(b);
 
- const okay=confirm(
+ if(!confirm(
   "SAHKAN BAYARAN PENUH\n\n"+
   "Pelanggan: "+b.customer_name+"\n"+
-  "Produk: "+(names[b.product_id]||b.product_id)+"\n"+
-  "Baki sewaan: "+rm(balance)+"\n\n"+
-  "Pastikan baki bayaran telah benar-benar diterima.\n\n"+
+  "Harga sewaan: "+rm(m.rental)+"\n"+
+  "Deposit awal: "+rm(m.initial)+"\n"+
+  "Baki sewaan: "+rm(m.balance)+"\n"+
+  "Caj penghantaran: "+rm(m.delivery)+"\n\n"+
+  "BAKI PERLU DITERIMA: "+rm(m.remaining)+"\n"+
+  "JUMLAH KESELURUHAN: "+rm(m.total)+"\n\n"+
+  "Pastikan wang telah benar-benar diterima.\n"+
   "Teruskan?"
- );
-
- if(!okay)return;
+ ))return;
 
  await update(b.id,{
   full_payment_confirmed:true,
@@ -521,13 +601,15 @@ async function confirmFullPayment(b){
 }
 
 async function undoFullPayment(b){
- const okay=confirm(
-  "Batalkan pengesahan bayaran penuh untuk "+
-  b.customer_name+"?\n\n"+
-  "Resit yang pernah dihantar perlu disemak semula."
- );
+ if(depositInfo(b).recorded){
+  msg("Rekod deposit keselamatan sudah dibuat. Semak rekod sebelum mengubah status bayaran penuh.");
+  return;
+ }
 
- if(!okay)return;
+ if(!confirm(
+  "Batalkan status bayaran penuh?\n"+
+  "Resit terdahulu perlu disemak semula."
+ ))return;
 
  await update(b.id,{
   full_payment_confirmed:false,
@@ -535,10 +617,138 @@ async function undoFullPayment(b){
  });
 }
 
+/* URUS DEPOSIT KESELAMATAN */
+
+function openDeposit(b){
+ const d=depositInfo(b);
+
+ if(!b.full_payment_confirmed){
+  msg("Sahkan bayaran penuh dahulu.");
+  return;
+ }
+
+ if(d.status==="REFUNDED"){
+  msg("Pemulangan telah direkod sebagai selesai.");
+  return;
+ }
+
+ editingDepositId=b.id;
+ $("modalCustomer").textContent="Pelanggan: "+b.customer_name;
+
+ $("deduction").value=d.recorded
+  ?d.deduction.toFixed(2)
+  :"0.00";
+
+ $("deductionReason").value=
+  b.security_deduction_reason||"";
+
+ calculateRefund();
+ $("depositModal").classList.remove("hide");
+ $("deduction").focus();
+}
+
+function closeDeposit(){
+ editingDepositId=null;
+ $("depositModal").classList.add("hide");
+}
+
+$("closeDeposit").onclick=closeDeposit;
+
+function calculateRefund(){
+ const raw=$("deduction").value.trim();
+ const n=Number(raw);
+
+ const valid=
+  /^\d+(\.\d{1,2})?$/.test(raw)&&
+  Number.isFinite(n)&&n>=0&&n<=100;
+
+ $("saveDeposit").disabled=!valid;
+
+ if(!valid){
+  $("deductPreview").textContent="Tidak sah";
+  $("refundPreview").textContent="—";
+  return;
+ }
+
+ $("deductPreview").textContent=rm(n);
+ $("refundPreview").textContent=rm(SECURITY-n);
+}
+
+$("deduction").oninput=calculateRefund;
+
+$("saveDeposit").onclick=async()=>{
+ if(!editingDepositId)return;
+
+ const raw=$("deduction").value.trim();
+ const deduction=Number(raw);
+ const reason=$("deductionReason").value.trim();
+
+ if(
+  !/^\d+(\.\d{1,2})?$/.test(raw)||
+  !Number.isFinite(deduction)||
+  deduction<0||
+  deduction>100
+ ){
+  msg("Masukkan jumlah RM0 hingga RM100, maksimum dua tempat perpuluhan.");
+  return;
+ }
+
+ if(deduction>0&&!reason){
+  msg("Sila nyatakan sebab jumlah tidak dipulangkan.");
+  return;
+ }
+
+ const refund=SECURITY-deduction;
+
+ if(!confirm(
+  "SIMPAN REKOD DEPOSIT\n\n"+
+  "Tidak dipulangkan: "+rm(deduction)+"\n"+
+  "Perlu dipulangkan: "+rm(refund)+"\n"+
+  "Sebab: "+(reason||"Tiada potongan")+"\n\n"+
+  "Ini BELUM mengesahkan wang telah dipulangkan.\n"+
+  "Teruskan?"
+ ))return;
+
+ const id=editingDepositId;
+
+ const ok=await update(id,{
+  security_deduction:deduction,
+  security_deduction_reason:reason||null,
+  security_refund_status:"PENDING_REFUND",
+  security_refunded_at:null
+ });
+
+ if(ok)closeDeposit();
+};
+
+async function confirmRefund(b){
+ const d=depositInfo(b);
+
+ if(!d.recorded||d.status!=="PENDING_REFUND")return;
+
+ if(!confirm(
+  "SAHKAN PROSES PEMULANGAN\n\n"+
+  "Pelanggan: "+b.customer_name+"\n"+
+  "Jumlah ditahan: "+rm(d.deduction)+"\n"+
+  "Jumlah dipulangkan: "+rm(d.refund)+"\n\n"+
+  (d.refund>0
+   ?"Pastikan wang telah benar-benar dipindahkan."
+   :"Sahkan keseluruhan deposit ditahan mengikut syarat.")+
+  "\n\nTeruskan?"
+ ))return;
+
+ await update(b.id,{
+  security_refund_status:"REFUNDED",
+  security_refunded_at:new Date().toISOString()
+ });
+}
+
+/* LIHAT BUKTI BAYARAN PELANGGAN */
+
 async function receipt(path){
  const {data,error}=await db.storage
- .from("payment-receipts")
- .createSignedUrl(path,60);
+  .from("payment-receipts")
+  .createSignedUrl(path,60);
 
  if(error||!data){
   msg("Gagal buka bukti bayaran.");
@@ -548,162 +758,48 @@ async function receipt(path){
  window.open(data.signedUrl,"_blank","noopener");
 }
 
-function generateReceipt(b){
- if(
-  b.full_payment_confirmed!==true||
-  b.booking_status==="CANCELLED"
- ){
-  msg("Resit hanya boleh dijana selepas bayaran penuh disahkan.");
+/* PENJANA RESIT DAN SLIP PDF */
+
+function printDocument(title,body){
+ const win=window.open("","_blank");
+
+ if(!win){
+  msg("Popup disekat. Benarkan popup untuk jana PDF.");
   return;
  }
 
- const rental=Number(b.rental_price||0);
- const deposit=Number(b.booking_deposit||rental/2);
- const balance=rental-deposit;
- const security=100;
- const total=rental+security;
+ const logoUrl=new URL("logo.png",location.href).href;
 
- const receiptNo="SV-R-"+
-  String(b.id).slice(0,8).toUpperCase();
-
- const receiptDate=b.full_payment_confirmed_at
-  ?date(b.full_payment_confirmed_at)
-  :date(new Date());
-
- const productName=names[b.product_id]||b.product_id;
-
- const html=`
-<!DOCTYPE html>
+ const html=`<!DOCTYPE html>
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<title>Resit ${escapeHTML(receiptNo)}</title>
-
+<title>${escapeHTML(title)}</title>
 <style>
-@page{
- size:A4;
- margin:16mm;
-}
+@page{size:A4;margin:16mm}
 *{box-sizing:border-box}
-body{
- font-family:Arial,sans-serif;
- margin:0;
- color:#183451;
- background:white;
-}
-.receipt{
- max-width:760px;
- margin:auto;
- border:1px solid #dceaf5;
- border-radius:14px;
- padding:28px;
-}
-.top{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:20px;
- border-bottom:4px solid #087fd1;
- padding-bottom:18px;
-}
-.logo{
- width:160px;
- max-height:110px;
- object-fit:contain;
-}
-.brand{
- font-size:25px;
- font-weight:900;
- color:#087fd1;
-}
-.small{
- color:#637b91;
- font-size:12px;
- line-height:1.7;
-}
-.title{
- text-align:center;
- margin:30px 0 20px;
-}
-.title h1{
- font-size:24px;
- margin:0 0 8px;
-}
-.status{
- display:inline-block;
- background:#e1f8e9;
- color:#17683d;
- border-radius:30px;
- padding:8px 15px;
- font-weight:bold;
- font-size:12px;
-}
-.info{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:12px;
- margin:24px 0;
-}
-.info div{
- line-height:1.7;
- font-size:13px;
- overflow-wrap:anywhere;
-}
-table{
- width:100%;
- border-collapse:collapse;
- margin-top:22px;
-}
-th{
- background:#087fd1;
- color:white;
- text-align:left;
- padding:12px;
-}
-td{
- padding:13px 12px;
- border-bottom:1px solid #e3edf5;
- font-size:13px;
-}
-td:last-child,th:last-child{
- text-align:right;
-}
-.total td{
- font-weight:900;
- font-size:17px;
- color:#087fd1;
- border-top:2px solid #087fd1;
-}
-.note{
- margin-top:26px;
- padding:14px;
- background:#eef9ff;
- border-radius:10px;
- font-size:12px;
- line-height:1.7;
-}
-.footer{
- margin-top:35px;
- text-align:center;
- color:#68849a;
- font-size:12px;
-}
-.print{
- display:block;
- width:100%;
- border:0;
- border-radius:10px;
- padding:14px;
- background:#087fd1;
- color:white;
- font-size:16px;
- font-weight:bold;
- cursor:pointer;
- margin-bottom:20px;
-}
+body{font-family:Arial,sans-serif;color:#183451;margin:0}
+.print{display:block;width:100%;border:0;padding:14px;background:#087fd1;color:white;font-weight:bold;font-size:16px;cursor:pointer}
+.receipt{max-width:760px;margin:20px auto;padding:28px;border:1px solid #dceaf5;border-radius:14px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:4px solid #087fd1;padding-bottom:18px}
+.brand{font-size:25px;font-weight:900;color:#087fd1}
+.logo{width:150px;max-height:100px;object-fit:contain}
+.small{font-size:12px;color:#637b91;line-height:1.7}
+.title{text-align:center;margin:28px 0}
+.title h1{font-size:23px;margin:0 0 8px}
+.status{display:inline-block;background:#e1f8e9;color:#17683d;padding:8px 15px;border-radius:25px;font-size:12px;font-weight:bold}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.info div{font-size:13px;line-height:1.7;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;margin-top:20px}
+th{background:#087fd1;color:white;text-align:left;padding:12px}
+td{padding:13px 12px;border-bottom:1px solid #e3edf5;font-size:13px}
+td:last-child,th:last-child{text-align:right}
+.total td{font-weight:900;font-size:17px;color:#087fd1;border-top:2px solid #087fd1}
+.note{margin-top:25px;padding:14px;background:#eef9ff;border-radius:10px;font-size:12px;line-height:1.7}
+.footer{text-align:center;margin-top:35px;color:#68849a;font-size:12px}
 @media print{
  .print{display:none}
- .receipt{border:0;padding:0}
+ .receipt{border:0;margin:0;padding:0}
 }
 @media(max-width:600px){
  .receipt{padding:16px}
@@ -712,149 +808,30 @@ td:last-child,th:last-child{
 }
 </style>
 </head>
-
 <body>
-
 <button class="print" onclick="window.print()">
- 🖨️ Cetak / Simpan sebagai PDF
+Cetak / Simpan sebagai PDF
 </button>
-
 <div class="receipt">
-
- <div class="top">
-  <div>
-   <div class="brand">SPLASHVILLE</div>
-   <div class="small">
-    INFLATABLE & WATERPLAY RENTAL<br>
-    Slide • Splash • Smile!
-   </div>
-  </div>
-
-  <img
-   src="${new URL("logo.png",location.href).href}"
-   class="logo"
-   alt="SPLASHVILLE"
-  >
- </div>
-
- <div class="title">
-  <h1>RESIT PEMBAYARAN</h1>
-  <div class="small">
-   No. Resit: ${escapeHTML(receiptNo)}
-  </div>
-  <p>
-   <span class="status">BAYARAN PENUH DITERIMA</span>
-  </p>
- </div>
-
- <div class="info">
-  <div>
-   <b>Nama Pelanggan</b><br>
-   ${escapeHTML(b.customer_name)}
-  </div>
-
-  <div>
-   <b>Tarikh Bayaran Penuh Disahkan</b><br>
-   ${escapeHTML(receiptDate)}
-  </div>
-
-  <div>
-   <b>Produk Sewaan</b><br>
-   ${escapeHTML(productName)}
-  </div>
-
-  <div>
-   <b>Tempoh Sewaan</b><br>
-   ${Math.round(
-    (new Date(b.end_at)-new Date(b.start_at))/3600000
-   )} jam
-  </div>
-
-  <div>
-   <b>Tarikh & Masa Mula</b><br>
-   ${escapeHTML(date(b.start_at))}
-  </div>
-
-  <div>
-   <b>Tarikh & Masa Tamat</b><br>
-   ${escapeHTML(date(b.end_at))}
-  </div>
-
-  <div>
-   <b>No. Telefon</b><br>
-   ${escapeHTML(b.phone)}
-  </div>
-
-  <div>
-   <b>No. Rujukan Tempahan</b><br>
-   ${escapeHTML(b.id)}
-  </div>
- </div>
-
- <table>
-  <thead>
-   <tr>
-    <th>Butiran Pembayaran</th>
-    <th>Jumlah</th>
-   </tr>
-  </thead>
-
-  <tbody>
-   <tr>
-    <td>Harga Sewaan</td>
-    <td>${rm(rental)}</td>
-   </tr>
-
-   <tr>
-    <td>Deposit Tempahan 50% (Diterima)</td>
-    <td>${rm(deposit)}</td>
-   </tr>
-
-   <tr>
-    <td>Baki Sewaan (Diterima)</td>
-    <td>${rm(balance)}</td>
-   </tr>
-
-   <tr>
-    <td>Deposit Keselamatan (Boleh Dipulangkan)</td>
-    <td>${rm(security)}</td>
-   </tr>
-
-   <tr class="total">
-    <td>JUMLAH BAYARAN DITERIMA</td>
-    <td>${rm(total)}</td>
-   </tr>
-  </tbody>
- </table>
-
- <div class="note">
-  <b>Nota:</b><br>
-  Harga sewaan telah dijelaskan sepenuhnya.
-  Deposit keselamatan RM100 adalah berasingan
-  daripada harga sewaan dan boleh dipulangkan
-  tertakluk kepada syarat penyewaan.
-  Caj penghantaran, jika ada, tidak termasuk
-  dalam jumlah resit ini.
- </div>
-
- <div class="footer">
-  Terima kasih kerana memilih SPLASHVILLE! 💦<br>
-  Slide • Splash • Smile!<br><br>
-  Resit ini dijana secara elektronik.
- </div>
-
+<div class="top">
+<div>
+<div class="brand">SPLASHVILLE</div>
+<div class="small">
+INFLATABLE & WATERPLAY RENTAL<br>
+Slide • Splash • Smile!
 </div>
-
+</div>
+<img class="logo" src="${logoUrl}" alt="SPLASHVILLE">
+</div>
+${body}
+<div class="footer">
+Terima kasih kerana memilih SPLASHVILLE!<br>
+Slide • Splash • Smile!<br><br>
+Dokumen ini dijana secara elektronik.
+</div>
+</div>
 </body>
-</html>
- `;
-
- const win=window.open("","_blank");
-
- if(!win){
-  msg("Popup disekat. Benarkan popup untuk jana resit.");
-  return;
- }
+</html>`;
 
  win.document.open();
  win.document.write(html);
@@ -862,23 +839,168 @@ td:last-child,th:last-child{
  win.focus();
 }
 
+function infoBlock(b,extra=""){
+ const duration=
+  (new Date(b.end_at)-new Date(b.start_at))/3600000;
+
+ return `
+<div class="info">
+<div><b>Nama Pelanggan</b><br>${escapeHTML(b.customer_name)}</div>
+<div><b>No. Telefon</b><br>${escapeHTML(b.phone)}</div>
+<div><b>Produk Sewaan</b><br>${escapeHTML(names[b.product_id]||b.product_id)}</div>
+<div><b>Tempoh Sewaan</b><br>${duration} jam</div>
+<div><b>Masa Mula</b><br>${date(b.start_at)}</div>
+<div><b>Masa Tamat</b><br>${date(b.end_at)}</div>
+<div><b>No. Rujukan Tempahan</b><br>${escapeHTML(b.id)}</div>
+${extra}
+</div>`;
+}
+
+/* RESIT BAYARAN PENUH TERMASUK PENGHANTARAN */
+
+function generateReceipt(b){
+ if(
+  !b.full_payment_confirmed||
+  b.booking_status==="CANCELLED"
+ ){
+  msg("Bayaran penuh belum disahkan.");
+  return;
+ }
+
+ const m=moneyInfo(b);
+ const receiptNo="SV-R-"+String(b.id).slice(0,8).toUpperCase();
+
+ const body=`
+<div class="title">
+<h1>RESIT PEMBAYARAN</h1>
+<div class="small">No. Resit: ${escapeHTML(receiptNo)}</div>
+<p><span class="status">BAYARAN PENUH DITERIMA</span></p>
+</div>
+
+${infoBlock(b,`
+<div>
+<b>Tarikh Bayaran Penuh Disahkan</b><br>
+${date(b.full_payment_confirmed_at||new Date())}
+</div>
+`)}
+
+<table>
+<thead>
+<tr><th>Butiran Pembayaran</th><th>Jumlah</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>Harga Sewaan</td>
+<td>${rm(m.rental)}</td>
+</tr>
+<tr>
+<td>Deposit Tempahan 50% (Diterima)</td>
+<td>${rm(m.deposit)}</td>
+</tr>
+<tr>
+<td>Baki Sewaan (Diterima)</td>
+<td>${rm(m.balance)}</td>
+</tr>
+<tr>
+<td>Caj Penghantaran (Diterima)</td>
+<td>${rm(m.delivery)}</td>
+</tr>
+<tr>
+<td>Deposit Keselamatan</td>
+<td>${rm(SECURITY)}</td>
+</tr>
+<tr class="total">
+<td>JUMLAH BAYARAN DITERIMA</td>
+<td>${rm(m.total)}</td>
+</tr>
+</tbody>
+</table>
+
+<div class="note">
+<b>Makluman:</b><br>
+Deposit tempahan sebanyak 50% tidak dipulangkan
+sekiranya pelanggan membatalkan tempahan,
+tertakluk kepada syarat penyewaan.<br><br>
+Deposit keselamatan RM100 boleh dipulangkan
+sepenuhnya atau sebahagiannya selepas pemeriksaan
+peralatan, tertakluk kepada keadaan peralatan
+dan syarat penyewaan.<br><br>
+Caj penghantaran telah dimasukkan dalam jumlah
+keseluruhan resit.<br><br>
+Deposit tempahan dan baki sewaan merupakan
+pecahan daripada harga sewaan, bukan caj tambahan.
+</div>`;
+
+ printDocument("Resit "+receiptNo,body);
+}
+
+/* SLIP PEMULANGAN DEPOSIT */
+
+function generateRefundSlip(b){
+ const d=depositInfo(b);
+
+ if(!d.recorded||d.status!=="REFUNDED"){
+  msg("Slip hanya tersedia selepas proses pemulangan disahkan.");
+  return;
+ }
+
+ const slipNo="SV-D-"+String(b.id).slice(0,8).toUpperCase();
+
+ const body=`
+<div class="title">
+<h1>SLIP PEMULANGAN DEPOSIT KESELAMATAN</h1>
+<div class="small">No. Slip: ${escapeHTML(slipNo)}</div>
+<p><span class="status">PROSES PEMULANGAN SELESAI</span></p>
+</div>
+
+${infoBlock(b,`
+<div>
+<b>Tarikh Proses Selesai</b><br>
+${date(b.security_refunded_at||new Date())}
+</div>
+`)}
+
+<table>
+<thead>
+<tr><th>Butiran</th><th>Jumlah</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>Deposit Keselamatan Asal</td>
+<td>${rm(SECURITY)}</td>
+</tr>
+<tr>
+<td>Jumlah Tidak Dipulangkan / Ditahan</td>
+<td>${rm(d.deduction)}</td>
+</tr>
+<tr class="total">
+<td>JUMLAH DIPULANGKAN</td>
+<td>${rm(d.refund)}</td>
+</tr>
+</tbody>
+</table>
+
+<div class="note">
+<b>Sebab Potongan:</b><br>
+${escapeHTML(b.security_deduction_reason||"Tiada potongan")}<br><br>
+<b>Nota:</b> Slip ini merekodkan jumlah deposit
+keselamatan yang ditahan dan jumlah pemulangan
+yang telah disahkan oleh pihak SPLASHVILLE.
+</div>`;
+
+ printDocument("Slip Deposit "+slipNo,body);
+}
+
+/* EDIT TEMPAHAN */
+
 async function edit(b){
- const name=prompt(
-  "Nama pelanggan:",
-  b.customer_name
- );
+ const name=prompt("Nama pelanggan:",b.customer_name);
  if(name===null)return;
 
- const phone=prompt(
-  "Telefon:",
-  b.phone
- );
+ const phone=prompt("Telefon:",b.phone);
  if(phone===null)return;
 
- const address=prompt(
-  "Alamat:",
-  b.delivery_address
- );
+ const address=prompt("Alamat:",b.delivery_address);
  if(address===null)return;
 
  const start=prompt(
@@ -914,6 +1036,7 @@ async function edit(b){
   !phone.trim()||
   !address.trim()||
   !Number.isFinite(startDate.getTime())||
+  !Number.isFinite(hours)||
   hours<=0
  ){
   msg("Maklumat edit tidak sah.");
@@ -935,7 +1058,6 @@ $("filter").onchange=render;
 $("search").oninput=render;
 
 checkLogin();
-
 </script>
 </body>
 </html>
