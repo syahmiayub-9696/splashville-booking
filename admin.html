@@ -1,141 +1,747 @@
-
 <!DOCTYPE html>
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SPLASHVILLE Admin</title>
+<title>SPLASHVILLE Admin 3.0</title>
+
 <style>
+:root{
+ --blue:#0879cb;
+ --deep:#083d72;
+ --green:#168653;
+ --purple:#6645bd;
+ --orange:#d67b16;
+ --red:#c93e48;
+}
 *{box-sizing:border-box}
-body{margin:0;background:#f2f7fc;color:#183451;font-family:Arial,sans-serif}
-header{background:linear-gradient(135deg,#086fc1,#00b6df);color:white;padding:23px}
+body{
+ margin:0;
+ background:#f2f7fc;
+ color:#183451;
+ font-family:Arial,sans-serif;
+}
+header{
+ background:linear-gradient(135deg,#086fc1,#00b6df);
+ color:white;
+ padding:25px;
+}
 header h1{margin:0 0 10px}
-main{max-width:1150px;margin:25px auto;padding:15px}
-.panel{background:#fff;padding:23px;border-radius:17px;margin-bottom:18px;box-shadow:0 5px 22px #12578415}
-input,select,textarea{padding:12px;border:1px solid #c7d5e1;border-radius:9px;width:100%;font:inherit}
+header a{color:white}
+main{
+ max-width:1250px;
+ margin:20px auto;
+ padding:15px;
+}
+.panel{
+ background:#fff;
+ padding:23px;
+ border-radius:17px;
+ margin-bottom:18px;
+ box-shadow:0 5px 22px #12578415;
+}
+h2{margin-top:0}
+input,select,textarea{
+ padding:12px;
+ border:1px solid #c7d5e1;
+ border-radius:9px;
+ width:100%;
+ font:inherit;
+}
 textarea{min-height:85px;resize:vertical}
-label{display:block;font-weight:bold;margin:10px 0 6px}
-button{border:0;border-radius:9px;padding:11px 14px;background:#0879cb;color:#fff;font-weight:bold;cursor:pointer}
+label{
+ display:block;
+ font-weight:bold;
+ margin:10px 0 6px;
+}
+button{
+ border:0;
+ border-radius:9px;
+ padding:11px 14px;
+ background:var(--blue);
+ color:#fff;
+ font-weight:bold;
+ cursor:pointer;
+}
 button:disabled{opacity:.45;cursor:not-allowed}
-button.danger{background:#c93e48}
+button.danger{background:var(--red)}
 button.secondary{background:#627a91}
-button.success{background:#168653}
-button.purple{background:#6645bd}
-button.orange{background:#d67b16}
-.grid,.bookings{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.booking{border:1px solid #d9e6f1;border-radius:14px;padding:17px;line-height:1.8;overflow-wrap:anywhere}
-.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
-.notice{padding:13px;background:#e9f6ff;border-radius:10px;margin:12px 0;overflow-wrap:anywhere}
+button.success{background:var(--green)}
+button.purple{background:var(--purple)}
+button.orange{background:var(--orange)}
+.grid,.bookings{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:14px;
+}
+.booking{
+ border:1px solid #d9e6f1;
+ border-radius:14px;
+ padding:17px;
+ line-height:1.8;
+ overflow-wrap:anywhere;
+}
+.actions{
+ display:flex;
+ flex-wrap:wrap;
+ gap:7px;
+ margin-top:12px;
+}
+.notice{
+ padding:13px;
+ background:#e9f6ff;
+ border-radius:10px;
+ margin:12px 0;
+ overflow-wrap:anywhere;
+}
+.notice.bad{
+ background:#ffe3e6;
+ color:#b12d40;
+}
+.notice.good{
+ background:#def8e9;
+ color:#147345;
+}
 .hide{display:none!important}
-.muted{color:#60758b;font-size:13px}
-.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.muted{
+ color:#60758b;
+ font-size:13px;
+ line-height:1.6;
+}
+.badge{
+ display:inline-block;
+ padding:4px 10px;
+ border-radius:20px;
+ font-size:12px;
+ font-weight:bold;
+}
 .badge.green{background:#def8e9;color:#147345}
 .badge.yellow{background:#fff2cc;color:#946400}
 .badge.red{background:#ffe3e6;color:#b12d40}
-.payment-box{margin-top:12px;padding:13px;background:#f1f9ff;border-radius:10px}
-.deposit-box{margin-top:12px;padding:13px;background:#f7f3ff;border:1px solid #e5d9ff;border-radius:10px}
+.badge.blue{background:#dff1ff;color:#086fc1}
+.badge.purple{background:#eee5ff;color:#6645bd}
+.payment-box{
+ margin-top:12px;
+ padding:13px;
+ background:#f1f9ff;
+ border-radius:10px;
+}
+.deposit-box{
+ margin-top:12px;
+ padding:13px;
+ background:#f7f3ff;
+ border:1px solid #e5d9ff;
+ border-radius:10px;
+}
 .deposit-box h4{margin:0 0 8px;color:#6645bd}
-.refund-total{font-size:22px;font-weight:900;color:#168653}
-.modal-backdrop{position:fixed;inset:0;background:#092b4bbd;display:flex;align-items:center;justify-content:center;padding:16px;z-index:100}
-.modal{background:#fff;border-radius:18px;padding:23px;width:100%;max-width:530px;max-height:90vh;overflow:auto}
+.refund-total{
+ font-size:22px;
+ font-weight:900;
+ color:var(--green);
+}
+.modal-backdrop{
+ position:fixed;
+ inset:0;
+ background:#092b4bbd;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:16px;
+ z-index:100;
+}
+.modal{
+ background:#fff;
+ border-radius:18px;
+ padding:23px;
+ width:100%;
+ max-width:530px;
+ max-height:90vh;
+ overflow:auto;
+}
 .modal h2{margin-top:0}
 .modal .actions{justify-content:flex-end}
-button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #ffcf3f;outline-offset:2px}
-@media(max-width:700px){.grid,.bookings{grid-template-columns:1fr}.panel{padding:17px}}
+button:focus-visible,input:focus-visible,
+textarea:focus-visible,select:focus-visible{
+ outline:3px solid #ffcf3f;
+ outline-offset:2px;
+}
+.tabs{
+ display:flex;
+ flex-wrap:wrap;
+ gap:9px;
+ margin:18px 0;
+}
+.tab{
+ background:#e8f3fc;
+ color:var(--deep);
+ flex:1;
+ min-width:150px;
+ padding:15px;
+}
+.tab.active{
+ background:var(--blue);
+ color:white;
+}
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:12px;
+ margin:20px 0;
+}
+.stat{
+ padding:18px;
+ border:1px solid #dceaf5;
+ border-radius:14px;
+ background:#f5fbff;
+}
+.stat small{
+ color:#60758b;
+ font-weight:bold;
+ display:block;
+}
+.stat strong{
+ display:block;
+ font-size:26px;
+ margin-top:9px;
+ color:var(--deep);
+}
+.stat.pending strong{color:#d67b16}
+.stat.confirmed strong{color:#168653}
+.stat.cancelled strong{color:#c93e48}
+.table-wrap{
+ overflow-x:auto;
+ margin-top:18px;
+}
+table{
+ width:100%;
+ border-collapse:collapse;
+}
+th{
+ background:#e9f5ff;
+ text-align:left;
+ color:var(--deep);
+}
+th,td{
+ padding:13px 10px;
+ border-bottom:1px solid #e2ebf2;
+ vertical-align:middle;
+}
+td input{
+ min-width:95px;
+ max-width:150px;
+}
+td .actions{margin:0}
+.form-box{
+ padding:20px;
+ border:1px solid #d9e6f1;
+ background:#f8fcff;
+ border-radius:14px;
+ margin-bottom:20px;
+}
+.form-box h3{margin-top:0}
+.line{
+ display:flex;
+ justify-content:space-between;
+ gap:12px;
+ padding:5px 0;
+ border-bottom:1px dashed #d2e1ee;
+}
+.line b{text-align:right}
+.line.total{
+ font-size:17px;
+ color:var(--blue);
+ font-weight:bold;
+}
+.discount-text{color:var(--green)}
+.booking-head{
+ display:flex;
+ align-items:flex-start;
+ justify-content:space-between;
+ flex-wrap:wrap;
+ gap:8px;
+}
+.booking-head h3{margin:0}
+.version{
+ display:inline-block;
+ padding:4px 9px;
+ background:#e6f1fb;
+ color:var(--deep);
+ border-radius:7px;
+ font-size:12px;
+ font-weight:bold;
+}
+.version.v3{
+ background:#eee5ff;
+ color:var(--purple);
+}
+.preview{
+ padding:15px;
+ background:#e7f6ff;
+ border-radius:10px;
+ margin:15px 0;
+}
+.section-heading{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ flex-wrap:wrap;
+ gap:12px;
+}
+.section-heading h2{margin:0}
+@media(max-width:700px){
+ .grid,.bookings{grid-template-columns:1fr}
+ .panel{padding:17px}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .stat strong{font-size:23px}
+ .tab{min-width:42%}
+ main{padding:10px}
+ header h1{font-size:23px}
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>💦 SPLASHVILLE Admin</h1>
-<a href="index.html" style="color:white">← Website Pelanggan</a>
+ <h1>💦 SPLASHVILLE Admin 3.0</h1>
+ <a href="index-v3.html">← Website Pelanggan V3</a>
 </header>
 
 <main>
+
 <section class="panel" id="login">
-<h2>Log Masuk Admin</h2>
-<div class="grid">
-<div>
-<label for="email">E-mel Admin</label>
-<input id="email" type="email">
-</div>
-<div>
-<label for="password">Password</label>
-<input id="password" type="password">
-</div>
-</div>
-<div class="actions">
-<button id="signIn">Log Masuk</button>
-</div>
-</section>
 
-<section class="panel hide" id="dashboard">
-<h2>Dashboard Tempahan</h2>
-<div class="actions">
-<button id="refresh">Refresh</button>
-<button id="logout" class="secondary">Log Keluar</button>
-</div>
+ <h2>Log Masuk Admin</h2>
 
-<div class="grid">
-<div>
-<label for="filter">Status Tempahan</label>
-<select id="filter">
-<option value="ALL">Semua</option>
-<option value="PENDING">Pending</option>
-<option value="CONFIRMED">Confirmed</option>
-<option value="CANCELLED">Cancelled</option>
-</select>
-</div>
-<div>
-<label for="search">Cari Nama / Telefon / ID</label>
-<input id="search" placeholder="Cari tempahan">
-</div>
-</div>
+ <div class="grid">
+  <div>
+   <label for="email">E-mel Admin</label>
+   <input id="email" type="email"
+    autocomplete="username">
+  </div>
 
-<p id="count"></p>
-<div class="bookings" id="bookings"></div>
+  <div>
+   <label for="password">Password</label>
+   <input id="password" type="password"
+    autocomplete="current-password">
+  </div>
+ </div>
+
+ <div class="actions">
+  <button id="signIn">Log Masuk</button>
+ </div>
+
 </section>
 
 <div class="notice" id="message" role="status">
-Log masuk menggunakan akaun admin Supabase.
+ Log masuk menggunakan akaun admin Supabase.
 </div>
+
+<div id="dashboard" class="hide">
+
+<section class="panel">
+
+ <div class="section-heading">
+  <h2>Dashboard SPLASHVILLE</h2>
+
+  <div class="actions">
+   <button id="refresh">↻ Refresh</button>
+   <button id="logout" class="secondary">
+    Log Keluar
+   </button>
+  </div>
+ </div>
+
+ <div class="stats">
+
+  <div class="stat">
+   <small>JUMLAH TEMPAHAN</small>
+   <strong id="statTotal">0</strong>
+  </div>
+
+  <div class="stat pending">
+   <small>PENDING</small>
+   <strong id="statPending">0</strong>
+  </div>
+
+  <div class="stat confirmed">
+   <small>CONFIRMED</small>
+   <strong id="statConfirmed">0</strong>
+  </div>
+
+  <div class="stat cancelled">
+   <small>CANCELLED</small>
+   <strong id="statCancelled">0</strong>
+  </div>
+
+ </div>
+
+ <p class="muted">
+  Statistik berdasarkan maksimum 500 rekod
+  tempahan terkini yang dimuatkan.
+ </p>
+
+ <nav class="tabs">
+
+  <button class="tab active"
+   data-tab="bookingPage">
+   📅 Tempahan
+  </button>
+
+  <button class="tab"
+   data-tab="packagePage">
+   📦 Pakej
+  </button>
+
+  <button class="tab"
+   data-tab="deliveryPage">
+   🚚 Penghantaran
+  </button>
+
+  <button class="tab"
+   data-tab="promoPage">
+   🎁 Promosi
+  </button>
+
+ </nav>
+
+</section>
+
+<!-- TEMPAHAN -->
+
+<section class="panel page" id="bookingPage">
+
+ <h2>Pengurusan Tempahan</h2>
+
+ <div class="grid">
+
+  <div>
+   <label for="filter">Status Tempahan</label>
+   <select id="filter">
+    <option value="ALL">Semua</option>
+    <option value="PENDING">Pending</option>
+    <option value="CONFIRMED">Confirmed</option>
+    <option value="CANCELLED">Cancelled</option>
+   </select>
+  </div>
+
+  <div>
+   <label for="versionFilter">Versi Tempahan</label>
+   <select id="versionFilter">
+    <option value="ALL">Semua Versi</option>
+    <option value="2">Booking V2</option>
+    <option value="3">Booking V3</option>
+   </select>
+  </div>
+
+  <div>
+   <label for="paymentFilter">Status Bayaran</label>
+   <select id="paymentFilter">
+    <option value="ALL">Semua</option>
+    <option value="FULL">Bayaran Penuh</option>
+    <option value="BALANCE">Belum Bayaran Penuh</option>
+   </select>
+  </div>
+
+  <div>
+   <label for="search">Cari Tempahan</label>
+   <input id="search"
+    placeholder="Nama / telefon / ID / kawasan">
+  </div>
+
+ </div>
+
+ <p id="count"></p>
+
+ <div class="bookings" id="bookings"></div>
+
+</section>
+
+<!-- PAKEJ -->
+
+<section class="panel page hide" id="packagePage">
+
+ <h2>📦 Pengurusan Harga Pakej</h2>
+
+ <p class="muted">
+  Perubahan harga akan digunakan untuk tempahan
+  baharu sahaja. Harga tempahan terdahulu
+  tidak akan berubah.
+ </p>
+
+ <div class="table-wrap">
+  <table>
+   <thead>
+    <tr>
+     <th>Produk</th>
+     <th>Tempoh</th>
+     <th>Harga RM</th>
+     <th>Status</th>
+     <th>Tindakan</th>
+    </tr>
+   </thead>
+   <tbody id="packageRows"></tbody>
+  </table>
+ </div>
+
+</section>
+
+<!-- PENGHANTARAN -->
+
+<section class="panel page hide" id="deliveryPage">
+
+ <h2>🚚 Kawasan Penghantaran</h2>
+
+ <div class="notice">
+  Lokasi asas: <b>Bandar Tenggara</b><br>
+  Kadar: <b>RM0.50/km pergi balik</b><br>
+  Caj minimum: <b>RM20.00</b>
+ </div>
+
+ <div class="form-box">
+
+  <h3>Tambah Kawasan Baharu</h3>
+
+  <div class="grid">
+
+   <div>
+    <label for="newArea">Nama Kawasan</label>
+    <input id="newArea"
+     placeholder="Contoh: Kulai">
+   </div>
+
+   <div>
+    <label for="newDistance">
+     Jarak Sehala (km)
+    </label>
+
+    <input id="newDistance"
+     type="number"
+     min="0"
+     max="10000"
+     step="0.1"
+     placeholder="Contoh: 35">
+   </div>
+
+  </div>
+
+  <div class="preview">
+   Anggaran caj penghantaran:
+   <b id="newDeliveryPreview">—</b>
+  </div>
+
+  <label>
+   <input id="newAreaActive"
+    type="checkbox"
+    style="width:auto">
+   Aktifkan kawasan selepas disimpan
+  </label>
+
+  <div class="actions">
+   <button id="addZone" class="success">
+    + Tambah Kawasan
+   </button>
+  </div>
+
+ </div>
+
+ <p class="muted">
+  Semak jarak sebenar sebelum mengaktifkan kawasan.
+  Caj dikira automatik oleh database.
+ </p>
+
+ <div class="table-wrap">
+
+  <table>
+   <thead>
+    <tr>
+     <th>Kawasan</th>
+     <th>Jarak Sehala</th>
+     <th>Pergi Balik</th>
+     <th>Caj</th>
+     <th>Status</th>
+     <th>Tindakan</th>
+    </tr>
+   </thead>
+
+   <tbody id="zoneRows"></tbody>
+  </table>
+
+ </div>
+
+</section>
+
+<!-- PROMOSI -->
+
+<section class="panel page hide" id="promoPage">
+
+ <h2>🎁 Pengurusan Kod Promosi</h2>
+
+ <div class="form-box">
+
+  <h3>Cipta Kod Promosi</h3>
+
+  <div class="grid">
+
+   <div>
+    <label for="newPromoCode">Kod Promosi</label>
+
+    <input id="newPromoCode"
+     maxlength="30"
+     placeholder="Contoh: SPLASH50"
+     style="text-transform:uppercase">
+   </div>
+
+   <div>
+    <label for="newPromoDiscount">
+     Jumlah Diskaun (RM)
+    </label>
+
+    <input id="newPromoDiscount"
+     type="number"
+     min="0.01"
+     step="0.01"
+     placeholder="50">
+   </div>
+
+   <div>
+    <label for="newPromoExpiry">
+     Tarikh Tamat (Pilihan)
+    </label>
+
+    <input id="newPromoExpiry" type="date">
+   </div>
+
+   <div>
+    <label for="newPromoLimit">
+     Had Penggunaan (Pilihan)
+    </label>
+
+    <input id="newPromoLimit"
+     type="number"
+     min="1"
+     step="1"
+     placeholder="Kosong = tanpa had">
+   </div>
+
+  </div>
+
+  <p class="muted">
+   Kod bermula selepas disimpan.
+   Tarikh tamat termasuk keseluruhan hari
+   tersebut mengikut waktu Malaysia.
+   Diskaun hanya dikenakan pada harga sewaan.
+  </p>
+
+  <div class="actions">
+   <button id="createPromo" class="success">
+    + Cipta Kod Promosi
+   </button>
+  </div>
+
+ </div>
+
+ <div class="table-wrap">
+
+  <table>
+   <thead>
+    <tr>
+     <th>Kod</th>
+     <th>Diskaun</th>
+     <th>Penggunaan</th>
+     <th>Tarikh Tamat</th>
+     <th>Status</th>
+     <th>Tindakan</th>
+    </tr>
+   </thead>
+
+   <tbody id="promoRows"></tbody>
+  </table>
+
+ </div>
+
+</section>
+
+</div>
+
 </main>
 
-<!-- MODAL DEPOSIT KESELAMATAN -->
+<!-- MODAL DEPOSIT -->
+
 <div class="modal-backdrop hide" id="depositModal">
-<div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-<h2 id="modalTitle">💰 Urus Deposit Keselamatan</h2>
-<p id="modalCustomer"></p>
 
-<div class="payment-box">
-Deposit keselamatan diterima: <b>RM100.00</b>
-</div>
+ <div class="modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modalTitle">
 
-<label for="deduction">Jumlah Tidak Dipulangkan (RM)</label>
-<input id="deduction" type="number" min="0" max="100" step="0.01" placeholder="Contoh: 30.00">
+  <h2 id="modalTitle">
+   💰 Urus Deposit Keselamatan
+  </h2>
 
-<label for="deductionReason">Sebab Potongan</label>
-<textarea id="deductionReason" placeholder="Contoh: Kerosakan pada peralatan"></textarea>
+  <p id="modalCustomer"></p>
 
-<div class="deposit-box">
-<div>Jumlah ditahan: <b id="deductPreview">RM0.00</b></div>
-<div>Jumlah perlu dipulangkan:</div>
-<div class="refund-total" id="refundPreview">RM100.00</div>
-</div>
+  <div class="payment-box">
+   Deposit keselamatan diterima:
+   <b>RM100.00</b>
+  </div>
 
-<p class="muted">
-Simpan rekod dahulu. Selepas wang benar-benar dipulangkan,
-tekan "Sahkan Sudah Dipulangkan" pada tempahan.
-</p>
+  <label for="deduction">
+   Jumlah Tidak Dipulangkan (RM)
+  </label>
 
-<div class="actions">
-<button id="closeDeposit" class="secondary">Tutup</button>
-<button id="saveDeposit" class="success">Simpan Rekod</button>
-</div>
-</div>
+  <input id="deduction"
+   type="number"
+   min="0"
+   max="100"
+   step="0.01">
+
+  <label for="deductionReason">
+   Sebab Potongan
+  </label>
+
+  <textarea id="deductionReason"
+   placeholder="Contoh: Kerosakan pada peralatan">
+  </textarea>
+
+  <div class="deposit-box">
+
+   <div>
+    Jumlah ditahan:
+    <b id="deductPreview">RM0.00</b>
+   </div>
+
+   <div>Jumlah perlu dipulangkan:</div>
+
+   <div class="refund-total" id="refundPreview">
+    RM100.00
+   </div>
+
+  </div>
+
+  <p class="muted">
+   Simpan rekod dahulu. Selepas wang benar-benar
+   dipulangkan, tekan Sahkan Sudah Dipulangkan.
+  </p>
+
+  <div class="actions">
+
+   <button id="closeDeposit" class="secondary">
+    Tutup
+   </button>
+
+   <button id="saveDeposit" class="success">
+    Simpan Rekod
+   </button>
+
+  </div>
+
+ </div>
+
 </div>
 
 <script type="module">
+
 import {createClient} from
 "https://esm.sh/@supabase/supabase-js@2";
 
@@ -145,11 +751,18 @@ const db=createClient(
 );
 
 const $=id=>document.getElementById(id);
+
 const SECURITY=100;
 
 let records=[];
+let packages=[];
+let zones=[];
+let promos=[];
+
 let editingDepositId=null;
 let busy=false;
+let authorized=false;
+let activePage="bookingPage";
 
 const names={
  crocodilo:"Crocodilo",
@@ -159,13 +772,64 @@ const names={
 
 const rm=n=>"RM "+Number(n||0).toFixed(2);
 
-const date=v=>new Intl.DateTimeFormat("ms-MY",{
- dateStyle:"medium",
- timeStyle:"short",
- timeZone:"Asia/Kuala_Lumpur"
-}).format(new Date(v));
+const round=n=>
+ Math.round((Number(n)+Number.EPSILON)*100)/100;
+
+function date(v){
+
+ if(!v)return "—";
+
+ const d=new Date(v);
+
+ if(!Number.isFinite(d.getTime()))return "—";
+
+ return new Intl.DateTimeFormat("ms-MY",{
+  dateStyle:"medium",
+  timeStyle:"short",
+  timeZone:"Asia/Kuala_Lumpur"
+ }).format(d);
+}
+
+function malaysiaInput(v){
+
+ return new Intl.DateTimeFormat("sv-SE",{
+  timeZone:"Asia/Kuala_Lumpur",
+  year:"numeric",
+  month:"2-digit",
+  day:"2-digit",
+  hour:"2-digit",
+  minute:"2-digit",
+  hour12:false
+ }).format(new Date(v));
+}
+
+function malaysiaDate(v){
+
+ return new Intl.DateTimeFormat("sv-SE",{
+  timeZone:"Asia/Kuala_Lumpur",
+  year:"numeric",
+  month:"2-digit",
+  day:"2-digit"
+ }).format(new Date(v));
+}
+
+function expiryFromDate(value){
+
+ if(!value)return null;
+
+ const d=new Date(value+"T00:00:00+08:00");
+
+ if(!Number.isFinite(d.getTime())){
+  throw new Error("Tarikh tamat tidak sah.");
+ }
+
+ return new Date(
+  d.getTime()+86400000
+ ).toISOString();
+}
 
 function escapeHTML(s){
+
  return String(s??"").replace(/[&<>"']/g,c=>({
   "&":"&amp;",
   "<":"&lt;",
@@ -175,30 +839,86 @@ function escapeHTML(s){
  })[c]);
 }
 
-function msg(s){
+const e=escapeHTML;
+
+function msg(s,type=""){
+
  $("message").textContent=s;
+
+ $("message").className=
+  "notice"+(type?" "+type:"");
+}
+
+function version(b){
+
+ return Number(b.booking_version||2);
+}
+
+function isV3(b){
+
+ return version(b)===3;
+}
+
+function securityReceived(b){
+
+ if(isV3(b)){
+  return b.security_deposit_paid===true;
+ }
+
+ // V2: deposit keselamatan dibayar bersama
+ // deposit tempahan asal.
+
+ return b.payment_status==="VERIFIED"||
+  b.full_payment_confirmed===true;
 }
 
 function moneyInfo(b){
+
  const rental=Number(b.rental_price||0);
- const deposit=Number(b.booking_deposit??rental/2);
+
+ const original=Number(
+  b.original_rental_price??rental
+ );
+
+ const discount=Number(
+  b.discount_amount||0
+ );
+
+ const deposit=Number(
+  b.booking_deposit??rental/2
+ );
+
  const delivery=Number(b.delivery_fee||0);
 
+ const balance=round(rental-deposit);
+
+ const initial=isV3(b)
+  ?deposit
+  :round(deposit+SECURITY);
+
+ const remaining=round(
+  balance+delivery+(isV3(b)?SECURITY:0)
+ );
+
  return {
+  original,
+  discount,
   rental,
   deposit,
-  balance:rental-deposit,
+  balance,
   delivery,
   security:SECURITY,
-  total:rental+delivery+SECURITY,
-  remaining:rental-deposit+delivery,
-  initial:deposit+SECURITY
+  initial,
+  remaining,
+  total:round(rental+delivery+SECURITY),
+  securityReceived:securityReceived(b)
  };
 }
 
 function depositInfo(b){
+
  const recorded=
-  b.security_deduction!==null &&
+  b.security_deduction!==null&&
   b.security_deduction!==undefined;
 
  const deduction=recorded
@@ -208,18 +928,72 @@ function depositInfo(b){
  return {
   recorded,
   deduction,
-  refund:SECURITY-deduction,
+  refund:round(SECURITY-deduction),
   status:b.security_refund_status||"NOT_PROCESSED"
  };
 }
 
+function addButton(
+ parent,title,fn,style="",disabled=false
+){
+
+ const button=document.createElement("button");
+
+ button.type="button";
+ button.textContent=title;
+ button.className=style;
+ button.disabled=disabled;
+
+ button.onclick=async()=>{
+
+  if(busy||!authorized)return;
+
+  try{
+   await fn();
+  }catch(error){
+   msg(error.message||"Operasi gagal.","bad");
+  }
+ };
+
+ parent.append(button);
+
+ return button;
+}
+
+function resetPrivateData(){
+
+ authorized=false;
+
+ records=[];
+ packages=[];
+ zones=[];
+ promos=[];
+
+ $("bookings").replaceChildren();
+ $("packageRows").replaceChildren();
+ $("zoneRows").replaceChildren();
+ $("promoRows").replaceChildren();
+
+ $("statTotal").textContent="0";
+ $("statPending").textContent="0";
+ $("statConfirmed").textContent="0";
+ $("statCancelled").textContent="0";
+
+ closeDeposit();
+}
+
 async function checkLogin(){
+
  const {data:{session},error:sessionError}=
   await db.auth.getSession();
 
  if(sessionError||!session){
+
+  resetPrivateData();
+
   $("login").classList.remove("hide");
   $("dashboard").classList.add("hide");
+
   return;
  }
 
@@ -229,69 +1003,226 @@ async function checkLogin(){
   .maybeSingle();
 
  if(error||!data){
+
+  resetPrivateData();
+
   await db.auth.signOut();
+
   $("login").classList.remove("hide");
   $("dashboard").classList.add("hide");
-  msg("Akaun ini tiada akses admin.");
+
+  msg("Akaun ini tiada akses admin.","bad");
+
   return;
  }
+
+ authorized=true;
 
  $("login").classList.add("hide");
  $("dashboard").classList.remove("hide");
 
- await load();
+ await refreshAll();
 }
 
 $("signIn").onclick=async()=>{
+
+ $("signIn").disabled=true;
+
  msg("Sedang log masuk...");
 
- const {error}=await db.auth.signInWithPassword({
-  email:$("email").value.trim(),
-  password:$("password").value
- });
+ try{
 
- if(error){
-  msg(error.message);
-  return;
+  const {error}=await db.auth.signInWithPassword({
+   email:$("email").value.trim(),
+   password:$("password").value
+  });
+
+  if(error)throw error;
+
+  $("password").value="";
+
+  await checkLogin();
+
+ }catch(error){
+
+  msg(error.message,"bad");
+
+ }finally{
+
+  $("signIn").disabled=false;
  }
+};
 
- await checkLogin();
+$("password").onkeydown=event=>{
+
+ if(event.key==="Enter"){
+  $("signIn").click();
+ }
 };
 
 $("logout").onclick=async()=>{
- await db.auth.signOut();
- closeDeposit();
- records=[];
- await checkLogin();
+
+ if(busy)return;
+
+ const {error}=await db.auth.signOut();
+
+ if(error){
+
+  msg(error.message,"bad");
+
+  return;
+ }
+
+ resetPrivateData();
+
+ $("dashboard").classList.add("hide");
+ $("login").classList.remove("hide");
+
+ msg("Anda telah log keluar.");
 };
 
-$("refresh").onclick=load;
+db.auth.onAuthStateChange(event=>{
+
+ if(event==="SIGNED_OUT"){
+
+  resetPrivateData();
+
+  $("dashboard").classList.add("hide");
+  $("login").classList.remove("hide");
+ }
+});
+
+document.querySelectorAll(".tab").forEach(tab=>{
+
+ tab.onclick=()=>{
+
+  activePage=tab.dataset.tab;
+
+  document.querySelectorAll(".tab")
+   .forEach(t=>{
+    t.classList.toggle(
+     "active",
+     t===tab
+    );
+   });
+
+  document.querySelectorAll(".page")
+   .forEach(page=>{
+    page.classList.toggle(
+     "hide",
+     page.id!==activePage
+    );
+   });
+ };
+});
+
+async function refreshAll(){
+
+ if(!authorized||busy)return;
+
+ msg("Memuatkan data SPLASHVILLE...");
+
+ const results=await Promise.allSettled([
+  load(),
+  loadPackages(),
+  loadZones(),
+  loadPromos()
+ ]);
+
+ const errors=results
+  .filter(r=>r.status==="rejected")
+  .map(r=>r.reason?.message||"Ralat database");
+
+ if(errors.length){
+
+  msg(
+   "Sebahagian data gagal dimuatkan: "+
+   errors.join(" | "),
+   "bad"
+  );
+
+ }else{
+
+  msg("Semua data berjaya dikemas kini.","good");
+ }
+}
+
+$("refresh").onclick=refreshAll;
+
+/* TEMPAHAN */
 
 async function load(){
- msg("Memuatkan tempahan...");
+
+ if(!authorized)return;
 
  const {data,error}=await db.from("bookings")
   .select("*")
   .order("created_at",{ascending:false})
   .limit(500);
 
- if(error){
-  msg("Gagal membaca tempahan: "+error.message);
-  return;
- }
+ if(error)throw error;
+
+ if(!authorized)return;
 
  records=data||[];
+
+ renderStats();
+
  render();
- msg("Data berjaya dikemas kini.");
+}
+
+function renderStats(){
+
+ $("statTotal").textContent=records.length;
+
+ $("statPending").textContent=
+  records.filter(
+   b=>b.booking_status==="PENDING"
+  ).length;
+
+ $("statConfirmed").textContent=
+  records.filter(
+   b=>b.booking_status==="CONFIRMED"
+  ).length;
+
+ $("statCancelled").textContent=
+  records.filter(
+   b=>b.booking_status==="CANCELLED"
+  ).length;
 }
 
 function render(){
+
+ if(!authorized)return;
+
  const status=$("filter").value;
- const q=$("search").value.toLowerCase();
+
+ const vf=$("versionFilter").value;
+
+ const pf=$("paymentFilter").value;
+
+ const q=$("search").value.trim().toLowerCase();
 
  const list=records.filter(b=>
-  (status==="ALL"||b.booking_status===status) &&
-  [b.customer_name,b.phone,b.id].some(v=>
+
+  (status==="ALL"||
+   b.booking_status===status)&&
+
+  (vf==="ALL"||
+   String(version(b))===vf)&&
+
+  (pf==="ALL"||
+   (pf==="FULL"&&b.full_payment_confirmed)||
+   (pf==="BALANCE"&&!b.full_payment_confirmed))&&
+
+  [
+   b.customer_name,
+   b.phone,
+   b.id,
+   b.delivery_area,
+   b.promo_code,
+   b.delivery_address
+  ].some(v=>
    String(v||"").toLowerCase().includes(q)
   )
  );
@@ -299,163 +1230,329 @@ function render(){
  $("count").textContent=list.length+" tempahan";
 
  const container=$("bookings");
+
  container.replaceChildren();
 
  if(!list.length){
+
   container.textContent="Tiada tempahan.";
+
   return;
  }
 
  for(const b of list){
+
   const card=document.createElement("div");
+
   card.className="booking";
 
   const paid=b.full_payment_confirmed===true;
+
   const cancelled=b.booking_status==="CANCELLED";
+
+  const verified=b.payment_status==="VERIFIED";
+
   const m=moneyInfo(b);
+
   const d=depositInfo(b);
 
-  let depositStatus="BELUM DIREKOD";
+  let depositStatus=m.securityReceived
+   ?"DITERIMA — BELUM DIPROSES"
+   :"BELUM DITERIMA";
+
   if(d.status==="PENDING_REFUND"){
    depositStatus="MENUNGGU PEMULANGAN";
   }
+
   if(d.status==="REFUNDED"){
    depositStatus="SELESAI DIPROSES";
   }
 
+  const outstanding=paid
+   ?0
+   :verified
+    ?m.remaining
+    :m.total;
+
   card.innerHTML=`
-   <b>${escapeHTML(b.customer_name)}</b>
 
-   <p>
+   <div class="booking-head">
+
+    <h3>${e(b.customer_name)}</h3>
+
+    <span class="version ${isV3(b)?"v3":""}">
+     BOOKING V${version(b)}
+    </span>
+
+   </div>
+
+   <div>
     <b>Status Tempahan:</b>
-    ${escapeHTML(b.booking_status)}
-   </p>
+    ${e(b.booking_status)}
+   </div>
 
-   <span class="badge ${cancelled?"red":paid?"green":"yellow"}">
-    ${cancelled?"DIBATALKAN":paid?"BAYARAN PENUH":"BAKI BELUM DISAHKAN"}
+   <span class="badge ${
+    cancelled?"red":paid?"green":"yellow"
+   }">
+    ${
+     cancelled
+      ?"DIBATALKAN"
+      :paid
+       ?"BAYARAN PENUH"
+       :"BAYARAN BELUM LENGKAP"
+    }
    </span>
 
-   <div>${escapeHTML(names[b.product_id]||b.product_id)}</div>
-   <div>📅 ${date(b.start_at)} → ${date(b.end_at)}</div>
-   <div>📞 ${escapeHTML(b.phone)}</div>
-   <div>📍 ${escapeHTML(b.delivery_address)}</div>
+   <div>
+    <b>${e(names[b.product_id]||b.product_id)}</b>
+   </div>
+
+   <div>
+    📅 ${date(b.start_at)} → ${date(b.end_at)}
+   </div>
+
+   <div>📞 ${e(b.phone)}</div>
+
+   <div>📍 ${e(b.delivery_address)}</div>
+
+   ${
+    b.delivery_area
+    ?`<div>
+      🚚 Kawasan: ${e(b.delivery_area)}
+     </div>`
+    :""
+   }
+
+   ${
+    b.delivery_distance_km!==null&&
+    b.delivery_distance_km!==undefined
+    ?`<div>
+      Jarak sehala: ${e(b.delivery_distance_km)} km
+     </div>`
+    :""
+   }
+
+   ${
+    b.notes
+    ?`<div>Catatan: ${e(b.notes)}</div>`
+    :""
+   }
 
    <div class="payment-box">
+
     <b>Ringkasan Bayaran</b>
-    <div>Harga Sewaan: ${rm(m.rental)}</div>
-    <div>Deposit Tempahan 50%: ${rm(m.deposit)}</div>
-    <div>Baki Sewaan: ${rm(m.balance)}</div>
-    <div>🚚 Caj Penghantaran: <b>${rm(m.delivery)}</b></div>
-    <div>Deposit Keselamatan: ${rm(SECURITY)}</div>
-    <div><b>Jumlah Keseluruhan: ${rm(m.total)}</b></div>
-    <div>Bayaran Awal: ${rm(m.initial)}</div>
-    <div><b>Baki Termasuk Penghantaran: ${rm(m.remaining)}</b></div>
-    <div>Status Bayaran Awal:
-     ${escapeHTML(b.payment_status)}
+
+    ${
+     m.discount>0
+     ?`
+      <div class="line">
+       <span>Harga Asal</span>
+       <b>${rm(m.original)}</b>
+      </div>
+
+      <div class="line discount-text">
+       <span>Promosi ${e(b.promo_code||"")}</span>
+       <b>−${rm(m.discount)}</b>
+      </div>
+     `
+     :""
+    }
+
+    <div class="line">
+     <span>Harga Sewaan</span>
+     <b>${rm(m.rental)}</b>
     </div>
+
+    <div class="line">
+     <span>Deposit Tempahan</span>
+     <b>${rm(m.deposit)}</b>
+    </div>
+
+    <div class="line">
+     <span>Baki Sewaan</span>
+     <b>${rm(m.balance)}</b>
+    </div>
+
+    <div class="line">
+     <span>Caj Penghantaran</span>
+     <b>${rm(m.delivery)}</b>
+    </div>
+
+    <div class="line">
+     <span>Deposit Keselamatan</span>
+     <b>${rm(SECURITY)}</b>
+    </div>
+
+    <div class="line total">
+     <span>Jumlah Keseluruhan</span>
+     <b>${rm(m.total)}</b>
+    </div>
+
+    <div class="line">
+     <span>Bayaran Awal</span>
+     <b>${rm(m.initial)}</b>
+    </div>
+
+    <div>
+     Status bayaran awal:
+     <b>${e(b.payment_status)}</b>
+    </div>
+
+    <div class="line">
+     <span>Bayaran Peringkat Kedua</span>
+     <b>${rm(m.remaining)}</b>
+    </div>
+
+    ${
+     cancelled
+     ?`<div class="muted">
+       Tempahan dibatalkan. Semak rekod
+       bayaran dan pemulangan secara berasingan.
+      </div>`
+     :`<div class="line total">
+       <span>Baki Belum Disahkan</span>
+       <b>${rm(outstanding)}</b>
+      </div>`
+    }
+
+    ${
+     paid
+     ?`<div class="badge green">
+       ✓ Bayaran penuh diterima
+      </div>`
+     :""
+    }
+
    </div>
 
    <div class="deposit-box">
+
     <h4>Deposit Keselamatan</h4>
-    <div>Status: <b>${depositStatus}</b></div>
-    <div>Jumlah Tidak Dipulangkan:
-     <b>${d.recorded?rm(d.deduction):"Belum ditetapkan"}</b>
+
+    <div>
+     Status: <b>${depositStatus}</b>
     </div>
-    <div>Jumlah Perlu Dipulangkan:
-     <b>${d.recorded?rm(d.refund):"Belum ditetapkan"}</b>
+
+    <div>
+     Jumlah tidak dipulangkan:
+     <b>
+      ${d.recorded?rm(d.deduction):"Belum ditetapkan"}
+     </b>
     </div>
-    ${d.recorded?`
-     <div>Sebab:
-      ${escapeHTML(b.security_deduction_reason||"Tiada potongan")}
-     </div>
-    `:""}
-    ${d.status==="REFUNDED"&&b.security_refunded_at?`
-     <div>Tarikh selesai:
-      ${date(b.security_refunded_at)}
-     </div>
-    `:""}
+
+    <div>
+     Jumlah perlu dipulangkan:
+     <b>
+      ${d.recorded?rm(d.refund):"Belum ditetapkan"}
+     </b>
+    </div>
+
+    ${
+     d.recorded
+     ?`<div>
+       Sebab:
+       ${e(b.security_deduction_reason||"Tiada potongan")}
+      </div>`
+     :""
+    }
+
+    ${
+     d.status==="REFUNDED"&&b.security_refunded_at
+     ?`<div>
+       Tarikh selesai: ${date(b.security_refunded_at)}
+      </div>`
+     :""
+    }
+
    </div>
 
-   <div class="muted">ID: ${escapeHTML(b.id)}</div>
+   <div class="muted">
+    ID: ${e(b.id)}
+   </div>
+
   `;
 
   const actions=document.createElement("div");
+
   actions.className="actions";
 
-  function add(title,fn,style="",disabled=false){
-   const btn=document.createElement("button");
-   btn.type="button";
-   btn.textContent=title;
-   btn.className=style;
-   btn.disabled=disabled;
-   btn.onclick=fn;
-   actions.append(btn);
-  }
+  const add=(title,fn,style="",disabled=false)=>
+   addButton(actions,title,fn,style,disabled);
 
   add(
-   "✓ Sahkan",
-   ()=>update(b.id,{
-    booking_status:"CONFIRMED",
-    payment_status:"VERIFIED"
-   }),
+   "✓ Sahkan Tempahan",
+   ()=>confirmBooking(b),
    "success",
-   cancelled
+   cancelled||paid||
+   (verified&&b.booking_status==="CONFIRMED")
   );
 
   add(
    "Bayaran Ditolak",
-   ()=>update(b.id,{
-    payment_status:"REJECTED"
-   }),
+   ()=>rejectPayment(b),
    "secondary",
-   cancelled||paid
+   cancelled||paid||verified||d.recorded
   );
 
   add(
-   "🚚 Tetapkan Caj Penghantaran",
+   "🚚 Edit Caj Penghantaran",
    ()=>setDeliveryFee(b),
    "orange",
    cancelled||paid
   );
 
   if(!paid){
+
    add(
     "💰 Rekod Bayaran Penuh",
     ()=>confirmFullPayment(b),
     "success",
     cancelled||
     b.booking_status!=="CONFIRMED"||
-    b.payment_status!=="VERIFIED"
+    !verified
    );
+
   }else{
+
    add(
     "↩ Batal Pengesahan Bayaran Penuh",
     ()=>undoFullPayment(b),
     "secondary",
-    cancelled||d.recorded
+    cancelled||d.recorded||
+    d.status!=="NOT_PROCESSED"
    );
   }
 
   add(
-   "🧾 Jana Resit Bayaran Penuh",
+   "🧾 Resit Deposit Tempahan",
+   ()=>generateInitialReceipt(b),
+   "purple",
+   !verified
+  );
+
+  add(
+   "🧾 Resit Bayaran Penuh",
    ()=>generateReceipt(b),
    "purple",
-   !paid||cancelled
+   !paid
   );
 
   add(
    "💵 Urus Deposit Keselamatan",
    ()=>openDeposit(b),
    "purple",
-   !paid||cancelled||d.status==="REFUNDED"
+   !m.securityReceived||
+   (!paid&&!cancelled)||
+   d.status==="REFUNDED"
   );
 
   if(d.recorded&&d.status==="PENDING_REFUND"){
+
    add(
     "✓ Sahkan Sudah Dipulangkan",
     ()=>confirmRefund(b),
     "success",
-    cancelled
+    !m.securityReceived
    );
   }
 
@@ -466,20 +1563,22 @@ function render(){
    !d.recorded||d.status!=="REFUNDED"
   );
 
-  add("Edit",()=>edit(b),"secondary");
+  add(
+   "Edit",
+   ()=>edit(b),
+   "secondary",
+   cancelled
+  );
 
   add(
-   "Batal",
-   async()=>{
-    if(confirm("Batalkan tempahan ini? Slot akan dibuka semula.")){
-     await update(b.id,{booking_status:"CANCELLED"});
-    }
-   },
+   "Batal Tempahan",
+   ()=>cancelBooking(b),
    "danger",
    cancelled
   );
 
   if(b.receipt_path){
+
    add(
     "Lihat Bukti Bayaran",
     ()=>receipt(b.receipt_path),
@@ -488,55 +1587,181 @@ function render(){
   }
 
   card.append(actions);
+
   container.append(card);
  }
 }
 
-async function update(id,changes){
- if(busy)return false;
+async function update(id,changes,expected=null){
+
+ if(busy||!authorized)return false;
+
  busy=true;
 
  try{
-  const {data,error}=await db.from("bookings")
-   .update(changes)
-   .eq("id",id)
-   .select("id")
-   .single();
 
-  if(error||!data){
-   msg("Gagal update: "+(error?.message||"Rekod tidak dijumpai."));
-   return false;
+  let query=db.from("bookings")
+   .update(changes)
+   .eq("id",id);
+
+  // Elakkan perubahan berdasarkan status lama
+  // jika admin lain sudah mengemas kini rekod.
+
+  if(expected){
+
+   query=query
+    .eq("booking_status",expected.booking_status)
+    .eq("payment_status",expected.payment_status)
+    .eq(
+     "full_payment_confirmed",
+     expected.full_payment_confirmed===true
+    )
+    .eq(
+     "security_refund_status",
+     expected.security_refund_status||"NOT_PROCESSED"
+    )
+    .eq("delivery_fee",Number(expected.delivery_fee||0));
+
+   if(expected.security_deduction==null){
+
+    query=query.is("security_deduction",null);
+
+   }else{
+
+    query=query.eq(
+     "security_deduction",
+     expected.security_deduction
+    );
+   }
   }
 
-  await load();
+  const {data,error}=await query
+   .select("id")
+   .maybeSingle();
+
+  if(error)throw error;
+
+  if(!data){
+
+   await load();
+
+   throw new Error(
+    "Rekod telah berubah atau tidak dapat dikemas kini. Sila semak semula."
+   );
+  }
+
+  try{
+
+   await load();
+
+   msg("Tempahan berjaya dikemas kini.","good");
+
+  }catch(error){
+
+   msg(
+    "Perubahan disimpan, tetapi paparan gagal dimuat semula. Tekan Refresh.",
+    "bad"
+   );
+  }
+
   return true;
 
+ }catch(error){
+
+  msg("Gagal update: "+error.message,"bad");
+
+  return false;
+
  }finally{
+
   busy=false;
  }
 }
 
-/* CAJ PENGHANTARAN */
+async function confirmBooking(b){
+
+ if(b.booking_status==="CANCELLED")return;
+
+ const m=moneyInfo(b);
+
+ if(!confirm(
+  "SAHKAN TEMPAHAN\n\n"+
+  "Pelanggan: "+b.customer_name+"\n"+
+  "Bayaran awal diperlukan: "+rm(m.initial)+"\n\n"+
+  "Pastikan jumlah dan bukti pembayaran telah disemak.\n\n"+
+  "Teruskan?"
+ ))return;
+
+ const changes={
+  booking_status:"CONFIRMED",
+  payment_status:"VERIFIED"
+ };
+
+ if(!isV3(b)){
+  changes.security_deposit_paid=true;
+ }
+
+ await update(b.id,changes,b);
+}
+
+async function rejectPayment(b){
+
+ if(
+  b.full_payment_confirmed||
+  b.payment_status==="VERIFIED"||
+  b.booking_status==="CANCELLED"
+ )return;
+
+ if(!confirm(
+  "Tolak bukti pembayaran ini?\n"+
+  "Slot tempahan masih dikekalkan sehingga tempahan dibatalkan."
+ ))return;
+
+ await update(b.id,{
+  payment_status:"REJECTED"
+ },b);
+}
+
+async function cancelBooking(b){
+
+ if(!confirm(
+  "Batalkan tempahan "+b.customer_name+"?\n\n"+
+  "Slot akan dibuka semula.\n"+
+  "Rekod bayaran sedia ada tidak dipadam.\n"+
+  "Pemulangan wang perlu diurus secara berasingan."
+ ))return;
+
+ await update(b.id,{
+  booking_status:"CANCELLED"
+ },b);
+}
+
+/* CAJ PENGHANTARAN TEMPAHAN */
 
 async function setDeliveryFee(b){
- if(b.full_payment_confirmed){
-  msg("Batalkan pengesahan bayaran penuh dahulu jika caj perlu dibetulkan.");
+
+ if(
+  b.full_payment_confirmed||
+  b.booking_status==="CANCELLED"
+ ){
+
+  msg("Caj tidak boleh diubah pada status ini.","bad");
+
   return;
  }
 
- const current=Number(b.delivery_fee||0);
-
  const input=prompt(
-  "🚚 CAJ PENGHANTARAN SPLASHVILLE\n\n"+
+  "CAJ PENGHANTARAN SPLASHVILLE\n\n"+
   "Pelanggan: "+b.customer_name+"\n"+
-  "Produk: "+(names[b.product_id]||b.product_id)+"\n\n"+
+  "Kawasan: "+(b.delivery_area||"Manual")+"\n\n"+
   "Masukkan caj penghantaran (RM):",
-  current.toFixed(2)
+  Number(b.delivery_fee||0).toFixed(2)
  );
 
  if(input===null)return;
 
  const raw=input.trim();
+
  const amount=Number(raw);
 
  if(
@@ -545,37 +1770,46 @@ async function setDeliveryFee(b){
   amount<0||
   amount>10000
  ){
-  msg("Caj penghantaran tidak sah. Masukkan RM0 hingga RM10000.");
+
+  msg("Caj penghantaran tidak sah.","bad");
+
   return;
  }
 
- const rental=Number(b.rental_price||0);
- const deposit=Number(b.booking_deposit??rental/2);
- const total=rental+SECURITY+amount;
- const remaining=rental-deposit+amount;
+ const m=moneyInfo({
+  ...b,
+  delivery_fee:amount
+ });
 
  if(!confirm(
   "SAHKAN CAJ PENGHANTARAN\n\n"+
   "Pelanggan: "+b.customer_name+"\n"+
-  "Harga sewaan: "+rm(rental)+"\n"+
-  "Caj penghantaran: "+rm(amount)+"\n"+
-  "Deposit keselamatan: "+rm(SECURITY)+"\n\n"+
-  "JUMLAH KESELURUHAN: "+rm(total)+"\n"+
-  "Baki perlu diterima: "+rm(remaining)+"\n\n"+
+  "Caj baharu: "+rm(amount)+"\n"+
+  "Jumlah keseluruhan: "+rm(m.total)+"\n"+
+  "Bayaran peringkat kedua: "+rm(m.remaining)+"\n\n"+
   "Simpan caj ini?"
  ))return;
 
- await update(b.id,{delivery_fee:amount});
+ await update(b.id,{
+  delivery_fee:amount
+ },b);
 }
 
 /* BAYARAN PENUH */
 
 async function confirmFullPayment(b){
+
  if(
   b.booking_status!=="CONFIRMED"||
-  b.payment_status!=="VERIFIED"
+  b.payment_status!=="VERIFIED"||
+  b.full_payment_confirmed
  ){
-  msg("Sahkan tempahan dan bayaran awal dahulu.");
+
+  msg(
+   "Sahkan tempahan dan bayaran awal dahulu.",
+   "bad"
+  );
+
   return;
  }
 
@@ -584,56 +1818,91 @@ async function confirmFullPayment(b){
  if(!confirm(
   "SAHKAN BAYARAN PENUH\n\n"+
   "Pelanggan: "+b.customer_name+"\n"+
-  "Harga sewaan: "+rm(m.rental)+"\n"+
-  "Deposit awal: "+rm(m.initial)+"\n"+
+  "Versi tempahan: V"+version(b)+"\n"+
+  "Bayaran awal: "+rm(m.initial)+"\n"+
   "Baki sewaan: "+rm(m.balance)+"\n"+
-  "Caj penghantaran: "+rm(m.delivery)+"\n\n"+
+  "Caj penghantaran: "+rm(m.delivery)+"\n"+
+  "Deposit keselamatan peringkat kedua: "+
+   rm(isV3(b)?SECURITY:0)+"\n\n"+
   "BAKI PERLU DITERIMA: "+rm(m.remaining)+"\n"+
   "JUMLAH KESELURUHAN: "+rm(m.total)+"\n\n"+
-  "Pastikan wang telah benar-benar diterima.\n"+
+  "Pastikan semua wang telah benar-benar diterima.\n"+
   "Teruskan?"
  ))return;
 
  await update(b.id,{
   full_payment_confirmed:true,
-  full_payment_confirmed_at:new Date().toISOString()
- });
+  full_payment_confirmed_at:new Date().toISOString(),
+  security_deposit_paid:true
+ },b);
 }
 
 async function undoFullPayment(b){
- if(depositInfo(b).recorded){
-  msg("Rekod deposit keselamatan sudah dibuat. Semak rekod sebelum mengubah status bayaran penuh.");
+
+ const d=depositInfo(b);
+
+ if(
+  d.recorded||
+  d.status!=="NOT_PROCESSED"
+ ){
+
+  msg(
+   "Rekod deposit keselamatan telah dibuat.",
+   "bad"
+  );
+
   return;
  }
 
  if(!confirm(
-  "Batalkan status bayaran penuh?\n"+
+  "Batalkan pengesahan bayaran penuh?\n\n"+
+  "Ini hanya membetulkan status rekod.\n"+
+  "Ia tidak memulangkan wang secara automatik.\n"+
   "Resit terdahulu perlu disemak semula."
  ))return;
 
  await update(b.id,{
   full_payment_confirmed:false,
-  full_payment_confirmed_at:null
- });
+  full_payment_confirmed_at:null,
+  security_deposit_paid:
+   !isV3(b)&&b.payment_status==="VERIFIED"
+ },b);
 }
 
-/* URUS DEPOSIT KESELAMATAN */
+/* DEPOSIT KESELAMATAN */
 
 function openDeposit(b){
+
  const d=depositInfo(b);
 
- if(!b.full_payment_confirmed){
-  msg("Sahkan bayaran penuh dahulu.");
+ if(!securityReceived(b)){
+
+  msg("Deposit keselamatan belum diterima.","bad");
+
+  return;
+ }
+
+ if(
+  !b.full_payment_confirmed&&
+  b.booking_status!=="CANCELLED"
+ ){
+
+  msg("Sahkan bayaran penuh dahulu.","bad");
+
   return;
  }
 
  if(d.status==="REFUNDED"){
-  msg("Pemulangan telah direkod sebagai selesai.");
+
+  msg("Pemulangan telah selesai.");
+
   return;
  }
 
  editingDepositId=b.id;
- $("modalCustomer").textContent="Pelanggan: "+b.customer_name;
+
+ $("modalCustomer").textContent=
+  "Pelanggan: "+b.customer_name;
 
  $("deduction").value=d.recorded
   ?d.deduction.toFixed(2)
@@ -643,44 +1912,75 @@ function openDeposit(b){
   b.security_deduction_reason||"";
 
  calculateRefund();
+
  $("depositModal").classList.remove("hide");
+
  $("deduction").focus();
 }
 
 function closeDeposit(){
+
  editingDepositId=null;
+
  $("depositModal").classList.add("hide");
 }
 
 $("closeDeposit").onclick=closeDeposit;
 
 function calculateRefund(){
+
  const raw=$("deduction").value.trim();
+
  const n=Number(raw);
 
  const valid=
   /^\d+(\.\d{1,2})?$/.test(raw)&&
-  Number.isFinite(n)&&n>=0&&n<=100;
+  Number.isFinite(n)&&
+  n>=0&&n<=100;
 
  $("saveDeposit").disabled=!valid;
 
  if(!valid){
+
   $("deductPreview").textContent="Tidak sah";
+
   $("refundPreview").textContent="—";
+
   return;
  }
 
  $("deductPreview").textContent=rm(n);
+
  $("refundPreview").textContent=rm(SECURITY-n);
 }
 
 $("deduction").oninput=calculateRefund;
 
 $("saveDeposit").onclick=async()=>{
- if(!editingDepositId)return;
+
+ if(!editingDepositId||busy||!authorized)return;
+
+ const b=records.find(
+  r=>r.id===editingDepositId
+ );
+
+ if(
+  !b||
+  !securityReceived(b)||
+  depositInfo(b).status==="REFUNDED"||
+  (!b.full_payment_confirmed&&
+   b.booking_status!=="CANCELLED")
+ ){
+
+  msg("Rekod deposit tidak lagi tersedia.","bad");
+
+  return;
+ }
 
  const raw=$("deduction").value.trim();
+
  const deduction=Number(raw);
+
  const reason=$("deductionReason").value.trim();
 
  if(
@@ -689,147 +1989,1176 @@ $("saveDeposit").onclick=async()=>{
   deduction<0||
   deduction>100
  ){
-  msg("Masukkan jumlah RM0 hingga RM100, maksimum dua tempat perpuluhan.");
+
+  msg("Masukkan jumlah RM0 hingga RM100.","bad");
+
   return;
  }
 
  if(deduction>0&&!reason){
-  msg("Sila nyatakan sebab jumlah tidak dipulangkan.");
+
+  msg("Sila nyatakan sebab potongan.","bad");
+
   return;
  }
 
- const refund=SECURITY-deduction;
+ const refund=round(SECURITY-deduction);
 
  if(!confirm(
   "SIMPAN REKOD DEPOSIT\n\n"+
   "Tidak dipulangkan: "+rm(deduction)+"\n"+
   "Perlu dipulangkan: "+rm(refund)+"\n"+
   "Sebab: "+(reason||"Tiada potongan")+"\n\n"+
-  "Ini BELUM mengesahkan wang telah dipulangkan.\n"+
+  "Ini belum mengesahkan wang dipulangkan.\n"+
   "Teruskan?"
  ))return;
 
- const id=editingDepositId;
-
- const ok=await update(id,{
+ const ok=await update(b.id,{
   security_deduction:deduction,
   security_deduction_reason:reason||null,
   security_refund_status:"PENDING_REFUND",
   security_refunded_at:null
- });
+ },b);
 
  if(ok)closeDeposit();
 };
 
 async function confirmRefund(b){
+
  const d=depositInfo(b);
 
- if(!d.recorded||d.status!=="PENDING_REFUND")return;
+ if(
+  !securityReceived(b)||
+  !d.recorded||
+  d.status!=="PENDING_REFUND"
+ )return;
 
  if(!confirm(
   "SAHKAN PROSES PEMULANGAN\n\n"+
   "Pelanggan: "+b.customer_name+"\n"+
   "Jumlah ditahan: "+rm(d.deduction)+"\n"+
   "Jumlah dipulangkan: "+rm(d.refund)+"\n\n"+
-  (d.refund>0
+  (
+   d.refund>0
    ?"Pastikan wang telah benar-benar dipindahkan."
-   :"Sahkan keseluruhan deposit ditahan mengikut syarat.")+
+   :"Sahkan keseluruhan deposit ditahan mengikut syarat."
+  )+
   "\n\nTeruskan?"
  ))return;
 
  await update(b.id,{
   security_refund_status:"REFUNDED",
   security_refunded_at:new Date().toISOString()
- });
+ },b);
 }
 
-/* LIHAT BUKTI BAYARAN PELANGGAN */
+/* BUKTI BAYARAN */
 
 async function receipt(path){
- const {data,error}=await db.storage
-  .from("payment-receipts")
-  .createSignedUrl(path,60);
 
- if(error||!data){
-  msg("Gagal buka bukti bayaran.");
-  return;
- }
+ if(!authorized)return;
 
- window.open(data.signedUrl,"_blank","noopener");
-}
-
-/* PENJANA RESIT DAN SLIP PDF */
-
-function printDocument(title,body){
  const win=window.open("","_blank");
 
  if(!win){
-  msg("Popup disekat. Benarkan popup untuk jana PDF.");
+
+  msg("Benarkan popup untuk melihat resit.","bad");
+
   return;
  }
 
- const logoUrl=new URL("logo.png",location.href).href;
+ win.opener=null;
+
+ try{
+
+  const {data,error}=await db.storage
+   .from("payment-receipts")
+   .createSignedUrl(path,60);
+
+  if(error||!data?.signedUrl){
+
+   throw new Error("Gagal buka bukti bayaran.");
+  }
+
+  win.location.replace(data.signedUrl);
+
+ }catch(error){
+
+  win.close();
+
+  msg(error.message,"bad");
+ }
+}
+
+/* PENGURUSAN PAKEJ */
+
+async function loadPackages(){
+
+ if(!authorized)return;
+
+ const {data,error}=await db
+  .from("product_packages")
+  .select("*")
+  .order("product_id")
+  .order("duration_hours");
+
+ if(error)throw error;
+
+ if(!authorized)return;
+
+ packages=data||[];
+
+ renderPackages();
+}
+
+function renderPackages(){
+
+ const tbody=$("packageRows");
+
+ tbody.replaceChildren();
+
+ for(const p of packages){
+
+  const tr=document.createElement("tr");
+
+  tr.innerHTML=`
+
+   <td>
+    <b>${e(names[p.product_id]||p.product_id)}</b>
+   </td>
+
+   <td>${e(p.duration_hours)} jam</td>
+
+   <td>
+    <input type="number"
+     min="0.01"
+     step="0.01"
+     value="${Number(p.price).toFixed(2)}"
+     aria-label="Harga pakej">
+   </td>
+
+   <td>
+    <span class="badge ${p.active?"green":"red"}">
+     ${p.active?"AKTIF":"TIDAK AKTIF"}
+    </span>
+   </td>
+
+   <td><div class="actions"></div></td>
+
+  `;
+
+  const input=tr.querySelector("input");
+
+  const actions=tr.querySelector(".actions");
+
+  addButton(
+   actions,
+   "Simpan Harga",
+   ()=>savePackagePrice(p,input.value),
+   "success"
+  );
+
+  addButton(
+   actions,
+   p.active?"Nyahaktif":"Aktifkan",
+   ()=>togglePackage(p),
+   p.active?"secondary":"success"
+  );
+
+  tbody.append(tr);
+ }
+
+ if(!packages.length){
+
+  tbody.innerHTML=
+   '<tr><td colspan="5">Tiada pakej.</td></tr>';
+ }
+}
+
+async function savePackagePrice(p,raw){
+
+ raw=String(raw).trim();
+
+ const price=Number(raw);
+
+ if(
+  !/^\d+(\.\d{1,2})?$/.test(raw)||
+  !Number.isFinite(price)||
+  price<=0||
+  price>100000
+ ){
+
+  msg("Harga pakej tidak sah.","bad");
+
+  return;
+ }
+
+ if(!confirm(
+  "Ubah harga "+names[p.product_id]+"\n"+
+  "Tempoh: "+p.duration_hours+" jam\n"+
+  "Harga lama: "+rm(p.price)+"\n"+
+  "Harga baharu: "+rm(price)+"\n\n"+
+  "Perubahan untuk tempahan baharu sahaja."
+ ))return;
+
+ await saveSetting(
+  "product_packages",
+  p.id,
+  {price},
+  loadPackages
+ );
+}
+
+async function togglePackage(p){
+
+ if(
+  !p.active&&
+  ![24,48,72].includes(Number(p.duration_hours))
+ ){
+
+  msg(
+   "Pakej ini tidak disokong oleh Booking V3.",
+   "bad"
+  );
+
+  return;
+ }
+
+ if(!confirm(
+  (p.active?"Nyahaktifkan":"Aktifkan")+
+  " pakej "+names[p.product_id]+
+  " "+p.duration_hours+" jam?"
+ ))return;
+
+ await saveSetting(
+  "product_packages",
+  p.id,
+  {active:!p.active},
+  loadPackages
+ );
+}
+
+/* KAWASAN PENGHANTARAN */
+
+function deliveryPrice(distance){
+
+ return round(
+  Math.max(20,Number(distance)*2*0.5)
+ );
+}
+
+$("newDistance").oninput=()=>{
+
+ const raw=$("newDistance").value;
+
+ const n=Number(raw);
+
+ $("newDeliveryPreview").textContent=
+  raw!==""&&Number.isFinite(n)&&n>=0
+   ?rm(deliveryPrice(n))
+   :"—";
+};
+
+async function loadZones(){
+
+ if(!authorized)return;
+
+ const {data,error}=await db
+  .from("delivery_zones")
+  .select("*")
+  .order("area_name");
+
+ if(error)throw error;
+
+ if(!authorized)return;
+
+ zones=data||[];
+
+ renderZones();
+}
+
+function renderZones(){
+
+ const tbody=$("zoneRows");
+
+ tbody.replaceChildren();
+
+ for(const z of zones){
+
+  const tr=document.createElement("tr");
+
+  tr.innerHTML=`
+
+   <td><b>${e(z.area_name)}</b></td>
+
+   <td>
+    <input type="number"
+     min="0"
+     max="10000"
+     step="0.01"
+     value="${Number(z.distance_km)}"
+     aria-label="Jarak sehala">
+   </td>
+
+   <td class="roundtrip">
+    ${round(Number(z.distance_km)*2)} km
+   </td>
+
+   <td class="fee">
+    <b>${rm(z.delivery_fee)}</b>
+   </td>
+
+   <td>
+    <span class="badge ${z.active?"green":"red"}">
+     ${z.active?"AKTIF":"TIDAK AKTIF"}
+    </span>
+   </td>
+
+   <td><div class="actions"></div></td>
+
+  `;
+
+  const input=tr.querySelector("input");
+
+  input.oninput=()=>{
+
+   const n=Number(input.value);
+
+   const valid=
+    input.value!==""&&
+    Number.isFinite(n)&&n>=0&&n<=10000;
+
+   tr.querySelector(".roundtrip").textContent=
+    valid?round(n*2)+" km":"—";
+
+   tr.querySelector(".fee").textContent=
+    valid?rm(deliveryPrice(n)):"—";
+  };
+
+  const actions=tr.querySelector(".actions");
+
+  addButton(
+   actions,
+   "Simpan Jarak",
+   ()=>saveZoneDistance(z,input.value),
+   "success"
+  );
+
+  addButton(
+   actions,
+   "Edit Nama",
+   ()=>renameZone(z),
+   "secondary"
+  );
+
+  addButton(
+   actions,
+   z.active?"Nyahaktif":"Aktifkan",
+   ()=>toggleZone(z),
+   z.active?"secondary":"success"
+  );
+
+  tbody.append(tr);
+ }
+
+ if(!zones.length){
+
+  tbody.innerHTML=
+   '<tr><td colspan="6">Tiada kawasan.</td></tr>';
+ }
+}
+
+$("addZone").onclick=async()=>{
+
+ if(busy||!authorized)return;
+
+ const name=$("newArea").value.trim();
+
+ const raw=$("newDistance").value.trim();
+
+ const distance=Number(raw);
+
+ if(
+  !name||
+  name.length>120||
+  !/^\d+(\.\d{1,2})?$/.test(raw)||
+  !Number.isFinite(distance)||
+  distance<0||
+  distance>10000
+ ){
+
+  msg("Nama kawasan atau jarak tidak sah.","bad");
+
+  return;
+ }
+
+ const active=$("newAreaActive").checked;
+
+ if(!confirm(
+  "Tambah kawasan: "+name+"\n"+
+  "Jarak sehala: "+distance+" km\n"+
+  "Caj penghantaran: "+rm(deliveryPrice(distance))+"\n"+
+  "Status: "+(active?"Aktif":"Tidak aktif")+"\n\n"+
+  "Teruskan?"
+ ))return;
+
+ const ok=await insertSetting(
+  "delivery_zones",
+  {
+   area_name:name,
+   distance_km:distance,
+   active
+  },
+  loadZones
+ );
+
+ if(ok){
+
+  $("newArea").value="";
+  $("newDistance").value="";
+  $("newAreaActive").checked=false;
+  $("newDeliveryPreview").textContent="—";
+ }
+};
+
+async function saveZoneDistance(z,raw){
+
+ raw=String(raw).trim();
+
+ const distance=Number(raw);
+
+ if(
+  !/^\d+(\.\d{1,2})?$/.test(raw)||
+  !Number.isFinite(distance)||
+  distance<0||
+  distance>10000
+ ){
+
+  msg("Jarak tidak sah.","bad");
+
+  return;
+ }
+
+ if(!confirm(
+  "Kawasan: "+z.area_name+"\n"+
+  "Jarak baharu: "+distance+" km\n"+
+  "Caj baharu: "+rm(deliveryPrice(distance))+"\n\n"+
+  "Simpan perubahan?"
+ ))return;
+
+ await saveSetting(
+  "delivery_zones",
+  z.id,
+  {distance_km:distance},
+  loadZones
+ );
+}
+
+async function renameZone(z){
+
+ const name=prompt(
+  "Nama kawasan:",
+  z.area_name
+ );
+
+ if(name===null)return;
+
+ if(!name.trim()||name.trim().length>120){
+
+  msg("Nama kawasan tidak sah.","bad");
+
+  return;
+ }
+
+ await saveSetting(
+  "delivery_zones",
+  z.id,
+  {area_name:name.trim()},
+  loadZones
+ );
+}
+
+async function toggleZone(z){
+
+ if(!confirm(
+  (z.active?"Nyahaktifkan":"Aktifkan")+
+  " kawasan "+z.area_name+"?\n\n"+
+  "Jarak sehala: "+z.distance_km+" km\n"+
+  "Caj penghantaran: "+rm(z.delivery_fee)
+ ))return;
+
+ await saveSetting(
+  "delivery_zones",
+  z.id,
+  {active:!z.active},
+  loadZones
+ );
+}
+
+/* KOD PROMOSI */
+
+$("newPromoCode").oninput=()=>{
+
+ $("newPromoCode").value=
+  $("newPromoCode").value.toUpperCase();
+};
+
+async function loadPromos(){
+
+ if(!authorized)return;
+
+ const {data,error}=await db
+  .from("promo_codes")
+  .select("*")
+  .order("created_at",{ascending:false});
+
+ if(error)throw error;
+
+ if(!authorized)return;
+
+ promos=data||[];
+
+ renderPromos();
+}
+
+function promoStatus(p){
+
+ if(!p.active){
+
+  return ["TIDAK AKTIF","red"];
+ }
+
+ if(
+  p.expires_at&&
+  new Date(p.expires_at).getTime()<=Date.now()
+ ){
+
+  return ["TAMAT","red"];
+ }
+
+ if(
+  p.max_uses!==null&&
+  Number(p.used_count)>=Number(p.max_uses)
+ ){
+
+  return ["HAD HABIS","yellow"];
+ }
+
+ if(
+  p.starts_at&&
+  new Date(p.starts_at).getTime()>Date.now()
+ ){
+
+  return ["BELUM BERMULA","yellow"];
+ }
+
+ return ["AKTIF","green"];
+}
+
+function renderPromos(){
+
+ const tbody=$("promoRows");
+
+ tbody.replaceChildren();
+
+ for(const p of promos){
+
+  const [status,color]=promoStatus(p);
+
+  const tr=document.createElement("tr");
+
+  tr.innerHTML=`
+
+   <td><b>${e(p.code)}</b></td>
+
+   <td>${rm(p.discount_amount)}</td>
+
+   <td>
+    ${Number(p.used_count||0)} /
+    ${p.max_uses===null?"∞":e(p.max_uses)}
+   </td>
+
+   <td>
+    ${
+     p.expires_at
+     ?date(new Date(
+       new Date(p.expires_at).getTime()-60000
+      ))
+     :"Tiada had"
+    }
+   </td>
+
+   <td>
+    <span class="badge ${color}">
+     ${status}
+    </span>
+   </td>
+
+   <td><div class="actions"></div></td>
+
+  `;
+
+  const actions=tr.querySelector(".actions");
+
+  addButton(
+   actions,
+   "Edit",
+   ()=>editPromo(p),
+   "secondary"
+  );
+
+  addButton(
+   actions,
+   p.active?"Nyahaktif":"Aktifkan",
+   ()=>togglePromo(p),
+   p.active?"danger":"success"
+  );
+
+  addButton(
+   actions,
+   "Salin Kod",
+   async()=>{
+
+    await navigator.clipboard.writeText(p.code);
+
+    msg("Kod "+p.code+" telah disalin.","good");
+   },
+   "purple"
+  );
+
+  tbody.append(tr);
+ }
+
+ if(!promos.length){
+
+  tbody.innerHTML=
+   '<tr><td colspan="6">Belum ada kod promosi.</td></tr>';
+ }
+}
+
+function validDiscount(raw){
+
+ return /^\d+(\.\d{1,2})?$/.test(raw)&&
+  Number.isFinite(Number(raw))&&
+  Number(raw)>0&&
+  Number(raw)<=100000;
+}
+
+function parseLimit(raw){
+
+ raw=String(raw).trim();
+
+ if(!raw)return null;
+
+ const n=Number(raw);
+
+ if(
+  !/^\d+$/.test(raw)||
+  !Number.isSafeInteger(n)||
+  n<1||
+  n>2147483647
+ ){
+
+  throw new Error("Had penggunaan tidak sah.");
+ }
+
+ return n;
+}
+
+$("createPromo").onclick=async()=>{
+
+ if(busy||!authorized)return;
+
+ const code=$("newPromoCode").value
+  .trim().toUpperCase();
+
+ const raw=$("newPromoDiscount").value.trim();
+
+ if(!/^[A-Z0-9_-]{3,30}$/.test(code)){
+
+  msg(
+   "Kod mesti 3–30 aksara: huruf, nombor, - atau _.",
+   "bad"
+  );
+
+  return;
+ }
+
+ if(!validDiscount(raw)){
+
+  msg("Jumlah diskaun tidak sah.","bad");
+
+  return;
+ }
+
+ try{
+
+  const discount=Number(raw);
+
+  const limit=parseLimit(
+   $("newPromoLimit").value
+  );
+
+  const expiry=expiryFromDate(
+   $("newPromoExpiry").value
+  );
+
+  if(
+   expiry&&
+   new Date(expiry).getTime()<=Date.now()
+  ){
+
+   throw new Error(
+    "Tarikh tamat mestilah belum berlalu."
+   );
+  }
+
+  if(!confirm(
+   "CIPTA KOD PROMOSI\n\n"+
+   "Kod: "+code+"\n"+
+   "Diskaun: "+rm(discount)+"\n"+
+   "Had: "+(limit??"Tanpa had")+"\n"+
+   "Tamat: "+
+    (
+     $("newPromoExpiry").value||
+     "Tiada tarikh tamat"
+    )+
+   "\n\nAktifkan kod ini?"
+  ))return;
+
+  const ok=await insertSetting(
+   "promo_codes",
+   {
+    code,
+    discount_amount:discount,
+    active:true,
+    starts_at:new Date().toISOString(),
+    expires_at:expiry,
+    max_uses:limit
+   },
+   loadPromos
+  );
+
+  if(ok){
+
+   $("newPromoCode").value="";
+   $("newPromoDiscount").value="";
+   $("newPromoExpiry").value="";
+   $("newPromoLimit").value="";
+  }
+
+ }catch(error){
+
+  msg(error.message,"bad");
+ }
+};
+
+async function editPromo(p){
+
+ const raw=prompt(
+  "Diskaun bagi kod "+p.code+" (RM):",
+  Number(p.discount_amount).toFixed(2)
+ );
+
+ if(raw===null)return;
+
+ if(!validDiscount(raw.trim())){
+
+  msg("Jumlah diskaun tidak sah.","bad");
+
+  return;
+ }
+
+ const limitInput=prompt(
+  "Had penggunaan keseluruhan.\n"+
+  "Kosongkan untuk tanpa had.\n"+
+  "Sudah digunakan: "+p.used_count,
+  p.max_uses===null?"":String(p.max_uses)
+ );
+
+ if(limitInput===null)return;
+
+ const oldExpiry=p.expires_at
+  ?malaysiaDate(
+    new Date(
+     new Date(p.expires_at).getTime()-1
+    )
+   )
+  :"";
+
+ const expiryInput=prompt(
+  "Tarikh tamat YYYY-MM-DD.\n"+
+  "Kosongkan jika tiada tarikh tamat.",
+  oldExpiry
+ );
+
+ if(expiryInput===null)return;
+
+ try{
+
+  const limit=parseLimit(limitInput);
+
+  if(
+   limit!==null&&
+   limit<Number(p.used_count)
+  ){
+
+   throw new Error(
+    "Had tidak boleh kurang daripada penggunaan sedia ada."
+   );
+  }
+
+  const expiryRaw=expiryInput.trim();
+
+  if(
+   expiryRaw&&
+   !/^\d{4}-\d{2}-\d{2}$/.test(expiryRaw)
+  ){
+
+   throw new Error("Format tarikh tidak sah.");
+  }
+
+  const expiry=expiryFromDate(expiryRaw);
+
+  if(
+   expiry&&
+   new Date(expiry).getTime()<=
+    new Date(p.starts_at).getTime()
+  ){
+
+   throw new Error(
+    "Tarikh tamat mesti selepas tarikh mula."
+   );
+  }
+
+  if(!confirm(
+   "Simpan perubahan kod "+p.code+"?\n\n"+
+   "Diskaun: "+rm(Number(raw))+"\n"+
+   "Had: "+(limit??"Tanpa had")+"\n"+
+   "Tarikh tamat: "+(expiryRaw||"Tiada")+"\n\n"+
+   "Tempahan terdahulu tidak berubah."
+  ))return;
+
+  await saveSetting(
+   "promo_codes",
+   p.id,
+   {
+    discount_amount:Number(raw),
+    max_uses:limit,
+    expires_at:expiry
+   },
+   loadPromos
+  );
+
+ }catch(error){
+
+  msg(error.message,"bad");
+ }
+}
+
+async function togglePromo(p){
+
+ if(!confirm(
+  (p.active?"Nyahaktifkan":"Aktifkan")+
+  " kod promosi "+p.code+"?"
+ ))return;
+
+ await saveSetting(
+  "promo_codes",
+  p.id,
+  {active:!p.active},
+  loadPromos
+ );
+}
+
+/* SIMPAN TETAPAN DATABASE */
+
+async function saveSetting(
+ table,id,changes,reload
+){
+
+ if(busy||!authorized)return false;
+
+ busy=true;
+
+ try{
+
+  const {data,error}=await db.from(table)
+   .update(changes)
+   .eq("id",id)
+   .select("id")
+   .maybeSingle();
+
+  if(error)throw error;
+
+  if(!data){
+
+   throw new Error(
+    "Rekod tidak dijumpai atau akses ditolak."
+   );
+  }
+
+  try{
+
+   await reload();
+
+   msg("Perubahan berjaya disimpan.","good");
+
+  }catch(error){
+
+   msg(
+    "Perubahan disimpan. Tekan Refresh untuk paparan terkini.",
+    "bad"
+   );
+  }
+
+  return true;
+
+ }catch(error){
+
+  msg("Gagal simpan: "+error.message,"bad");
+
+  return false;
+
+ }finally{
+
+  busy=false;
+ }
+}
+
+async function insertSetting(
+ table,values,reload
+){
+
+ if(busy||!authorized)return false;
+
+ busy=true;
+
+ try{
+
+  const {error}=await db.from(table)
+   .insert(values);
+
+  if(error)throw error;
+
+  try{
+
+   await reload();
+
+   msg("Rekod berjaya ditambah.","good");
+
+  }catch(error){
+
+   msg(
+    "Rekod ditambah. Tekan Refresh untuk paparan terkini.",
+    "bad"
+   );
+  }
+
+  return true;
+
+ }catch(error){
+
+  msg("Gagal tambah: "+error.message,"bad");
+
+  return false;
+
+ }finally{
+
+  busy=false;
+ }
+}
+
+/* PENJANA DOKUMEN PDF */
+
+function printDocument(title,body){
+
+ const win=window.open("","_blank");
+
+ if(!win){
+
+  msg(
+   "Popup disekat. Benarkan popup untuk jana PDF.",
+   "bad"
+  );
+
+  return;
+ }
+
+ win.opener=null;
+
+ const logoUrl=new URL(
+  "logo.png",
+  location.href
+ ).href;
 
  const html=`<!DOCTYPE html>
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<title>${escapeHTML(title)}</title>
+<title>${e(title)}</title>
 <style>
 @page{size:A4;margin:16mm}
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;color:#183451;margin:0}
-.print{display:block;width:100%;border:0;padding:14px;background:#087fd1;color:white;font-weight:bold;font-size:16px;cursor:pointer}
-.receipt{max-width:760px;margin:20px auto;padding:28px;border:1px solid #dceaf5;border-radius:14px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:4px solid #087fd1;padding-bottom:18px}
-.brand{font-size:25px;font-weight:900;color:#087fd1}
-.logo{width:150px;max-height:100px;object-fit:contain}
-.small{font-size:12px;color:#637b91;line-height:1.7}
-.title{text-align:center;margin:28px 0}
-.title h1{font-size:23px;margin:0 0 8px}
-.status{display:inline-block;background:#e1f8e9;color:#17683d;padding:8px 15px;border-radius:25px;font-size:12px;font-weight:bold}
-.info{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
-.info div{font-size:13px;line-height:1.7;overflow-wrap:anywhere}
-table{width:100%;border-collapse:collapse;margin-top:20px}
-th{background:#087fd1;color:white;text-align:left;padding:12px}
-td{padding:13px 12px;border-bottom:1px solid #e3edf5;font-size:13px}
+body{
+ font-family:Arial,sans-serif;
+ color:#183451;
+ margin:0;
+}
+.print{
+ display:block;
+ width:100%;
+ border:0;
+ padding:14px;
+ background:#087fd1;
+ color:white;
+ font-weight:bold;
+ font-size:16px;
+ cursor:pointer;
+}
+.receipt{
+ max-width:760px;
+ margin:20px auto;
+ padding:28px;
+ border:1px solid #dceaf5;
+ border-radius:14px;
+}
+.top{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:20px;
+ border-bottom:4px solid #087fd1;
+ padding-bottom:18px;
+}
+.brand{
+ font-size:25px;
+ font-weight:900;
+ color:#087fd1;
+}
+.logo{
+ width:150px;
+ max-height:100px;
+ object-fit:contain;
+}
+.small{
+ font-size:12px;
+ color:#637b91;
+ line-height:1.7;
+}
+.title{
+ text-align:center;
+ margin:25px 0;
+}
+.title h1{
+ font-size:23px;
+ margin:0 0 8px;
+}
+.status{
+ display:inline-block;
+ background:#e1f8e9;
+ color:#17683d;
+ padding:8px 15px;
+ border-radius:25px;
+ font-size:12px;
+ font-weight:bold;
+}
+.info{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+ margin:20px 0;
+}
+.info div{
+ font-size:12px;
+ line-height:1.6;
+ overflow-wrap:anywhere;
+}
+table{
+ width:100%;
+ border-collapse:collapse;
+ margin-top:18px;
+}
+th{
+ background:#087fd1;
+ color:white;
+ text-align:left;
+ padding:10px;
+}
+td{
+ padding:10px;
+ border-bottom:1px solid #e3edf5;
+ font-size:12px;
+}
 td:last-child,th:last-child{text-align:right}
-.total td{font-weight:900;font-size:17px;color:#087fd1;border-top:2px solid #087fd1}
-.note{margin-top:25px;padding:14px;background:#eef9ff;border-radius:10px;font-size:12px;line-height:1.7}
-.footer{text-align:center;margin-top:35px;color:#68849a;font-size:12px}
+.total td{
+ font-weight:900;
+ font-size:16px;
+ color:#087fd1;
+ border-top:2px solid #087fd1;
+}
+.discount td{color:#168653}
+.note{
+ margin-top:20px;
+ padding:13px;
+ background:#eef9ff;
+ border-radius:10px;
+ font-size:11px;
+ line-height:1.6;
+}
+.footer{
+ text-align:center;
+ margin-top:25px;
+ color:#68849a;
+ font-size:11px;
+}
+tr{break-inside:avoid}
 @media print{
  .print{display:none}
  .receipt{border:0;margin:0;padding:0}
+ body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 @media(max-width:600px){
  .receipt{padding:16px}
- .info{grid-template-columns:1fr}
  .logo{width:110px}
 }
 </style>
 </head>
+
 <body>
+
 <button class="print" onclick="window.print()">
-Cetak / Simpan sebagai PDF
+ Cetak / Simpan sebagai PDF
 </button>
+
 <div class="receipt">
-<div class="top">
-<div>
-<div class="brand">SPLASHVILLE</div>
-<div class="small">
-INFLATABLE & WATERPLAY RENTAL<br>
-Slide • Splash • Smile!
+
+ <div class="top">
+
+  <div>
+   <div class="brand">SPLASHVILLE</div>
+   <div class="small">
+    INFLATABLE & WATERPLAY RENTAL<br>
+    Slide • Splash • Smile!
+   </div>
+  </div>
+
+  <img class="logo"
+   src="${e(logoUrl)}"
+   alt="SPLASHVILLE">
+
+ </div>
+
+ ${body}
+
+ <div class="footer">
+  Terima kasih kerana memilih SPLASHVILLE!<br>
+  Slide • Splash • Smile!<br><br>
+  Dokumen ini dijana secara elektronik.
+ </div>
+
 </div>
-</div>
-<img class="logo" src="${logoUrl}" alt="SPLASHVILLE">
-</div>
-${body}
-<div class="footer">
-Terima kasih kerana memilih SPLASHVILLE!<br>
-Slide • Splash • Smile!<br><br>
-Dokumen ini dijana secara elektronik.
-</div>
-</div>
+
 </body>
 </html>`;
 
@@ -840,96 +3169,320 @@ Dokumen ini dijana secara elektronik.
 }
 
 function infoBlock(b,extra=""){
+
  const duration=
   (new Date(b.end_at)-new Date(b.start_at))/3600000;
 
  return `
-<div class="info">
-<div><b>Nama Pelanggan</b><br>${escapeHTML(b.customer_name)}</div>
-<div><b>No. Telefon</b><br>${escapeHTML(b.phone)}</div>
-<div><b>Produk Sewaan</b><br>${escapeHTML(names[b.product_id]||b.product_id)}</div>
-<div><b>Tempoh Sewaan</b><br>${duration} jam</div>
-<div><b>Masa Mula</b><br>${date(b.start_at)}</div>
-<div><b>Masa Tamat</b><br>${date(b.end_at)}</div>
-<div><b>No. Rujukan Tempahan</b><br>${escapeHTML(b.id)}</div>
-${extra}
-</div>`;
+
+ <div class="info">
+
+  <div>
+   <b>Nama Pelanggan</b><br>
+   ${e(b.customer_name)}
+  </div>
+
+  <div>
+   <b>No. Telefon</b><br>
+   ${e(b.phone)}
+  </div>
+
+  <div>
+   <b>Produk Sewaan</b><br>
+   ${e(names[b.product_id]||b.product_id)}
+  </div>
+
+  <div>
+   <b>Tempoh Sewaan</b><br>
+   ${duration} jam
+  </div>
+
+  <div>
+   <b>Masa Mula</b><br>
+   ${date(b.start_at)}
+  </div>
+
+  <div>
+   <b>Masa Tamat</b><br>
+   ${date(b.end_at)}
+  </div>
+
+  <div>
+   <b>Alamat Penghantaran</b><br>
+   ${e(b.delivery_address)}
+  </div>
+
+  <div>
+   <b>No. Rujukan Tempahan</b><br>
+   ${e(b.id)}
+  </div>
+
+  ${extra}
+
+ </div>`;
 }
 
-/* RESIT BAYARAN PENUH TERMASUK PENGHANTARAN */
+function documentRow(label,value,cls=""){
 
-function generateReceipt(b){
- if(
-  !b.full_payment_confirmed||
-  b.booking_status==="CANCELLED"
- ){
-  msg("Bayaran penuh belum disahkan.");
+ return `
+ <tr class="${cls}">
+  <td>${e(label)}</td>
+  <td>${e(value)}</td>
+ </tr>`;
+}
+
+function documentTable(rows){
+
+ return `
+ <table>
+  <thead>
+   <tr>
+    <th>Butiran Pembayaran</th>
+    <th>Jumlah</th>
+   </tr>
+  </thead>
+  <tbody>${rows}</tbody>
+ </table>`;
+}
+
+function discountRows(b,m){
+
+ if(m.discount<=0)return "";
+
+ return documentRow(
+  "Harga Sewaan Asal",
+  rm(m.original)
+ )+
+
+ documentRow(
+  "Diskaun "+(b.promo_code||""),
+  "−"+rm(m.discount),
+  "discount"
+ );
+}
+
+function documentTitle(title,no,status){
+
+ return `
+ <div class="title">
+  <h1>${e(title)}</h1>
+  <div class="small">${e(no)}</div>
+  <p><span class="status">${e(status)}</span></p>
+ </div>`;
+}
+
+/* RESIT BAYARAN AWAL */
+
+function generateInitialReceipt(b){
+
+ if(b.payment_status!=="VERIFIED"){
+
+  msg("Bayaran awal belum disahkan.","bad");
+
   return;
  }
 
  const m=moneyInfo(b);
- const receiptNo="SV-R-"+String(b.id).slice(0,8).toUpperCase();
 
- const body=`
-<div class="title">
-<h1>RESIT PEMBAYARAN</h1>
-<div class="small">No. Resit: ${escapeHTML(receiptNo)}</div>
-<p><span class="status">BAYARAN PENUH DITERIMA</span></p>
-</div>
+ const no="SV-B-"+
+  String(b.id).slice(0,8).toUpperCase();
 
-${infoBlock(b,`
-<div>
-<b>Tarikh Bayaran Penuh Disahkan</b><br>
-${date(b.full_payment_confirmed_at||new Date())}
-</div>
-`)}
+ const rows=
 
-<table>
-<thead>
-<tr><th>Butiran Pembayaran</th><th>Jumlah</th></tr>
-</thead>
-<tbody>
-<tr>
-<td>Harga Sewaan</td>
-<td>${rm(m.rental)}</td>
-</tr>
-<tr>
-<td>Deposit Tempahan 50% (Diterima)</td>
-<td>${rm(m.deposit)}</td>
-</tr>
-<tr>
-<td>Baki Sewaan (Diterima)</td>
-<td>${rm(m.balance)}</td>
-</tr>
-<tr>
-<td>Caj Penghantaran (Diterima)</td>
-<td>${rm(m.delivery)}</td>
-</tr>
-<tr>
-<td>Deposit Keselamatan</td>
-<td>${rm(SECURITY)}</td>
-</tr>
-<tr class="total">
-<td>JUMLAH BAYARAN DITERIMA</td>
-<td>${rm(m.total)}</td>
-</tr>
-</tbody>
-</table>
+  discountRows(b,m)+
 
-<div class="note">
-<b>Makluman:</b><br>
-Deposit tempahan sebanyak 50% tidak dipulangkan
-sekiranya pelanggan membatalkan tempahan,
-tertakluk kepada syarat penyewaan.<br><br>
-Deposit keselamatan RM100 boleh dipulangkan
-sepenuhnya atau sebahagiannya selepas pemeriksaan
-peralatan, tertakluk kepada keadaan peralatan
-dan syarat penyewaan.<br><br>
-Caj penghantaran telah dimasukkan dalam jumlah
-keseluruhan resit.<br><br>
-Deposit tempahan dan baki sewaan merupakan
-pecahan daripada harga sewaan, bukan caj tambahan.
-</div>`;
+  documentRow(
+   "Harga Sewaan Selepas Diskaun",
+   rm(m.rental)
+  )+
+
+  documentRow(
+   "Deposit Tempahan (Diterima)",
+   rm(m.deposit)
+  )+
+
+  documentRow(
+   isV3(b)
+    ?"Deposit Keselamatan (Peringkat Kedua)"
+    :"Deposit Keselamatan (Diterima)",
+   rm(SECURITY)
+  )+
+
+  documentRow(
+   "JUMLAH BAYARAN AWAL DITERIMA",
+   rm(m.initial),
+   "total"
+  )+
+
+  documentRow(
+   "Baki Sewaan",
+   rm(m.balance)
+  )+
+
+  documentRow(
+   "Caj Penghantaran",
+   rm(m.delivery)
+  )+
+
+  (
+   isV3(b)
+   ?documentRow(
+     "Deposit Keselamatan Peringkat Kedua",
+     rm(SECURITY)
+    )
+   :""
+  )+
+
+  documentRow(
+   "Jumlah Bayaran Peringkat Kedua",
+   rm(m.remaining)
+  )+
+
+  documentRow(
+   "Jumlah Keseluruhan",
+   rm(m.total)
+  );
+
+ const body=
+
+  documentTitle(
+   "RESIT DEPOSIT TEMPAHAN",
+   "No. Resit: "+no,
+   "BAYARAN AWAL DITERIMA"
+  )+
+
+  infoBlock(b)+
+
+  documentTable(rows)+
+
+  `
+  <div class="note">
+
+   <b>Makluman:</b><br>
+
+   Resit ini merekodkan bayaran awal sahaja.
+   Ia bukan resit pengesahan bayaran penuh.<br><br>
+
+   ${
+    b.booking_status==="CANCELLED"
+    ?"Tempahan ini telah dibatalkan. Rekod bayaran awal dikekalkan."
+    :b.full_payment_confirmed
+     ?"Bayaran penuh turut telah disahkan. Rujuk resit bayaran penuh."
+     :"Bayaran peringkat kedua perlu dijelaskan sehari sebelum sewaan."
+   }
+
+   <br><br>
+
+   Deposit tempahan tidak dipulangkan
+   sekiranya pelanggan membatalkan tempahan,
+   tertakluk kepada syarat sewaan.
+
+  </div>`;
+
+ printDocument("Resit "+no,body);
+}
+
+/* RESIT BAYARAN PENUH */
+
+function generateReceipt(b){
+
+ if(!b.full_payment_confirmed){
+
+  msg("Bayaran penuh belum disahkan.","bad");
+
+  return;
+ }
+
+ const m=moneyInfo(b);
+
+ const receiptNo="SV-R-"+
+  String(b.id).slice(0,8).toUpperCase();
+
+ const rows=
+
+  discountRows(b,m)+
+
+  documentRow(
+   "Harga Sewaan Bersih (Rujukan)",
+   rm(m.rental)
+  )+
+
+  documentRow(
+   "Deposit Tempahan (Diterima)",
+   rm(m.deposit)
+  )+
+
+  documentRow(
+   "Baki Sewaan (Diterima)",
+   rm(m.balance)
+  )+
+
+  documentRow(
+   "Caj Penghantaran (Diterima)",
+   rm(m.delivery)
+  )+
+
+  documentRow(
+   "Deposit Keselamatan (Diterima)",
+   rm(SECURITY)
+  )+
+
+  documentRow(
+   "JUMLAH BAYARAN DITERIMA",
+   rm(m.total),
+   "total"
+  );
+
+ const body=
+
+  documentTitle(
+   "RESIT PEMBAYARAN",
+   "No. Resit: "+receiptNo,
+   "BAYARAN PENUH DITERIMA"
+  )+
+
+  infoBlock(b,`
+   <div>
+    <b>Tarikh Bayaran Penuh Disahkan</b><br>
+    ${date(b.full_payment_confirmed_at)}
+   </div>
+  `)+
+
+  documentTable(rows)+
+
+  `
+  <div class="note">
+
+   <b>Makluman:</b><br>
+
+   Deposit tempahan tidak dipulangkan
+   sekiranya pelanggan membatalkan tempahan,
+   tertakluk kepada syarat penyewaan.<br><br>
+
+   Deposit keselamatan RM100 boleh dipulangkan
+   sepenuhnya atau sebahagiannya selepas
+   pemeriksaan peralatan.<br><br>
+
+   Deposit tempahan dan baki sewaan ialah
+   pecahan daripada harga sewaan,
+   bukan caj tambahan.<br><br>
+
+   Caj penghantaran telah dimasukkan
+   dalam jumlah keseluruhan resit.
+
+   ${
+    b.booking_status==="CANCELLED"
+    ?"<br><br>Tempahan telah dibatalkan. Resit ini merekodkan bayaran yang pernah diterima."
+    :""
+   }
+
+   ${
+    depositInfo(b).status==="REFUNDED"
+    ?"<br><br>Deposit keselamatan telah diproses. Rujuk slip pemulangan deposit."
+    :""
+   }
+
+  </div>`;
 
  printDocument("Resit "+receiptNo,body);
 }
@@ -937,56 +3490,76 @@ pecahan daripada harga sewaan, bukan caj tambahan.
 /* SLIP PEMULANGAN DEPOSIT */
 
 function generateRefundSlip(b){
+
  const d=depositInfo(b);
 
- if(!d.recorded||d.status!=="REFUNDED"){
-  msg("Slip hanya tersedia selepas proses pemulangan disahkan.");
+ if(
+  !d.recorded||
+  d.status!=="REFUNDED"
+ ){
+
+  msg(
+   "Slip tersedia selepas pemulangan disahkan.",
+   "bad"
+  );
+
   return;
  }
 
- const slipNo="SV-D-"+String(b.id).slice(0,8).toUpperCase();
+ const slipNo="SV-D-"+
+  String(b.id).slice(0,8).toUpperCase();
 
- const body=`
-<div class="title">
-<h1>SLIP PEMULANGAN DEPOSIT KESELAMATAN</h1>
-<div class="small">No. Slip: ${escapeHTML(slipNo)}</div>
-<p><span class="status">PROSES PEMULANGAN SELESAI</span></p>
-</div>
+ const rows=
 
-${infoBlock(b,`
-<div>
-<b>Tarikh Proses Selesai</b><br>
-${date(b.security_refunded_at||new Date())}
-</div>
-`)}
+  documentRow(
+   "Deposit Keselamatan Asal",
+   rm(SECURITY)
+  )+
 
-<table>
-<thead>
-<tr><th>Butiran</th><th>Jumlah</th></tr>
-</thead>
-<tbody>
-<tr>
-<td>Deposit Keselamatan Asal</td>
-<td>${rm(SECURITY)}</td>
-</tr>
-<tr>
-<td>Jumlah Tidak Dipulangkan / Ditahan</td>
-<td>${rm(d.deduction)}</td>
-</tr>
-<tr class="total">
-<td>JUMLAH DIPULANGKAN</td>
-<td>${rm(d.refund)}</td>
-</tr>
-</tbody>
-</table>
+  documentRow(
+   "Jumlah Tidak Dipulangkan / Ditahan",
+   rm(d.deduction)
+  )+
 
-<div class="note">
-<b>Sebab Potongan:</b><br>
-${escapeHTML(b.security_deduction_reason||"Tiada potongan")}<br><br>
-<b>Nota:</b> Slip ini merekodkan jumlah deposit
-keselamatan yang ditahan dan jumlah pemulangan
-yang telah disahkan oleh pihak SPLASHVILLE.
-</div>`;
+  documentRow(
+   "JUMLAH DIPULANGKAN",
+   rm(d.refund),
+   "total"
+  );
+
+ const body=
+
+  documentTitle(
+   "SLIP PEMULANGAN DEPOSIT KESELAMATAN",
+   "No. Slip: "+slipNo,
+   "PROSES PEMULANGAN SELESAI"
+  )+
+
+  infoBlock(b,`
+   <div>
+    <b>Tarikh Proses Selesai</b><br>
+    ${date(b.security_refunded_at)}
+   </div>
+  `)+
+
+  documentTable(rows)+
+
+  `
+  <div class="note">
+
+   <b>Sebab Potongan:</b><br>
+
+   ${e(b.security_deduction_reason||"Tiada potongan")}
+
+   <br><br>
+
+   <b>Nota:</b>
+   Slip ini merekodkan jumlah deposit
+   keselamatan yang ditahan dan jumlah
+   pemulangan yang telah disahkan oleh
+   pihak SPLASHVILLE.
+
+  </div>`;
 
  printDocument("Slip Deposit "+slipNo,body);
 }
@@ -994,70 +3567,173 @@ yang telah disahkan oleh pihak SPLASHVILLE.
 /* EDIT TEMPAHAN */
 
 async function edit(b){
- const name=prompt("Nama pelanggan:",b.customer_name);
+
+ const name=prompt(
+  "Nama pelanggan:",
+  b.customer_name
+ );
+
  if(name===null)return;
 
- const phone=prompt("Telefon:",b.phone);
+ const phone=prompt(
+  "Telefon:",
+  b.phone
+ );
+
  if(phone===null)return;
 
- const address=prompt("Alamat:",b.delivery_address);
+ const address=prompt(
+  "Alamat:",
+  b.delivery_address
+ );
+
  if(address===null)return;
-
- const start=prompt(
-  "Tarikh mula (YYYY-MM-DD HH:mm, waktu Malaysia):",
-  new Intl.DateTimeFormat("sv-SE",{
-   timeZone:"Asia/Kuala_Lumpur",
-   year:"numeric",
-   month:"2-digit",
-   day:"2-digit",
-   hour:"2-digit",
-   minute:"2-digit",
-   hour12:false
-  }).format(new Date(b.start_at))
- );
- if(start===null)return;
-
- const duration=prompt(
-  "Tempoh sewaan (jam):",
-  String(
-   (new Date(b.end_at)-new Date(b.start_at))/3600000
-  )
- );
- if(duration===null)return;
-
- const startDate=new Date(
-  start.replace(" ","T")+":00+08:00"
- );
-
- const hours=Number(duration);
 
  if(
   !name.trim()||
   !phone.trim()||
-  !address.trim()||
-  !Number.isFinite(startDate.getTime())||
-  !Number.isFinite(hours)||
-  hours<=0
+  !address.trim()
  ){
-  msg("Maklumat edit tidak sah.");
+
+  msg("Maklumat pelanggan tidak sah.","bad");
+
   return;
  }
 
- await update(b.id,{
+ const changes={
   customer_name:name.trim(),
   phone:phone.trim(),
-  delivery_address:address.trim(),
-  start_at:startDate.toISOString(),
-  end_at:new Date(
-   startDate.getTime()+hours*3600000
-  ).toISOString()
- });
+  delivery_address:address.trim()
+ };
+
+ // Tempoh sewaan dikekalkan supaya harga dan
+ // diskaun tempahan asal tidak berubah.
+
+ if(!b.full_payment_confirmed){
+
+  const start=prompt(
+   "Tarikh mula (YYYY-MM-DD HH:mm, waktu Malaysia):\n"+
+   "Tempoh dan harga asal akan dikekalkan.",
+   malaysiaInput(b.start_at)
+  );
+
+  if(start===null)return;
+
+  if(!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(start)){
+
+   msg("Format tarikh tidak sah.","bad");
+
+   return;
+  }
+
+  const startDate=new Date(
+   start.replace(" ","T")+":00+08:00"
+  );
+
+  if(!Number.isFinite(startDate.getTime())){
+
+   msg("Tarikh mula tidak sah.","bad");
+
+   return;
+  }
+
+  const duration=
+   new Date(b.end_at).getTime()-
+   new Date(b.start_at).getTime();
+
+  if(!Number.isFinite(duration)||duration<=0){
+
+   msg("Tempoh asal tidak sah.","bad");
+
+   return;
+  }
+
+  const endDate=new Date(
+   startDate.getTime()+duration
+  );
+
+  const changed=
+   startDate.getTime()!==
+   new Date(b.start_at).getTime();
+
+  if(changed){
+
+   // Semak tempahan lain terlebih dahulu.
+
+   const {data,error}=await db.from("bookings")
+    .select("id")
+    .eq("product_id",b.product_id)
+    .neq("id",b.id)
+    .in("booking_status",["PENDING","CONFIRMED"])
+    .lt("start_at",endDate.toISOString())
+    .gt("end_at",startDate.toISOString())
+    .limit(1);
+
+   if(error){
+
+    msg("Gagal semak slot: "+error.message,"bad");
+
+    return;
+   }
+
+   if(data?.length){
+
+    msg(
+     "Slot bertindih dengan tempahan lain.",
+     "bad"
+    );
+
+    return;
+   }
+
+   // Semak sekatan admin.
+
+   const {data:blocked,error:blockError}=
+    await db.from("blocked_slots")
+     .select("start_at,end_at")
+     .eq("product_id",b.product_id)
+     .lt("start_at",endDate.toISOString())
+     .gt("end_at",startDate.toISOString())
+     .limit(1);
+
+   if(blockError){
+
+    msg(
+     "Gagal menyemak sekatan slot. Tarikh tidak diubah.",
+     "bad"
+    );
+
+    return;
+   }
+
+   if(blocked?.length){
+
+    msg("Slot telah disekat oleh admin.","bad");
+
+    return;
+   }
+
+   changes.start_at=startDate.toISOString();
+   changes.end_at=endDate.toISOString();
+  }
+ }
+
+ if(!confirm(
+  "Simpan perubahan tempahan?\n"+
+  "Harga, tempoh dan rekod pembayaran asal dikekalkan."
+ ))return;
+
+ await update(b.id,changes,b);
 }
 
 $("filter").onchange=render;
+$("versionFilter").onchange=render;
+$("paymentFilter").onchange=render;
 $("search").oninput=render;
 
 checkLogin();
+
 </script>
+
 </body>
 </html>
